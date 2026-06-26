@@ -1,0 +1,71 @@
+# Operating system
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+.cache/
+
+# Node / TypeScript
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+dist/
+build/
+coverage/
+.next/
+out/
+.vite/
+
+# .NET / MAUI
+bin/
+obj/
+.vs/
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# SQLite local runtime databases
+*.db
+*.sqlite
+*.sqlite3
+*.db-shm
+*.db-wal
+
+# IDE
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# AI tool runtime only; keep project AI configuration in git
+.claude/cache/
+.claude/logs/
+.claude/tmp/
+.codex/cache/
+.codex/tmp/
+.codex/logs/
+.agents/cache/
+.agents/tmp/
+
+# OpenSpec runtime only; keep openspec specs/config/changes in git
+.openspec/cache/
+.openspec/tmp/
+openspec/.cache/
+openspec/tmp/

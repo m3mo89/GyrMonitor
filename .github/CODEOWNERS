@@ -1,0 +1,20 @@
+# Default owner
+* @guillermotinoco
+
+# Documentation and specifications
+/docs/ @guillermotinoco
+/00-introduction/ @guillermotinoco
+/01-product/ @guillermotinoco
+/02-domain/ @guillermotinoco
+/03-requirements/ @guillermotinoco
+/04-architecture/ @guillermotinoco
+/05-api/ @guillermotinoco
+/06-engineering/ @guillermotinoco
+/07-reference/ @guillermotinoco
+/08-decisions/ @guillermotinoco
+/09-guides/ @guillermotinoco
+/10-roadmap/ @guillermotinoco
+/11-openspec/ @guillermotinoco
+/12-examples/ @guillermotinoco
+/13-templates/ @guillermotinoco
+/99-meta/ @guillermotinoco

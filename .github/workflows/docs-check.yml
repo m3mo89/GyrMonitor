@@ -1,0 +1,30 @@
+name: Docs Check
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  docs-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check required documentation files
+        run: |
+          test -f README.md
+          test -f RELEASE_NOTES.md
+          test -f 99-meta/MASTER_INDEX.md
+          test -f 11-openspec/README.md
+
+      - name: Check required project standards
+        run: |
+          test -f .editorconfig
+          test -f .gitattributes
+          test -f .gitignore
+          test -f CONTRIBUTING.md
+          test -f LICENSE
+          test -f .github/PULL_REQUEST_TEMPLATE.md

@@ -1,0 +1,15 @@
+name: Links Check
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  links-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Link check placeholder
+        run: |
+          echo "Link checking can be enabled later with lychee or markdown-link-check."
