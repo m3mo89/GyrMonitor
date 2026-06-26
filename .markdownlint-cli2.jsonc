@@ -1,12 +1,12 @@
 {
   "config": {
-    // Permitir líneas largas (útil para tablas y enlaces)
+    "default": true,
+
+    "MD012": false,
     "MD013": false,
-
-    // Permitir HTML cuando sea necesario
+    "MD024": false,
+    "MD025": false,
     "MD033": false,
-
-    // No exigir el primer encabezado H1
     "MD041": false
   },
 
@@ -15,12 +15,12 @@
     "CONTRIBUTING.md",
     "knowledge-base/**/*.md",
     "openspec/**/*.md",
-    "docs/**/*.md",
     ".github/**/*.md",
 
     "!.claude/**",
     "!.codex/**",
     "!.agents/**",
+    "!docs/**",
     "!node_modules/**"
   ]
 }
