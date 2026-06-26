@@ -9,22 +9,37 @@ on:
 jobs:
   docs-check:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Check required documentation files
+      - name: Check required root files
         run: |
           test -f README.md
-          test -f RELEASE_NOTES.md
-          test -f 99-meta/MASTER_INDEX.md
-          test -f 11-openspec/README.md
-
-      - name: Check required project standards
-        run: |
+          test -f CONTRIBUTING.md
+          test -f LICENSE
           test -f .editorconfig
           test -f .gitattributes
           test -f .gitignore
-          test -f CONTRIBUTING.md
-          test -f LICENSE
+
+      - name: Check GitHub project standards
+        run: |
           test -f .github/PULL_REQUEST_TEMPLATE.md
+          test -f .github/CODEOWNERS
+          test -f .github/SECURITY.md
+          test -f .github/SUPPORT.md
+
+      - name: Check Knowledge Base files
+        run: |
+          test -d knowledge-base
+          test -f knowledge-base/RELEASE_NOTES.md
+          test -f knowledge-base/99-meta/MASTER_INDEX.md
+          test -f knowledge-base/99-meta/MODULE_CATALOG.md
+          test -f knowledge-base/99-meta/DOCUMENT_STATUS.md
+
+      - name: Check OpenSpec documentation
+        run: |
+          test -d openspec
+          test -f openspec/config.yaml
+          test -f knowledge-base/11-openspec/README.md
