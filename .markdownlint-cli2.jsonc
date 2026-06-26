@@ -1,0 +1,26 @@
+{
+  "config": {
+    // Permitir líneas largas (útil para tablas y enlaces)
+    "MD013": false,
+
+    // Permitir HTML cuando sea necesario
+    "MD033": false,
+
+    // No exigir el primer encabezado H1
+    "MD041": false
+  },
+
+  "globs": [
+    "README.md",
+    "CONTRIBUTING.md",
+    "knowledge-base/**/*.md",
+    "openspec/**/*.md",
+    "docs/**/*.md",
+    ".github/**/*.md",
+
+    "!.claude/**",
+    "!.codex/**",
+    "!.agents/**",
+    "!node_modules/**"
+  ]
+}
