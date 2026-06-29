@@ -1,7 +1,7 @@
 ---
 title: Project Structure
 module: project
-version: 0.1.0
+version: 1.1.0
 status: approved
 owner: GyrMonitor Team
 last_updated: 2026-06-26
@@ -9,51 +9,58 @@ last_updated: 2026-06-26
 
 # Project Structure
 
-This document explains the intended repository structure for the GyrMonitor documentation and future implementation repositories.
+This document explains the current repository structure for GyrMonitor and the recommended organization for implementation code.
 
 ## Documentation Repository
 
 The documentation repository is organized as a knowledge base.
 
 ```text
-gyrmonitor-docs/
+gyrmonitor/
 ├── README.md
-├── ROADMAP.md
-├── AI_CONTEXT.md
-├── STYLE_GUIDE.md
-├── PROJECT_STRUCTURE.md
-├── GLOSSARY.md
 ├── CONTRIBUTING.md
-├── 01-project/
-├── 02-domain/
-├── 03-requirements/
-├── 04-architecture/
-├── 05-data/
-├── 06-api/
-├── 07-frontend/
-├── 08-backend/
-├── 09-mobile/
-├── 10-desktop/
-├── 11-decisions/
-├── 12-guides/
-└── 13-examples/
+├── docs/
+├── knowledge-base/
+├── openspec/
+├── backend/
+├── frontend/
+├── mobile/
+├── desktop/
+├── .agents/
+├── .claude/
+├── .codex/
+└── .github/
 ```
 
 ## Root Files
 
 | File | Purpose |
 | --- | --- |
-| `README.md` | Entry point for the documentation repository. |
-| `ROADMAP.md` | Technical roadmap and implementation phases. |
-| `AI_CONTEXT.md` | Instructions and project context for AI assistants. |
-| `STYLE_GUIDE.md` | Naming, architecture, API, and documentation conventions. |
-| `PROJECT_STRUCTURE.md` | Explanation of repository organization. |
-| `GLOSSARY.md` | Canonical vocabulary for the project. |
-| `CONTRIBUTING.md` | Contribution and documentation workflow. |
+| File | Purpose |
+| --- | --- |
+| `README.md` | Entry point for the repository. |
+| `CONTRIBUTING.md` | Contribution and development workflow. |
+| `knowledge-base/README.md` | Entry point for the Product Knowledge Base. |
 
 ## Folder Responsibilities
 
-### `01-project/`
+### `00-introduction/`
+
+Repository usage, AI context, style guide and contribution rules.
+
+Recommended files:
+
+```text
+README.md
+AI_CONTEXT.md
+PROJECT_STRUCTURE.md
+STYLE_GUIDE.md
+GLOSSARY.md
+CONTRIBUTING.md
+ROADMAP.md
+```
+
+### `01-product/`
 
 Project-level documentation.
 
@@ -63,8 +70,9 @@ Recommended files:
 vision.md
 scope.md
 objectives.md
-milestones.md
-system-map.md
+business-problem.md
+product-roadmap.md
+success-metrics.md
 ```
 
 ### `02-domain/`
@@ -95,7 +103,10 @@ Recommended files:
 business-requirements.md
 user-requirements.md
 functional-requirements.md
-non-functional-requirements.md
+quality-attributes.md
+business-rules.md
+risk-register.md
+traceability.md
 user-stories.md
 use-cases.md
 ```
@@ -114,24 +125,14 @@ system-design.md
 offline-first.md
 scalability.md
 tradeoffs.md
-c4.md
+container-architecture.md
+security-architecture.md
+sync-architecture.md
+observability.md
+failure-modes.md
 ```
 
-### `05-data/`
-
-Data models and persistence documentation.
-
-Recommended files:
-
-```text
-mariadb.md
-sqlite.md
-sync-model.md
-entities.md
-relationships.md
-```
-
-### `06-api/`
+### `05-api/`
 
 REST API contracts and integration rules.
 
@@ -139,81 +140,53 @@ Recommended files:
 
 ```text
 overview.md
+conventions.md
 authentication.md
 dashboard.md
 cattle.md
-events.md
+activity-events.md
 alerts.md
 observations.md
-sync.md
+offline-sync.md
 error-model.md
+dto-catalog.md
 security.md
-headers.md
+http-examples.md
 ```
 
-### `07-frontend/`
+### `06-engineering/`
 
-Frontend web documentation.
+Backend, frontend, mobile, desktop and database implementation guidance.
 
 Recommended files:
 
 ```text
 overview.md
-rendering.md
-routing.md
-state-management.md
-cache.md
-security.md
-forms.md
-testing.md
-observability.md
-accessibility.md
+backend/overview.md
+frontend/overview.md
+mobile/overview.md
+desktop/overview.md
+database/overview.md
 ```
 
-### `08-backend/`
+### `07-reference/`
 
-Backend implementation guidance.
+Fast lookup tables and developer reference.
 
 Recommended files:
 
 ```text
-overview.md
-modules.md
-application-layer.md
-domain-layer.md
-infrastructure-layer.md
-presentation-layer.md
-testing.md
+QUICK_REFERENCE.md
+directory-map.md
+dto-catalog.md
+enumerations.md
+error-codes.md
+roles-and-permissions.md
+glossary.md
+naming-conventions.md
 ```
 
-### `09-mobile/`
-
-Mobile client documentation.
-
-Recommended files:
-
-```text
-overview.md
-offline-storage.md
-sync-queue.md
-alerts-workflow.md
-observations-workflow.md
-```
-
-### `10-desktop/`
-
-Desktop client documentation.
-
-Recommended files:
-
-```text
-overview.md
-event-simulator.md
-offline-storage.md
-dashboard.md
-```
-
-### `11-decisions/`
+### `08-decisions/`
 
 Architecture Decision Records.
 
@@ -226,64 +199,100 @@ ADR-003-feature-organization.md
 ADR-004-tanstack-query.md
 ADR-005-rest-client.md
 ADR-006-cache-strategy.md
-ADR-007-frontend-security.md
-ADR-008-error-states.md
-ADR-009-metrics-visualization.md
-ADR-010-form-validation.md
-ADR-011-frontend-observability.md
-ADR-012-frontend-testing.md
-ADR-013-accessibility.md
+ADR-007-jwt-route-guards.md
+ADR-008-error-empty-states.md
 ```
 
-### `12-guides/`
+### `09-guides/`
 
 Developer guides and operating procedures.
 
 Recommended files:
 
 ```text
-backend-development.md
-frontend-development.md
-mobile-development.md
-desktop-development.md
-writing-docs.md
-using-ai-assistants.md
-openspec-workflow.md
+developer-guide.md
+backend-module-guide.md
+frontend-feature-guide.md
+testing-guide.md
+documentation-guide.md
+review-checklist.md
+definition-of-done.md
+ai-assisted-development.md
 ```
 
-### `13-examples/`
+### `10-roadmap/`
 
-Examples, sample payloads, HTTP files, fixtures, and test scenarios.
+MVP implementation phases and technical debt.
 
 Recommended files:
 
 ```text
-http/auth.http
-http/dashboard.http
-http/events.http
-http/alerts.http
-http/sync.http
-payloads/register-event.json
-payloads/sync-events.json
-fixtures/cattle.json
-fixtures/alerts.json
+phase-1-foundation.md
+phase-2-authentication.md
+phase-3-cattle-management.md
+phase-4-observations.md
+phase-5-activity-events.md
+phase-6-alerts.md
+phase-7-dashboard.md
+phase-8-offline-sync.md
+phase-9-testing-release.md
+overview.md
 ```
 
-## Future Implementation Repository
+### `11-openspec/`
 
-Recommended future structure:
+Manual OpenSpec workflow guidance. This folder does not contain generated proposals or implementation changes.
+
+Recommended files:
 
 ```text
-gyrmonitor/
-├── docs/               # Academic DOCX files and university deliverables
-├── specs/              # Markdown technical documentation or submodule link
-├── backend/            # NestJS API
-├── frontend/           # React web app
-├── mobile/             # .NET MAUI mobile app
-├── desktop/            # .NET MAUI desktop app
-├── openspec/           # Manual OpenSpec proposals and specs
-├── scripts/
-└── README.md
+workflow.md
+proposal-checklist.md
+implementation-checklist.md
+review-checklist.md
+naming-conventions.md
+best-practices.md
+```
+
+### `12-examples/`
+
+Examples, sample payloads, HTTP requests, fixtures and test scenarios.
+
+Recommended files:
+
+```text
+http-requests.md
+sample-payloads.md
+seed-data.md
+```
+
+### `13-templates/`
+
+Reusable documentation templates.
+
+Recommended files:
+
+```text
+adr-template.md
+api-template.md
+guide-template.md
+module-template.md
+openspec-proposal-notes-template.md
+```
+
+### `99-meta/`
+
+Indexes, traceability, catalogs and governance.
+
+Recommended files:
+
+```text
+MASTER_INDEX.md
+DOCUMENT_STATUS.md
+MODULE_CATALOG.md
+TRACEABILITY_MATRIX.md
+DEPENDENCY_MATRIX.md
+PROJECT_DECISIONS.md
 ```
 
 ## Backend Project Structure
@@ -340,7 +349,7 @@ frontend/src/
 
 ## OpenSpec Placement
 
-OpenSpec should live in the implementation repository, not in the documentation repository, unless the user decides otherwise.
+OpenSpec lives at the repository root. The `knowledge-base/11-openspec/` folder is guidance only.
 
 ```text
 openspec/
@@ -355,26 +364,36 @@ OpenSpec changes should be created manually per feature.
 
 | Version | Date | Description |
 | --- | --- | --- |
+| 1.1.0 | 2026-06-29 | Aligned with current repository and Knowledge Base structure. |
 | 0.1.0 | 2026-06-26 | Initial project structure guide. |
 
 
 ## Current Repository Layout
 
 ```text
-gyrmonitor-docs/
+gyrmonitor/
 ├── README.md
-├── 00-introduction/
-├── 01-product/
-├── 02-domain/
-├── 03-requirements/
-├── 04-architecture/
-├── 05-data/
-├── 06-api/
-├── 07-frontend/
-├── 08-backend/
-├── 09-mobile/
-├── 10-desktop/
-├── 11-decisions/
-├── 12-guides/
-└── 13-examples/
+├── CONTRIBUTING.md
+├── docs/
+├── knowledge-base/
+│   ├── 00-introduction/
+│   ├── 01-product/
+│   ├── 02-domain/
+│   ├── 03-requirements/
+│   ├── 04-architecture/
+│   ├── 05-api/
+│   ├── 06-engineering/
+│   ├── 07-reference/
+│   ├── 08-decisions/
+│   ├── 09-guides/
+│   ├── 10-roadmap/
+│   ├── 11-openspec/
+│   ├── 12-examples/
+│   ├── 13-templates/
+│   └── 99-meta/
+├── openspec/
+├── backend/
+├── frontend/
+├── mobile/
+└── desktop/
 ```

@@ -33,16 +33,16 @@ This document maps requirements to domain modules, use cases, API contracts, dat
 | Functional Requirement | Domain | Use Case | API | Data Entity | UI Surface |
 |---|---|---|---|---|---|
 | RF-01 Register cattle | Cattle | Future | Future `POST /cattle` | Cattle | Admin Cattle Form |
-| RF-02 Consult cattle | Cattle | UC-06 | `GET /cattle` | Cattle | Cattle List |
-| RF-03 Cattle history | Cattle, Events | UC-06 | `GET /cattle/{id}/events` | Cattle, ActivityEvent | Cattle Detail |
+| RF-02 Consult cattle | Cattle | UC-07 | `GET /cattle` | Cattle | Cattle List |
+| RF-03 Cattle history | Cattle, Events | UC-07 | `GET /cattle/{id}/events` | Cattle, ActivityEvent | Cattle Detail |
 | RF-04 Register activity | Activity Events | UC-01 | `POST /events` | ActivityEvent | Simulator / Manual / Test Data |
 | RF-05 Register inactivity | Activity Events | UC-01 | `POST /events` | ActivityEvent | Simulator / Manual / Test Data |
-| RF-06 Event history | Activity Events | UC-06 | `GET /events` | ActivityEvent | Event Timeline |
+| RF-06 Event history | Activity Events | UC-07 | `GET /events` | ActivityEvent | Event Timeline |
 | RF-07 Calculate risk | Risk Analysis | UC-02 | Internal | RiskScore | Dashboard / Alert Detail |
 | RF-08 Classify risk | Risk Analysis | UC-02 | Internal | Severity | Badges / Ranking |
 | RF-09 Historical indicators | Dashboard | UC-06 | `GET /dashboard` | Aggregates | Dashboard |
 | RF-10 Generate alerts | Alerts | UC-03 | Triggered by `POST /events` | Alert | Alerts List |
-| RF-11 Consult alerts | Alerts | UC-06 | `GET /alerts` | Alert | Alerts List |
+| RF-11 Consult alerts | Alerts | UC-08 | `GET /alerts` | Alert | Alerts List |
 | RF-12 Modify alert status | Alerts | UC-04 | `PATCH /alerts/{id}/status` | Alert | Alert Detail |
 | RF-13 Register observations | Observations | UC-04 | `POST /alerts/{id}/observations` | Observation | Observation Form |
 | RF-14 Consult observations | Observations | UC-04 | Future `GET /alerts/{id}/observations` | Observation | Alert Detail |

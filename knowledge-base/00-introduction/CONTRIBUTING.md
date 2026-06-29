@@ -118,7 +118,7 @@ When using an AI assistant:
 Example prompt:
 
 ```text
-Read AI_CONTEXT.md, STYLE_GUIDE.md, and 06-api/events.md.
+Read AI_CONTEXT.md, STYLE_GUIDE.md, and 05-api/activity-events.md.
 Help me draft an OpenSpec proposal for add-activity-events.
 Do not implement code yet.
 ```

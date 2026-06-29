@@ -2,7 +2,7 @@
 title: Dependency Matrix
 section: 99-meta
 status: approved
-version: 1.0.1
+version: 1.1.0
 ---
 
 # Dependency Matrix

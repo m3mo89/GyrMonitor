@@ -210,3 +210,59 @@ Obtain system metrics, alerts, ranking and trends.
 ### Related API
 
 - `GET /dashboard`
+
+## UC-07: Consult Cattle and Event History
+
+### Primary Actor
+
+Administrator or Researcher.
+
+### Goal
+
+Consult registered cattle and review activity history for a specific cattle record.
+
+### Preconditions
+
+- The user is authenticated.
+- The user has a role allowed to consult cattle information.
+
+### Main Flow
+
+1. The user opens the cattle list or cattle detail view.
+2. The frontend requests cattle records or event history.
+3. The backend returns the requested cattle information.
+4. The frontend displays cattle identity, status, risk context and historical events.
+
+### Related API
+
+- `GET /cattle`
+- `GET /cattle/{id}`
+- `GET /cattle/{id}/events`
+- `GET /events`
+
+## UC-08: Consult Alerts
+
+### Primary Actor
+
+Administrator, Field Operator or Researcher.
+
+### Goal
+
+Consult operational alerts and inspect alert detail.
+
+### Preconditions
+
+- The user is authenticated.
+- The user has a role allowed to consult alerts.
+
+### Main Flow
+
+1. The user opens the alerts list or alert detail view.
+2. The frontend requests alerts using optional filters.
+3. The backend returns matching alerts or alert detail.
+4. The frontend displays severity, status, cattle identity and risk context.
+
+### Related API
+
+- `GET /alerts`
+- `GET /alerts/{id}`

@@ -34,7 +34,7 @@ This document defines API conventions that must be followed by all GyrMonitor en
 
 | Element | Convention | Example |
 |---|---|---|
-| Routes | plural kebab-case | `/activity-events` |
+| Routes | plural resource names | `/events` |
 | JSON fields | camelCase | `inactiveMinutes` |
 | IDs | UUID | `2b7c0f3e-7d89-4a4b-9c0e-1d35f0b1f7a1` |
 | Dates | ISO-8601 UTC | `2026-06-20T12:00:00Z` |
@@ -110,6 +110,6 @@ Rules:
 
 ## References
 
-- `06-api/error-model.md`
-- `06-api/offline-sync.md`
+- `05-api/error-model.md`
+- `05-api/offline-sync.md`
 - `04-architecture/sync-architecture.md`

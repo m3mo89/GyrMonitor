@@ -54,7 +54,8 @@ Synchronizes locally captured events.
       "eventType": "INACTIVITY",
       "inactiveMinutes": 80,
       "confidence": 0.85,
-      "capturedAt": "2026-06-20T12:00:00Z"
+      "capturedAt": "2026-06-20T12:00:00Z",
+      "source": "MOBILE_CLIENT"
     }
   ]
 }
@@ -129,6 +130,7 @@ Returns synchronization status for a client/device.
 - Partial synchronization failures must report item-level results.
 - Clients should mark local queue items as synchronized only after successful server confirmation.
 - Server must preserve original capture/creation timestamps from offline clients.
+- Event source must be preserved for synchronized activity events.
 
 ## Failure Handling
 

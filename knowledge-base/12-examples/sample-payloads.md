@@ -34,7 +34,8 @@
       "eventType": "INACTIVITY",
       "inactiveMinutes": 80,
       "confidence": 0.85,
-      "capturedAt": "2026-06-20T12:00:00Z"
+      "capturedAt": "2026-06-20T12:00:00Z",
+      "source": "MOBILE_CLIENT"
     }
   ]
 }

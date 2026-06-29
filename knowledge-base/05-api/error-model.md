@@ -58,6 +58,6 @@ This document defines the standard error response and error code catalog for the
 
 ## References
 
-- `06-api/conventions.md`
-- `07-frontend/error-handling.md`
+- `05-api/conventions.md`
+- `06-engineering/frontend/overview.md`
 - `04-architecture/observability.md`

@@ -119,8 +119,8 @@ The documentation inside **knowledge-base/** is considered the **Single Source o
 
 | Phase | Status |
 |--------|:------:|
-| Phase 1 — Knowledge Base | ✅ Completed |
-| Phase 2 — Project Foundation | 🚧 In Progress |
+| Knowledge Base | ✅ Frozen baseline |
+| Phase 1 — Foundation | 🚧 In Progress |
 | OpenSpec Proposals | ⏳ Pending |
 | MVP Development | ⏳ Pending |
 
@@ -178,7 +178,7 @@ Before contributing, please read:
 
 - `CONTRIBUTING.md`
 - `knowledge-base/09-guides/`
-- `openspec/README.md`
+- `knowledge-base/11-openspec/README.md`
 
 All functional changes **must start with an OpenSpec proposal** before implementation.
 

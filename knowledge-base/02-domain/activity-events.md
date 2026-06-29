@@ -29,7 +29,7 @@ An Activity Event represents a structured activity or inactivity record associat
 | inactiveMinutes | integer | Duration of inactivity. |
 | confidence | decimal | Optional confidence value for simulated or generated sources. |
 | capturedAt | datetime | Time when the event was captured. |
-| source | string | Source such as `MANUAL`, `DESKTOP_SIMULATOR`, `MOBILE` or `TEST_DATA`. |
+| source | string | Source such as `MANUAL_ENTRY`, `DESKTOP_SIMULATOR`, `MOBILE_CLIENT`, `DESKTOP_CLIENT` or `CONTROLLED_TEST_DATA`. |
 | createdAt | datetime | Time when the backend stored the event. |
 
 ## Business Rules

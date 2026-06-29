@@ -13,7 +13,7 @@ The backend is the central application boundary for GyrMonitor. It exposes REST 
 ## Responsibilities
 
 - Authenticate users and system generators using JWT.
-- Expose REST endpoints defined in `06-api/`.
+- Expose REST endpoints defined in `05-api/`.
 - Implement domain use cases for cattle, activity events, risk analysis, alerts, observations and synchronization.
 - Calculate risk scores after inactivity events.
 - Generate alerts when business rules require attention.
@@ -57,4 +57,4 @@ Each business module should expose only the minimum surface needed by other modu
 - `02-domain/domain-model.md`
 - `03-requirements/functional-requirements.md`
 - `04-architecture/clean-architecture.md`
-- `06-api/overview.md`
+- `05-api/overview.md`

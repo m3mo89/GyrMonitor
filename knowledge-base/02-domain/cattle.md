@@ -31,7 +31,7 @@ The Cattle domain is responsible for:
 | breed | string | Breed. For this project, expected value is `Gyr`. |
 | sex | string | Animal sex. Suggested values: `MALE`, `FEMALE`. |
 | birthDate | date | Optional date of birth. |
-| status | string | Operational status. Suggested values: `ACTIVE`, `INACTIVE`. |
+| status | string | Operational status. Suggested values: `ACTIVE`, `INACTIVE`, `UNDER_OBSERVATION`. |
 | createdAt | datetime | Date when the cattle record was created. |
 
 ## Business Rules

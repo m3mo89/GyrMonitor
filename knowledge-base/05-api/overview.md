@@ -86,7 +86,7 @@ The API does not expose:
 
 ## References
 
-- `06-api/conventions.md`
-- `06-api/error-model.md`
-- `06-api/security.md`
+- `05-api/conventions.md`
+- `05-api/error-model.md`
+- `05-api/security.md`
 - `04-architecture/clean-architecture.md`

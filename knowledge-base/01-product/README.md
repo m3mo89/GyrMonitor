@@ -36,7 +36,7 @@ The product is designed for rural contexts where internet connectivity may be in
 - Domain concepts are described in `02-domain/`.
 - Requirements are specified in `03-requirements/`.
 - System architecture is described in `04-architecture/`.
-- API contracts will be described in `06-api/`.
+- API contracts are described in `05-api/`.
 
 ## Change History
 

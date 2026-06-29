@@ -30,19 +30,20 @@ OpenSpec proposals and implementations are intentionally not generated in this r
 
 ## Current Version
 
-`v1.0.1` — Phase 1 finalized, MVP scope cleaned, and meta indexes added.
+`v1.1.0` — Phase 1 frozen, repository standards added, and the MVP Knowledge Base confirmed as the implementation baseline.
 
 ## Current Documentation Version
 
-Version: `1.0.1`
+Version: `1.1.0`
 
-This version finalizes Phase 1:
+This version freezes Phase 1:
 
 - MVP-only documentation focused on authentication, cattle, observations, events, alerts, dashboard and offline sync.
 - No automated detection pipelines, model inference, physical sensing infrastructure or specialized hardware deployment in the MVP scope.
 - `11-openspec/` remains guidance-only; proposals and implementations are created manually.
 - `99-meta/` added for master index, traceability, dependency map, document status and project decisions.
 - Documentation structure is now frozen for the start of OpenSpec-driven development.
+- Repository standards under `.github/`, root contribution guidance and documentation checks are part of the frozen baseline.
 
 
 ## Release Notes

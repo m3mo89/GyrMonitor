@@ -130,7 +130,18 @@ This catalog centralizes request and response DTOs for GyrMonitor API contracts.
 {
   "clientId": "MOBILE-001",
   "deviceId": "DEVICE-001",
-  "items": []
+  "items": [
+    {
+      "localId": "local-uuid",
+      "eventId": "uuid",
+      "cattleId": "uuid",
+      "eventType": "INACTIVITY",
+      "inactiveMinutes": 80,
+      "confidence": 0.85,
+      "capturedAt": "2026-06-20T12:00:00Z",
+      "source": "MOBILE_CLIENT"
+    }
+  ]
 }
 ```
 
@@ -157,5 +168,5 @@ This catalog centralizes request and response DTOs for GyrMonitor API contracts.
 ## References
 
 - `00-introduction/STYLE_GUIDE.md`
-- `06-api/conventions.md`
-- `08-backend/README.md`
+- `05-api/conventions.md`
+- `06-engineering/backend/overview.md`

@@ -80,7 +80,9 @@ Use one of:
 | Status | Meaning |
 | --- | --- |
 | draft | Initial version, still under review. |
-| accepted | Approved for implementation. |
+| approved | Reviewed and approved as part of the Knowledge Base. |
+| accepted | Approved ADR or decision record. |
+| stable | Approved section-level baseline with no planned structural changes. |
 | deprecated | Kept for history, no longer recommended. |
 | superseded | Replaced by another document. |
 

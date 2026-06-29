@@ -15,9 +15,9 @@ Use project issues or internal project communication for questions about:
 Before requesting support, review:
 
 - `README.md`
-- `99-meta/MASTER_INDEX.md`
-- `07-reference/QUICK_REFERENCE.md`
-- `11-openspec/README.md`
+- `knowledge-base/99-meta/MASTER_INDEX.md`
+- `knowledge-base/07-reference/QUICK_REFERENCE.md`
+- `knowledge-base/11-openspec/README.md`
 
 ## MVP boundary
 

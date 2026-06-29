@@ -65,5 +65,5 @@ Future versions may add:
 ## References
 
 - `04-architecture/security-architecture.md`
-- `06-api/authentication.md`
-- `06-api/error-model.md`
+- `05-api/authentication.md`
+- `05-api/error-model.md`

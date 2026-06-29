@@ -1,7 +1,7 @@
 ---
 title: Release Notes
 status: approved
-version: 1.0
+version: 1.1.0
 ---
 
 # GyrMonitor Docs v1.0

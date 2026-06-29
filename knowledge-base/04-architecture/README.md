@@ -68,5 +68,5 @@ This architecture is based on:
 
 - `02-domain/`: domain modules and business concepts.
 - `03-requirements/`: business, functional and quality requirements.
-- Future `06-api/`: endpoint-level API documentation.
+- `05-api/`: endpoint-level API documentation.
 - Future OpenSpec changes: proposal and implementation guidance.
