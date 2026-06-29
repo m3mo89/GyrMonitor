@@ -1,0 +1,22 @@
+{
+  "name": "@gyrmonitor/backend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "NestJS-oriented backend foundation for GyrMonitor.",
+  "scripts": {
+    "build": "node scripts/check-foundation.mjs build",
+    "lint": "node scripts/check-foundation.mjs lint",
+    "format:check": "node scripts/check-foundation.mjs format",
+    "test": "node scripts/check-foundation.mjs test"
+  },
+  "dependencies": {
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@nestjs/platform-express": "^11.0.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
