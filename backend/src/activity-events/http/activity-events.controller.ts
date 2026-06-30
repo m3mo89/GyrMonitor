@@ -4,6 +4,7 @@ import {
   Controller,
   Get,
   Headers,
+  Inject,
   InternalServerErrorException,
   NotFoundException,
   Post,
@@ -20,7 +21,8 @@ import type {
   RegisterActivityEventRequestDto,
   RegisterActivityEventResultDto
 } from '../application/activity-event.types';
-import { listActivityEventsUseCase, registerActivityEventUseCase } from '../infrastructure/activity-event-singletons';
+import { ListActivityEventsUseCase } from '../application/list-activity-events.use-case';
+import { RegisterActivityEventUseCase } from '../application/register-activity-event.use-case';
 
 type ApiSuccess<T> = {
   success: true;
@@ -43,6 +45,11 @@ type ApiError = {
 @Controller('events')
 @UseGuards(JwtAuthenticationGuard, RoleAuthorizationGuard)
 export class ActivityEventsController {
+  constructor(
+    @Inject(RegisterActivityEventUseCase) private readonly registerActivityEventUseCase: RegisterActivityEventUseCase,
+    @Inject(ListActivityEventsUseCase) private readonly listActivityEventsUseCase: ListActivityEventsUseCase
+  ) {}
+
   @Post()
   @RolesAllowed(Roles.ADMIN, Roles.SYSTEM_GENERATOR)
   async create(
@@ -52,7 +59,7 @@ export class ActivityEventsController {
     try {
       return {
         success: true,
-        data: await registerActivityEventUseCase.execute({
+        data: await this.registerActivityEventUseCase.execute({
           eventId: body?.eventId,
           deviceId: body?.deviceId,
           cattleId: body?.cattleId,
@@ -80,7 +87,7 @@ export class ActivityEventsController {
     @Query('pageSize') pageSize?: string
   ): Promise<ApiSuccess<ActivityEventListResponseDto['data']>> {
     try {
-      const result = await listActivityEventsUseCase.execute({
+      const result = await this.listActivityEventsUseCase.execute({
         cattleId,
         eventType,
         from,

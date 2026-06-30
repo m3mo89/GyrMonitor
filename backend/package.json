@@ -13,7 +13,9 @@
     "smoke:http": "npm run build && node scripts/smoke-http.mjs",
     "lint": "node scripts/check-foundation.mjs lint",
     "format:check": "node scripts/check-foundation.mjs format",
-    "test": "node scripts/check-foundation.mjs test"
+    "test:unit": "vitest run --config vitest.config.ts --project unit",
+    "test:e2e": "vitest run --config vitest.config.ts --project e2e",
+    "test": "npm run test:unit && npm run test:e2e"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.0",
@@ -25,6 +27,10 @@
   },
   "devDependencies": {
     "@nestjs/cli": "^11.0.0",
-    "typescript": "^5.0.0"
+    "@nestjs/testing": "^11.0.0",
+    "@types/supertest": "^6.0.2",
+    "supertest": "^7.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^3.0.0"
   }
 }

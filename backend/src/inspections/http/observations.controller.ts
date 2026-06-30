@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Get,
+  Inject,
   InternalServerErrorException,
   NotFoundException,
   Param,
@@ -16,8 +17,9 @@ import { JwtAuthenticationGuard } from '../../authentication/http/authentication
 import { RoleAuthorizationGuard, RolesAllowed } from '../../authentication/http/roles.guard';
 import { AlertNotFoundError, InvalidObservationInputError } from '../application/observation.errors';
 import type { AddAlertObservationRequestDto, AlertObservationListDto } from '../application/observation.types';
+import { AddAlertObservationUseCase } from '../application/add-alert-observation.use-case';
+import { ListAlertObservationsUseCase } from '../application/list-alert-observations.use-case';
 import type { ObservationDto } from '../domain/observation';
-import { addAlertObservationUseCase, listAlertObservationsUseCase } from '../infrastructure/observation-singletons';
 
 type AuthenticatedRequest = {
   user?: {
@@ -42,6 +44,11 @@ type ApiError = {
 @Controller('alerts/:alertId/observations')
 @UseGuards(JwtAuthenticationGuard, RoleAuthorizationGuard)
 export class ObservationsController {
+  constructor(
+    @Inject(AddAlertObservationUseCase) private readonly addAlertObservationUseCase: AddAlertObservationUseCase,
+    @Inject(ListAlertObservationsUseCase) private readonly listAlertObservationsUseCase: ListAlertObservationsUseCase
+  ) {}
+
   @Post()
   @RolesAllowed(Roles.ADMIN, Roles.FIELD_OPERATOR)
   async create(
@@ -52,7 +59,7 @@ export class ObservationsController {
     try {
       return {
         success: true,
-        data: await addAlertObservationUseCase.execute({
+        data: await this.addAlertObservationUseCase.execute({
           alertId,
           observationId: body?.observationId,
           comment: body?.comment,
@@ -72,7 +79,7 @@ export class ObservationsController {
     try {
       return {
         success: true,
-        data: await listAlertObservationsUseCase.execute(alertId)
+        data: await this.listAlertObservationsUseCase.execute(alertId)
       };
     } catch (error) {
       throw toHttpError(error);

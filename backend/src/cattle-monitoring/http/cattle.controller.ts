@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Controller,
   Get,
+  Inject,
   InternalServerErrorException,
   NotFoundException,
   Param,
@@ -12,7 +13,7 @@ import {
 import { CattleNotFoundError, InvalidCattleIdError } from '../application/cattle.errors';
 import { GetCattleDetailUseCase } from '../application/get-cattle-detail.use-case';
 import { GetCattleHistoryUseCase } from '../application/get-cattle-history.use-case';
-import { getCattleDetailUseCase, getCattleHistoryUseCase, listCattleUseCase } from '../infrastructure/cattle-singletons';
+import { ListCattleUseCase } from '../application/list-cattle.use-case';
 import { Roles } from '../../authentication/domain/role';
 import { JwtAuthenticationGuard } from '../../authentication/http/authentication.guard';
 import { RoleAuthorizationGuard, RolesAllowed } from '../../authentication/http/roles.guard';
@@ -38,10 +39,16 @@ type ApiError = {
 @Controller('cattle')
 @UseGuards(JwtAuthenticationGuard, RoleAuthorizationGuard)
 export class CattleController {
+  constructor(
+    @Inject(ListCattleUseCase) private readonly listCattleUseCase: ListCattleUseCase,
+    @Inject(GetCattleDetailUseCase) private readonly getCattleDetailUseCase: GetCattleDetailUseCase,
+    @Inject(GetCattleHistoryUseCase) private readonly getCattleHistoryUseCase: GetCattleHistoryUseCase
+  ) {}
+
   @Get()
   @RolesAllowed(Roles.ADMIN, Roles.RESEARCHER)
   async list(@Query('page') page?: string, @Query('pageSize') pageSize?: string) {
-    const result = await listCattleUseCase.execute({
+    const result = await this.listCattleUseCase.execute({
       page: page ? Number(page) : undefined,
       pageSize: pageSize ? Number(pageSize) : undefined
     });
@@ -63,7 +70,7 @@ export class CattleController {
     try {
       return {
         success: true,
-        data: await getCattleHistoryUseCase.execute(id, {
+        data: await this.getCattleHistoryUseCase.execute(id, {
           page: page ? Number(page) : undefined,
           pageSize: pageSize ? Number(pageSize) : undefined
         })
@@ -79,7 +86,7 @@ export class CattleController {
     try {
       return {
         success: true,
-        data: await getCattleDetailUseCase.execute(id)
+        data: await this.getCattleDetailUseCase.execute(id)
       };
     } catch (error) {
       throw toHttpError(error);
