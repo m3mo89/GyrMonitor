@@ -15,6 +15,12 @@ const required = [
   'src/app/providers/README.md',
   'src/app/layouts/README.md',
   'src/features/auth/README.md',
+  'src/features/auth/AuthProvider.tsx',
+  'src/features/auth/LoginPage.tsx',
+  'src/features/auth/ProtectedRoute.tsx',
+  'src/features/auth/auth.api.ts',
+  'src/features/auth/auth.types.ts',
+  'src/features/auth/session-store.ts',
   'src/features/dashboard/README.md',
   'src/features/cattle/README.md',
   'src/features/events/README.md',
@@ -23,6 +29,7 @@ const required = [
   'src/shared/components/README.md',
   'src/shared/hooks/README.md',
   'src/shared/services/README.md',
+  'src/shared/services/api-client.ts',
   'src/shared/types/README.md',
   'src/shared/utils/README.md'
 ];
@@ -35,6 +42,10 @@ if (missing.length > 0) {
     console.error(`- ${path}`);
   }
   process.exit(1);
+}
+
+if (mode === 'test') {
+  await import('./check-authentication.mjs');
 }
 
 console.log(`Frontend ${mode} check passed.`);

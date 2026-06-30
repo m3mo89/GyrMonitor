@@ -13,6 +13,19 @@ const required = [
   'src/config/app.config.ts',
   'src/shared/README.md',
   'src/authentication/README.md',
+  'src/authentication/authentication.module.ts',
+  'src/authentication/domain/role.ts',
+  'src/authentication/domain/user.ts',
+  'src/authentication/application/authentication.errors.ts',
+  'src/authentication/application/authentication.types.ts',
+  'src/authentication/application/login.use-case.ts',
+  'src/authentication/infrastructure/hmac-jwt-token.service.ts',
+  'src/authentication/infrastructure/jwt-expiration.ts',
+  'src/authentication/infrastructure/local-user.repository.ts',
+  'src/authentication/infrastructure/node-password-hasher.ts',
+  'src/authentication/http/authentication.controller.ts',
+  'src/authentication/http/authentication.guard.ts',
+  'src/authentication/http/roles.guard.ts',
   'src/cattle-monitoring/README.md',
   'src/activity-events/README.md',
   'src/inactivity-analysis/README.md',
@@ -30,6 +43,10 @@ if (missing.length > 0) {
     console.error(`- ${path}`);
   }
   process.exit(1);
+}
+
+if (mode === 'test') {
+  await import('./check-authentication.mjs');
 }
 
 console.log(`Backend ${mode} check passed.`);
