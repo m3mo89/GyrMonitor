@@ -30,7 +30,7 @@ export type ApiError = {
   };
 };
 
-@Controller('/api/v1/auth')
+@Controller('auth')
 export class AuthenticationController {
   @Post('login')
   async login(@Body() request: LoginRequestDto) {

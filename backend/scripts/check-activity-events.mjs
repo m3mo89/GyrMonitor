@@ -85,7 +85,7 @@ assert.match(singletons, /registerActivityEventUseCase/);
 assert.match(singletons, /listActivityEventsUseCase/);
 
 const controller = source('src/activity-events/http/activity-events.controller.ts');
-assert.match(controller, /@Controller\('\/api\/v1\/events'\)/);
+assert.match(controller, /@Controller\('events'\)/);
 assert.match(controller, /@Post\(\)/);
 assert.match(controller, /@Get\(\)/);
 assert.match(controller, /@Headers\('idempotency-key'\)/);

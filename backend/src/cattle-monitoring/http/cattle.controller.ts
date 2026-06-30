@@ -42,7 +42,7 @@ type ApiError = {
   };
 };
 
-@Controller('/api/v1/cattle')
+@Controller('cattle')
 @UseGuards(JwtAuthenticationGuard, RoleAuthorizationGuard)
 export class CattleController {
   @Get()

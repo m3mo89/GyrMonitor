@@ -47,7 +47,7 @@ type ApiError = {
   };
 };
 
-@Controller('/api/v1/alerts/:alertId/observations')
+@Controller('alerts/:alertId/observations')
 @UseGuards(JwtAuthenticationGuard, RoleAuthorizationGuard)
 export class ObservationsController {
   @Post()

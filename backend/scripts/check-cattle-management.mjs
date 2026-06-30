@@ -40,7 +40,7 @@ assert.doesNotMatch(historyUseCase, /placeholder: true/);
 assert.match(historyUseCase, /CattleNotFoundError/);
 
 const controller = source('src/cattle-monitoring/http/cattle.controller.ts');
-assert.match(controller, /@Controller\('\/api\/v1\/cattle'\)/);
+assert.match(controller, /@Controller\('cattle'\)/);
 assert.match(controller, /@Get\(\)/);
 assert.match(controller, /@Get\(':id'\)/);
 assert.match(controller, /@Get\(':id\/events'\)/);

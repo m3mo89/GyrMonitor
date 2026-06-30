@@ -10,6 +10,7 @@ const required = [
   'tsconfig.json',
   'src/main.ts',
   'src/app.module.ts',
+  'src/app.controller.ts',
   'src/config/app.config.ts',
   'src/shared/README.md',
   'src/authentication/README.md',

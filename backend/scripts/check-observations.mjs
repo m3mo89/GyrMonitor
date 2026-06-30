@@ -54,7 +54,7 @@ assert.equal(new Set(alertIds).size, alertIds.length);
 assert.match(alertRepository, /exists\(alertId: string\)/);
 
 const controller = source('src/inspections/http/observations.controller.ts');
-assert.match(controller, /@Controller\('\/api\/v1\/alerts\/:alertId\/observations'\)/);
+assert.match(controller, /@Controller\('alerts\/:alertId\/observations'\)/);
 assert.match(controller, /@Post\(\)/);
 assert.match(controller, /@Get\(\)/);
 assert.match(controller, /JwtAuthenticationGuard/);

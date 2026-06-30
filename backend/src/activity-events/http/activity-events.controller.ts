@@ -40,7 +40,7 @@ type ApiError = {
   };
 };
 
-@Controller('/api/v1/events')
+@Controller('events')
 @UseGuards(JwtAuthenticationGuard, RoleAuthorizationGuard)
 export class ActivityEventsController {
   @Post()
