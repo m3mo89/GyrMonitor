@@ -41,6 +41,15 @@ const required = [
   'src/inactivity-analysis/README.md',
   'src/alerts/README.md',
   'src/inspections/README.md',
+  'src/inspections/inspections.module.ts',
+  'src/inspections/domain/observation.ts',
+  'src/inspections/application/add-alert-observation.use-case.ts',
+  'src/inspections/application/list-alert-observations.use-case.ts',
+  'src/inspections/application/observation.errors.ts',
+  'src/inspections/application/observation.types.ts',
+  'src/inspections/infrastructure/local-alert.repository.ts',
+  'src/inspections/infrastructure/local-observation.repository.ts',
+  'src/inspections/http/observations.controller.ts',
   'src/dashboard/README.md',
   'src/offline-sync/README.md'
 ];
@@ -58,6 +67,7 @@ if (missing.length > 0) {
 if (mode === 'test') {
   await import('./check-authentication.mjs');
   await import('./check-cattle-management.mjs');
+  await import('./check-observations.mjs');
 }
 
 console.log(`Backend ${mode} check passed.`);

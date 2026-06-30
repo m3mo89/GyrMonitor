@@ -16,6 +16,13 @@ export const localAuthUsers = [
     email: 'researcher@gyrmonitor.local',
     role: Roles.RESEARCHER,
     password: 'local-researcher-password'
+  },
+  {
+    id: '00000000-0000-4000-8000-000000000003',
+    name: 'Operador de Campo',
+    email: 'field@gyrmonitor.local',
+    role: Roles.FIELD_OPERATOR,
+    password: 'local-field-password'
   }
 ] as const;
 
