@@ -12,17 +12,10 @@ import {
 import { CattleNotFoundError, InvalidCattleIdError } from '../application/cattle.errors';
 import { GetCattleDetailUseCase } from '../application/get-cattle-detail.use-case';
 import { GetCattleHistoryUseCase } from '../application/get-cattle-history.use-case';
-import { ListCattleUseCase } from '../application/list-cattle.use-case';
-import { LocalCattleRepository } from '../infrastructure/local-cattle.repository';
+import { getCattleDetailUseCase, getCattleHistoryUseCase, listCattleUseCase } from '../infrastructure/cattle-singletons';
 import { Roles } from '../../authentication/domain/role';
 import { JwtAuthenticationGuard } from '../../authentication/http/authentication.guard';
 import { RoleAuthorizationGuard, RolesAllowed } from '../../authentication/http/roles.guard';
-import { sharedActivityEventRepository } from '../../activity-events/infrastructure/activity-event-singletons';
-
-const cattleRepository = new LocalCattleRepository();
-const listCattleUseCase = new ListCattleUseCase(cattleRepository);
-const getCattleDetailUseCase = new GetCattleDetailUseCase(cattleRepository);
-const getCattleHistoryUseCase = new GetCattleHistoryUseCase(cattleRepository, sharedActivityEventRepository);
 
 type ApiSuccess<T> = {
   success: true;

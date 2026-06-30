@@ -41,6 +41,7 @@ assert.match(historyUseCase, /CattleNotFoundError/);
 
 const controller = source('src/cattle-monitoring/http/cattle.controller.ts');
 assert.match(controller, /@Controller\('cattle'\)/);
+assert.match(controller, /cattle-singletons/);
 assert.match(controller, /@Get\(\)/);
 assert.match(controller, /@Get\(':id'\)/);
 assert.match(controller, /@Get\(':id\/events'\)/);
@@ -55,5 +56,11 @@ assert.match(authGuard, /UnauthorizedException/);
 
 const roleGuard = source('src/authentication/http/roles.guard.ts');
 assert.match(roleGuard, /ForbiddenException/);
+
+const mariaDbRepository = source('src/cattle-monitoring/infrastructure/mariadb-cattle.repository.ts');
+assert.match(mariaDbRepository, /FROM cattle/);
+assert.match(mariaDbRepository, /ORDER BY tag_number ASC/);
+assert.match(mariaDbRepository, /exists\(id: string\)/);
+assert.match(mariaDbRepository, /createCattle/);
 
 console.log('Backend cattle-management checks passed.');

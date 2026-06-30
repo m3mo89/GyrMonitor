@@ -14,18 +14,10 @@ import {
 import { Roles } from '../../authentication/domain/role';
 import { JwtAuthenticationGuard } from '../../authentication/http/authentication.guard';
 import { RoleAuthorizationGuard, RolesAllowed } from '../../authentication/http/roles.guard';
-import { AddAlertObservationUseCase } from '../application/add-alert-observation.use-case';
 import { AlertNotFoundError, InvalidObservationInputError } from '../application/observation.errors';
 import type { AddAlertObservationRequestDto, AlertObservationListDto } from '../application/observation.types';
-import { ListAlertObservationsUseCase } from '../application/list-alert-observations.use-case';
 import type { ObservationDto } from '../domain/observation';
-import { LocalAlertRepository } from '../infrastructure/local-alert.repository';
-import { LocalObservationRepository } from '../infrastructure/local-observation.repository';
-
-const observationRepository = new LocalObservationRepository();
-const alertRepository = new LocalAlertRepository();
-const addAlertObservationUseCase = new AddAlertObservationUseCase(observationRepository, alertRepository);
-const listAlertObservationsUseCase = new ListAlertObservationsUseCase(observationRepository, alertRepository);
+import { addAlertObservationUseCase, listAlertObservationsUseCase } from '../infrastructure/observation-singletons';
 
 type AuthenticatedRequest = {
   user?: {

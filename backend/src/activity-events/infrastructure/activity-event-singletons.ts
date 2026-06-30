@@ -1,11 +1,11 @@
-import { LocalCattleRepository } from '../../cattle-monitoring/infrastructure/local-cattle.repository';
+import { sharedCattleRepository } from '../../cattle-monitoring/infrastructure/cattle-repository-singleton';
 import { GetCattleActivityEventHistoryUseCase } from '../application/get-cattle-activity-event-history.use-case';
 import { ListActivityEventsUseCase } from '../application/list-activity-events.use-case';
 import { RegisterActivityEventUseCase } from '../application/register-activity-event.use-case';
-import { LocalActivityEventRepository } from './local-activity-event.repository';
+import { MariaDbActivityEventRepository } from './mariadb-activity-event.repository';
 
-export const sharedActivityEventRepository = new LocalActivityEventRepository();
-export const sharedActivityEventCattleRepository = new LocalCattleRepository();
+export const sharedActivityEventRepository = new MariaDbActivityEventRepository();
+export const sharedActivityEventCattleRepository = sharedCattleRepository;
 export const registerActivityEventUseCase = new RegisterActivityEventUseCase(
   sharedActivityEventRepository,
   sharedActivityEventCattleRepository

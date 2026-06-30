@@ -5,14 +5,14 @@ import type { LoginRequestDto } from '../application/authentication.types';
 import { LoginUseCase } from '../application/login.use-case';
 import { HmacJwtTokenService } from '../infrastructure/hmac-jwt-token.service';
 import { parseJwtExpiresInSeconds } from '../infrastructure/jwt-expiration';
-import { LocalUserRepository } from '../infrastructure/local-user.repository';
+import { MariaDbUserRepository } from '../infrastructure/mariadb-user.repository';
 import { NodePasswordHasher } from '../infrastructure/node-password-hasher';
 import { appConfig } from '../../config/app.config';
 
 const expiresInSeconds = parseJwtExpiresInSeconds(appConfig.jwtExpiresIn);
 const passwordHasher = new NodePasswordHasher(appConfig.passwordHashIterations);
 const loginUseCase = new LoginUseCase(
-  new LocalUserRepository(passwordHasher),
+  new MariaDbUserRepository(),
   passwordHasher,
   new HmacJwtTokenService(appConfig.jwtSecret, expiresInSeconds)
 );

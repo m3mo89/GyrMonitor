@@ -43,6 +43,7 @@ assert.doesNotMatch(mapperBody, /passwordHash|password:/);
 
 const controller = source('src/authentication/http/authentication.controller.ts');
 assert.match(controller, /@Post\('login'\)/);
+assert.match(controller, /MariaDbUserRepository/);
 assert.match(controller, /UnauthorizedException/);
 assert.match(controller, /BadRequestException/);
 assert.match(controller, /success: true/);
@@ -55,5 +56,10 @@ assert.match(authGuard, /request\.user/);
 const roleGuard = source('src/authentication/http/roles.guard.ts');
 assert.match(roleGuard, /FORBIDDEN|RoleAuthorizationGuard|allowedRoles/);
 assert.match(roleGuard, /includes\(request\.user\?\.role\)/);
+
+const mariaDbUsers = source('src/authentication/infrastructure/mariadb-user.repository.ts');
+assert.match(mariaDbUsers, /normalized_email = \?/);
+assert.match(mariaDbUsers, /isRole/);
+assert.match(mariaDbUsers, /passwordHash: row\.password_hash/);
 
 console.log('Backend authentication checks passed.');

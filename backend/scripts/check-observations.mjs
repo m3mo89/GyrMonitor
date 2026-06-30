@@ -55,6 +55,7 @@ assert.match(alertRepository, /exists\(alertId: string\)/);
 
 const controller = source('src/inspections/http/observations.controller.ts');
 assert.match(controller, /@Controller\('alerts\/:alertId\/observations'\)/);
+assert.match(controller, /observation-singletons/);
 assert.match(controller, /@Post\(\)/);
 assert.match(controller, /@Get\(\)/);
 assert.match(controller, /JwtAuthenticationGuard/);
@@ -74,6 +75,15 @@ assert.match(localUsers, /field@gyrmonitor\.local/);
 
 const module = source('src/inspections/inspections.module.ts');
 assert.match(module, /ObservationsController/);
+
+const mariaDbObservationRepository = source('src/inspections/infrastructure/mariadb-observation.repository.ts');
+assert.match(mariaDbObservationRepository, /INSERT INTO observations/);
+assert.match(mariaDbObservationRepository, /isDuplicateKeyError/);
+assert.match(mariaDbObservationRepository, /findByObservationId\(observation\.observationId\)/);
+assert.match(mariaDbObservationRepository, /ORDER BY created_at ASC/);
+
+const mariaDbAlertRepository = source('src/inspections/infrastructure/mariadb-alert.repository.ts');
+assert.match(mariaDbAlertRepository, /FROM alerts/);
 
 const appModule = source('src/app.module.ts');
 assert.match(appModule, /InspectionsModule/);

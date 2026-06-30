@@ -80,9 +80,18 @@ assert.match(repository, /pagination/);
 
 const singletons = source('src/activity-events/infrastructure/activity-event-singletons.ts');
 assert.match(singletons, /sharedActivityEventRepository/);
-assert.match(singletons, /LocalCattleRepository/);
+assert.match(singletons, /MariaDbActivityEventRepository/);
+assert.match(singletons, /sharedCattleRepository/);
 assert.match(singletons, /registerActivityEventUseCase/);
 assert.match(singletons, /listActivityEventsUseCase/);
+
+const mariaDbRepository = source('src/activity-events/infrastructure/mariadb-activity-event.repository.ts');
+assert.match(mariaDbRepository, /INSERT INTO activity_events/);
+assert.match(mariaDbRepository, /isDuplicateKeyError/);
+assert.match(mariaDbRepository, /findByEventId\(event\.eventId\)/);
+assert.match(mariaDbRepository, /captured_at >= \?/);
+assert.match(mariaDbRepository, /captured_at <= \?/);
+assert.match(mariaDbRepository, /ORDER BY captured_at DESC, created_at DESC/);
 
 const controller = source('src/activity-events/http/activity-events.controller.ts');
 assert.match(controller, /@Controller\('events'\)/);
@@ -112,7 +121,7 @@ assert.match(cattleHistoryUseCase, /normalizePositiveInteger/);
 assert.doesNotMatch(cattleHistoryUseCase, /placeholder: true/);
 
 const cattleController = source('src/cattle-monitoring/http/cattle.controller.ts');
-assert.match(cattleController, /sharedActivityEventRepository/);
+assert.match(cattleController, /getCattleHistoryUseCase/);
 assert.match(cattleController, /page: page \? Number\(page\) : undefined/);
 assert.match(cattleController, /pageSize: pageSize \? Number\(pageSize\) : undefined/);
 
