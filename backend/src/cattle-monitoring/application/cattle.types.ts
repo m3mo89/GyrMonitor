@@ -1,4 +1,5 @@
 import type { Cattle, CattleDetailDto, CattleSummaryDto } from '../domain/cattle';
+import type { ActivityEventDto } from '../../activity-events/domain/activity-event';
 
 export type PaginationRequest = {
   page?: number;
@@ -16,12 +17,10 @@ export type PaginatedResult<T> = {
   pagination: PaginationMetadata;
 };
 
-export type CattleHistoryPlaceholderDto = {
+export type CattleHistoryDto = {
   cattleId: string;
-  events: [];
+  events: ActivityEventDto[];
   pagination: PaginationMetadata;
-  placeholder: true;
-  message: string;
 };
 
 export type CattleRepository = {

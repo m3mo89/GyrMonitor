@@ -33,9 +33,10 @@ assert.match(detailUseCase, /CattleNotFoundError/);
 assert.match(detailUseCase, /toCattleDetailDto/);
 
 const historyUseCase = source('src/cattle-monitoring/application/get-cattle-history.use-case.ts');
-assert.match(historyUseCase, /placeholder: true/);
-assert.match(historyUseCase, /events: \[\]/);
-assert.match(historyUseCase, /activity-events phase/);
+assert.match(historyUseCase, /ActivityEventRepository/);
+assert.match(historyUseCase, /events\.list/);
+assert.match(historyUseCase, /toActivityEventDto/);
+assert.doesNotMatch(historyUseCase, /placeholder: true/);
 assert.match(historyUseCase, /CattleNotFoundError/);
 
 const controller = source('src/cattle-monitoring/http/cattle.controller.ts');

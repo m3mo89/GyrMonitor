@@ -38,6 +38,16 @@ const required = [
   'src/cattle-monitoring/infrastructure/local-cattle.repository.ts',
   'src/cattle-monitoring/http/cattle.controller.ts',
   'src/activity-events/README.md',
+  'src/activity-events/activity-events.module.ts',
+  'src/activity-events/domain/activity-event.ts',
+  'src/activity-events/application/activity-event.errors.ts',
+  'src/activity-events/application/activity-event.types.ts',
+  'src/activity-events/application/get-cattle-activity-event-history.use-case.ts',
+  'src/activity-events/application/list-activity-events.use-case.ts',
+  'src/activity-events/application/register-activity-event.use-case.ts',
+  'src/activity-events/infrastructure/activity-event-singletons.ts',
+  'src/activity-events/infrastructure/local-activity-event.repository.ts',
+  'src/activity-events/http/activity-events.controller.ts',
   'src/inactivity-analysis/README.md',
   'src/alerts/README.md',
   'src/inspections/README.md',
@@ -67,6 +77,7 @@ if (missing.length > 0) {
 if (mode === 'test') {
   await import('./check-authentication.mjs');
   await import('./check-cattle-management.mjs');
+  await import('./check-activity-events.mjs');
   await import('./check-observations.mjs');
 }
 

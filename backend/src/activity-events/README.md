@@ -1,3 +1,3 @@
 # Activity Events Boundary
 
-Placeholder for future activity event implementation. No domain logic is implemented in Phase 1.
+Owns MVP activity and inactivity event registration, idempotent local persistence, event consultation, and the event-backed cattle history query used by the cattle-monitoring boundary.

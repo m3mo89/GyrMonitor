@@ -17,11 +17,12 @@ import { LocalCattleRepository } from '../infrastructure/local-cattle.repository
 import { Roles } from '../../authentication/domain/role';
 import { JwtAuthenticationGuard } from '../../authentication/http/authentication.guard';
 import { RoleAuthorizationGuard, RolesAllowed } from '../../authentication/http/roles.guard';
+import { sharedActivityEventRepository } from '../../activity-events/infrastructure/activity-event-singletons';
 
 const cattleRepository = new LocalCattleRepository();
 const listCattleUseCase = new ListCattleUseCase(cattleRepository);
 const getCattleDetailUseCase = new GetCattleDetailUseCase(cattleRepository);
-const getCattleHistoryUseCase = new GetCattleHistoryUseCase(cattleRepository);
+const getCattleHistoryUseCase = new GetCattleHistoryUseCase(cattleRepository, sharedActivityEventRepository);
 
 type ApiSuccess<T> = {
   success: true;
@@ -61,11 +62,18 @@ export class CattleController {
 
   @Get(':id/events')
   @RolesAllowed(Roles.ADMIN, Roles.RESEARCHER)
-  async history(@Param('id') id: string): Promise<ApiSuccess<Awaited<ReturnType<GetCattleHistoryUseCase['execute']>>>> {
+  async history(
+    @Param('id') id: string,
+    @Query('page') page?: string,
+    @Query('pageSize') pageSize?: string
+  ): Promise<ApiSuccess<Awaited<ReturnType<GetCattleHistoryUseCase['execute']>>>> {
     try {
       return {
         success: true,
-        data: await getCattleHistoryUseCase.execute(id)
+        data: await getCattleHistoryUseCase.execute(id, {
+          page: page ? Number(page) : undefined,
+          pageSize: pageSize ? Number(pageSize) : undefined
+        })
       };
     } catch (error) {
       throw toHttpError(error);
