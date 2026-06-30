@@ -1,3 +1,7 @@
 # Cattle Feature Boundary
 
-Placeholder for future cattle UI. No cattle workflow exists in Phase 1.
+Read-oriented Phase 3 cattle list and detail workflows.
+
+This feature follows `knowledge-base/10-roadmap/phase-3-cattle-management.md`, `knowledge-base/02-domain/cattle.md`, and `knowledge-base/05-api/cattle.md`. It intentionally consumes cattle list/detail APIs and reserves a history placeholder for later activity-event work.
+
+Manual cattle create/update/delete workflows are intentionally outside this phase.

@@ -1,4 +1,4 @@
-import type { CanActivate, ExecutionContext } from '@nestjs/common';
+import { UnauthorizedException, type CanActivate, type ExecutionContext } from '@nestjs/common';
 
 import { HmacJwtTokenService } from '../infrastructure/hmac-jwt-token.service';
 import { parseJwtExpiresInSeconds } from '../infrastructure/jwt-expiration';
@@ -15,14 +15,14 @@ export class JwtAuthenticationGuard implements CanActivate {
       : null;
 
     if (!token) {
-      return false;
+      throw new UnauthorizedException();
     }
 
     try {
       request.user = await tokenService.verify(token);
       return true;
     } catch {
-      return false;
+      throw new UnauthorizedException();
     }
   }
 }

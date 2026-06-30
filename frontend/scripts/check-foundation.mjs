@@ -23,6 +23,10 @@ const required = [
   'src/features/auth/session-store.ts',
   'src/features/dashboard/README.md',
   'src/features/cattle/README.md',
+  'src/features/cattle/CattleDetailPage.tsx',
+  'src/features/cattle/CattleListPage.tsx',
+  'src/features/cattle/cattle.api.ts',
+  'src/features/cattle/cattle.types.ts',
   'src/features/events/README.md',
   'src/features/alerts/README.md',
   'src/features/metrics/README.md',
@@ -46,6 +50,7 @@ if (missing.length > 0) {
 
 if (mode === 'test') {
   await import('./check-authentication.mjs');
+  await import('./check-cattle-management.mjs');
 }
 
 console.log(`Frontend ${mode} check passed.`);

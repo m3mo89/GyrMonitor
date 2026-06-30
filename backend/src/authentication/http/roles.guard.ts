@@ -1,4 +1,4 @@
-import type { CanActivate, ExecutionContext } from '@nestjs/common';
+import { ForbiddenException, type CanActivate, type ExecutionContext } from '@nestjs/common';
 
 import type { Role } from '../domain/role';
 
@@ -21,6 +21,10 @@ export class RoleAuthorizationGuard implements CanActivate {
     }
 
     const request = context.switchToHttp().getRequest();
-    return allowedRoles.includes(request.user?.role);
+    if (!allowedRoles.includes(request.user?.role)) {
+      throw new ForbiddenException();
+    }
+
+    return true;
   }
 }

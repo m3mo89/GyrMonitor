@@ -27,6 +27,16 @@ const required = [
   'src/authentication/http/authentication.guard.ts',
   'src/authentication/http/roles.guard.ts',
   'src/cattle-monitoring/README.md',
+  'src/cattle-monitoring/cattle-monitoring.module.ts',
+  'src/cattle-monitoring/domain/cattle.ts',
+  'src/cattle-monitoring/application/cattle.errors.ts',
+  'src/cattle-monitoring/application/cattle.types.ts',
+  'src/cattle-monitoring/application/get-cattle-detail.use-case.ts',
+  'src/cattle-monitoring/application/get-cattle-history.use-case.ts',
+  'src/cattle-monitoring/application/list-cattle.use-case.ts',
+  'src/cattle-monitoring/application/uuid.ts',
+  'src/cattle-monitoring/infrastructure/local-cattle.repository.ts',
+  'src/cattle-monitoring/http/cattle.controller.ts',
   'src/activity-events/README.md',
   'src/inactivity-analysis/README.md',
   'src/alerts/README.md',
@@ -47,6 +57,7 @@ if (missing.length > 0) {
 
 if (mode === 'test') {
   await import('./check-authentication.mjs');
+  await import('./check-cattle-management.mjs');
 }
 
 console.log(`Backend ${mode} check passed.`);
