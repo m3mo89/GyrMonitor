@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="GyrMonitor.Mobile.Core.Tests/GyrMonitor.Mobile.Core.Tests.csproj" />
+  <Project Path="GyrMonitor.Mobile.Core/GyrMonitor.Mobile.Core.csproj" />
+  <Project Path="GyrMonitor.Mobile/GyrMonitor.Mobile.csproj" />
+</Solution>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="GyrMonitor.Desktop.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:auth="clr-namespace:GyrMonitor.Desktop.Features.Authentication"
+    xmlns:dashboard="clr-namespace:GyrMonitor.Desktop.Features.Dashboard"
+    xmlns:cattle="clr-namespace:GyrMonitor.Desktop.Features.Cattle"
+    xmlns:alerts="clr-namespace:GyrMonitor.Desktop.Features.Alerts"
+    xmlns:simulator="clr-namespace:GyrMonitor.Desktop.Features.EventSimulator"
+    xmlns:sync="clr-namespace:GyrMonitor.Desktop.Features.Sync"
+    Title="GyrMonitor Desktop"
+    FlyoutBehavior="Disabled">
+
+    <ShellContent
+        Title="Sign in"
+        ContentTemplate="{DataTemplate auth:LoginPage}"
+        Route="LoginPage" />
+
+    <TabBar Route="Main">
+        <ShellContent
+            Title="Dashboard"
+            ContentTemplate="{DataTemplate dashboard:DashboardPage}"
+            Route="DashboardPage" />
+        <ShellContent
+            Title="Cattle"
+            ContentTemplate="{DataTemplate cattle:CattlePage}"
+            Route="CattlePage" />
+        <ShellContent
+            Title="Alerts"
+            ContentTemplate="{DataTemplate alerts:AlertsPage}"
+            Route="AlertsPage" />
+        <ShellContent
+            Title="Simulator"
+            ContentTemplate="{DataTemplate simulator:EventSimulatorPage}"
+            Route="EventSimulatorPage" />
+        <ShellContent
+            Title="Sync"
+            ContentTemplate="{DataTemplate sync:SyncPage}"
+            Route="SyncPage" />
+    </TabBar>
+
+</Shell>

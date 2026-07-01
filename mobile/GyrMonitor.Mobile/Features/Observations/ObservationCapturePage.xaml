@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GyrMonitor.Mobile.Features.Observations.ObservationCapturePage"
+             Title="Add observation">
+
+    <VerticalStackLayout Padding="16" Spacing="12">
+
+        <Label Text="Comment" FontAttributes="Bold" />
+        <Editor Text="{Binding Comment}" HeightRequest="140" Placeholder="Describe what you observed in the field" />
+
+        <Button Text="Save" Command="{Binding SaveCommand}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
+
+        <Label Text="{Binding ErrorMessage}"
+               TextColor="Red"
+               IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}" />
+
+        <Label Text="Saved locally. It will sync automatically when you are back online."
+               TextColor="Green"
+               IsVisible="{Binding SavedOffline}" />
+
+    </VerticalStackLayout>
+
+</ContentPage>

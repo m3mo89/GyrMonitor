@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="GyrMonitor.Mobile.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:auth="clr-namespace:GyrMonitor.Mobile.Features.Authentication"
+    xmlns:alerts="clr-namespace:GyrMonitor.Mobile.Features.Alerts"
+    xmlns:sync="clr-namespace:GyrMonitor.Mobile.Features.Sync"
+    Title="GyrMonitor"
+    FlyoutBehavior="Disabled">
+
+    <ShellContent
+        Title="Sign in"
+        ContentTemplate="{DataTemplate auth:LoginPage}"
+        Route="LoginPage" />
+
+    <TabBar Route="Main">
+        <ShellContent
+            Title="Alerts"
+            ContentTemplate="{DataTemplate alerts:AlertsPage}"
+            Route="AlertsPage" />
+        <ShellContent
+            Title="Sync"
+            ContentTemplate="{DataTemplate sync:SyncPage}"
+            Route="SyncPage" />
+    </TabBar>
+
+</Shell>

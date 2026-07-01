@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dashboard="clr-namespace:GyrMonitor.Desktop.Core.Features.Dashboard;assembly=GyrMonitor.Desktop.Core"
+             x:Class="GyrMonitor.Desktop.Features.Dashboard.DashboardPage"
+             Title="Dashboard">
+
+    <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding LoadCommand}">
+        <ScrollView>
+            <VerticalStackLayout Padding="16" Spacing="12">
+
+                <Label Text="{Binding ErrorMessage}"
+                       TextColor="Red"
+                       IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}" />
+
+                <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto" ColumnSpacing="8" RowSpacing="8"
+                      BindingContext="{Binding Metrics}">
+                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding TotalCattle, StringFormat='Total cattle: {0}'}" />
+                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding ActiveAlerts, StringFormat='Active alerts: {0}'}" />
+                    <Label Grid.Row="0" Grid.Column="2" Text="{Binding HighRiskCattle, StringFormat='High risk: {0}'}" />
+                    <Label Grid.Row="1" Grid.Column="0" Text="{Binding AverageRiskScore, StringFormat='Avg risk: {0}'}" />
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding EventsToday, StringFormat='Events today: {0}'}" />
+                    <Label Grid.Row="1" Grid.Column="2" Text="{Binding SyncPendingCount, StringFormat='Pending sync: {0}'}" />
+                </Grid>
+
+                <Label Text="Risk ranking" FontAttributes="Bold" Margin="0,16,0,0" />
+                <CollectionView ItemsSource="{Binding Metrics.RiskRanking}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="dashboard:RiskRankingItemDto">
+                            <Grid ColumnDefinitions="*,Auto" Padding="4">
+                                <Label Grid.Column="0" Text="{Binding TagNumber}" />
+                                <Label Grid.Column="1" Text="{Binding RiskScore}" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+
+</ContentPage>

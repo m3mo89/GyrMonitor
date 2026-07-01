@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:alerts="clr-namespace:GyrMonitor.Desktop.Core.Features.Alerts;assembly=GyrMonitor.Desktop.Core"
+             x:Class="GyrMonitor.Desktop.Features.Alerts.AlertsPage"
+             Title="Alerts">
+
+    <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding LoadCommand}">
+        <CollectionView ItemsSource="{Binding Alerts}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="alerts:AlertSummaryDto">
+                    <Grid Padding="12" ColumnDefinitions="*,Auto,Auto">
+                        <Label Grid.Column="0" Text="{Binding TagNumber}" FontAttributes="Bold" />
+                        <Label Grid.Column="1" Text="{Binding Severity}" TextColor="Crimson" />
+                        <Label Grid.Column="2" Text="{Binding Status}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
+
+</ContentPage>

@@ -8,6 +8,7 @@ import { CattleMonitoringModule } from './cattle-monitoring/cattle-monitoring.mo
 import { DashboardModule } from './dashboard/dashboard.module';
 import { InactivityAnalysisModule } from './inactivity-analysis/inactivity-analysis.module';
 import { InspectionsModule } from './inspections/inspections.module';
+import { OfflineSyncModule } from './offline-sync/offline-sync.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { InspectionsModule } from './inspections/inspections.module';
     InactivityAnalysisModule,
     AlertsModule,
     InspectionsModule,
-    DashboardModule
+    DashboardModule,
+    OfflineSyncModule
   ],
   controllers: [AppController]
 })

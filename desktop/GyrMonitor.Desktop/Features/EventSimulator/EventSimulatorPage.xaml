@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GyrMonitor.Desktop.Features.EventSimulator.EventSimulatorPage"
+             Title="Event simulator">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="12">
+
+            <Label Text="Cattle id" FontAttributes="Bold" />
+            <Entry Placeholder="cattle uuid" Text="{Binding CattleId}" />
+
+            <Label Text="Event type" FontAttributes="Bold" />
+            <HorizontalStackLayout Spacing="12">
+                <RadioButton Content="Inactivity" IsChecked="{Binding IsInactivity}" GroupName="EventType" />
+                <RadioButton Content="Activity" IsChecked="{Binding IsInactivity, Converter={StaticResource InvertedBoolConverter}}" GroupName="EventType" />
+            </HorizontalStackLayout>
+
+            <Label Text="Inactive minutes" IsVisible="{Binding IsInactivity}" />
+            <Entry Text="{Binding InactiveMinutes}" Keyboard="Numeric" IsVisible="{Binding IsInactivity}" />
+
+            <Label Text="Confidence (0-1)" />
+            <Entry Text="{Binding Confidence}" Keyboard="Numeric" />
+
+            <Button Text="Generate event" Command="{Binding GenerateCommand}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
+
+            <Label Text="{Binding ErrorMessage}"
+                   TextColor="Red"
+                   IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}" />
+
+            <Label Text="Saved locally as a simulator-tagged event. It will sync automatically when connectivity returns."
+                   TextColor="Green"
+                   IsVisible="{Binding SavedOffline}" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

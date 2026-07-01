@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:alerts="clr-namespace:GyrMonitor.Mobile.Core.Features.Alerts;assembly=GyrMonitor.Mobile.Core"
+             x:Class="GyrMonitor.Mobile.Features.Alerts.AlertsPage"
+             Title="Alerts">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Sync" Clicked="OnSyncTapped" />
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="12" RowSpacing="8">
+
+        <Label Grid.Row="0"
+               Text="You are offline. Showing cached alerts."
+               TextColor="OrangeRed"
+               IsVisible="{Binding IsOffline}" />
+
+        <Label Grid.Row="1"
+               Text="{Binding ErrorMessage}"
+               TextColor="Red"
+               IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}" />
+
+        <RefreshView Grid.Row="2" IsRefreshing="{Binding IsBusy}" Command="{Binding LoadCommand}">
+            <CollectionView ItemsSource="{Binding Alerts}" SelectionMode="Single" SelectionChanged="OnAlertSelected">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="alerts:LocalAlert">
+                        <Grid Padding="12" ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding TagNumber}" FontAttributes="Bold" />
+                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding Severity}" TextColor="Crimson" />
+                            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Status}" TextColor="Gray" FontSize="12" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+    </Grid>
+
+</ContentPage>
