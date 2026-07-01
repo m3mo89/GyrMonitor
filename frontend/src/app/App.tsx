@@ -4,6 +4,7 @@ import { AppShell } from './layouts/AppShell';
 import { AppQueryProvider } from './providers/QueryProvider';
 import { AuthProvider, useAuth } from '../features/auth/AuthProvider';
 import { ProtectedRoute } from '../features/auth/ProtectedRoute';
+import { SystemGeneratorMessage } from '../features/auth/SystemGeneratorMessage';
 import { Roles } from '../features/auth/auth.types';
 import { AlertDetailPage } from '../features/alerts/AlertDetailPage';
 import { AlertsListPage } from '../features/alerts/AlertsListPage';
@@ -31,9 +32,11 @@ function AppRoutes() {
   const alertMatch = path.match(/^\/alerts\/([^/]+)$/);
 
   return (
-    <ProtectedRoute allowedRoles={[Roles.ADMIN, Roles.RESEARCHER, Roles.FIELD_OPERATOR]} onAuthenticated={refreshRoute}>
+    <ProtectedRoute allowedRoles={[Roles.ADMIN, Roles.RESEARCHER, Roles.FIELD_OPERATOR, Roles.SYSTEM_GENERATOR]} onAuthenticated={refreshRoute}>
       <AppShell currentPath={path} onNavigate={navigate}>
-        {(path === '/dashboard' || path === '/' || path === '/login') && hasAnyRole(session?.user.role, [Roles.ADMIN, Roles.RESEARCHER]) ? (
+        {session?.user.role === Roles.SYSTEM_GENERATOR ? (
+          <SystemGeneratorMessage />
+        ) : (path === '/dashboard' || path === '/' || path === '/login') && hasAnyRole(session?.user.role, [Roles.ADMIN, Roles.RESEARCHER]) ? (
           <DashboardPage />
         ) : path === '/cattle' && hasAnyRole(session?.user.role, [Roles.ADMIN, Roles.RESEARCHER]) ? (
           <CattleListPage onOpenCattle={(id) => navigate(`/cattle/${id}`)} />
