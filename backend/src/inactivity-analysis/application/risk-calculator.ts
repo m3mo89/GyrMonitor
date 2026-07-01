@@ -1,11 +1,6 @@
 import { EventTypes, type ActivityEvent } from '../../activity-events/domain/activity-event';
-import { AlertSeverities, type AlertSeverity } from '../domain/alert';
-
-export type RiskEvaluation = {
-  riskScore: number;
-  severity: AlertSeverity;
-  exceedsAlertThreshold: boolean;
-};
+import { AlertSeverities, type AlertSeverity } from '../domain/severity';
+import type { ActivityEventRiskEvaluator, RiskEvaluation } from './inactivity-analysis.types';
 
 export const mvpRiskPolicy = {
   alertThreshold: 60,
@@ -13,7 +8,7 @@ export const mvpRiskPolicy = {
   mediumSeverityThreshold: 60
 } as const;
 
-export class MvpRiskCalculator {
+export class MvpRiskCalculator implements ActivityEventRiskEvaluator {
   evaluate(event: ActivityEvent): RiskEvaluation | null {
     if (event.eventType !== EventTypes.INACTIVITY) {
       return null;

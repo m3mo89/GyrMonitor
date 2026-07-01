@@ -9,4 +9,4 @@ Source guidance:
 - `knowledge-base/02-domain/risk-analysis.md`
 - `knowledge-base/05-api/alerts.md`
 
-The MVP risk policy is deterministic and centralized in `application/risk-calculator.ts` so thresholds can be adjusted during validation without changing the public API contract.
+The MVP risk policy (risk score, severity, alert threshold) is calculated by the `inactivity-analysis` module and consumed here via the `ActivityEventRiskEvaluator` port, so thresholds can be adjusted during validation without changing the public API contract.

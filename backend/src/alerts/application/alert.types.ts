@@ -1,5 +1,6 @@
 import type { ActivityEvent } from '../../activity-events/domain/activity-event';
-import type { Alert, AlertDetailDto, AlertListItemDto, AlertSeverity, AlertStatus } from '../domain/alert';
+import type { Alert, AlertDetailDto, AlertListItemDto, AlertStatus } from '../domain/alert';
+import type { AlertSeverity } from '../../inactivity-analysis/domain/severity';
 
 export type PaginationRequest = {
   page?: number;

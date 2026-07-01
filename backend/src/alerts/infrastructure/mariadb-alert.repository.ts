@@ -1,6 +1,7 @@
 import type { AlertRepository, NormalizedListAlertsQuery, PaginatedResult } from '../application/alert.types';
 import { createAlert } from '../domain/alert';
-import type { Alert, AlertSeverity, AlertStatus } from '../domain/alert';
+import type { Alert, AlertStatus } from '../domain/alert';
+import type { AlertSeverity } from '../../inactivity-analysis/domain/severity';
 import { fromDatabaseDateTime, toDatabaseDateTime } from '../../database/date-mapping';
 import { getSharedDatabaseClient } from '../../database/database-singleton';
 import type { DatabaseClient } from '../../database/database.types';

@@ -1,6 +1,7 @@
 import { assertUuid } from '../../activity-events/domain/activity-event';
 import { assertAlertSeverity, assertAlertStatus, toAlertListItemDto } from '../domain/alert';
-import type { AlertSeverity, AlertStatus } from '../domain/alert';
+import type { AlertStatus } from '../domain/alert';
+import type { AlertSeverity } from '../../inactivity-analysis/domain/severity';
 import { InvalidAlertInputError } from './alert.errors';
 import type { AlertCattleLookup, AlertListResponseDto, AlertRepository, ListAlertsQuery, NormalizedListAlertsQuery } from './alert.types';
 

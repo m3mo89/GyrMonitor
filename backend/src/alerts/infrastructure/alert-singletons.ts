@@ -1,8 +1,8 @@
 import { sharedCattleRepository } from '../../cattle-monitoring/infrastructure/cattle-repository-singleton';
+import { mvpRiskCalculator } from '../../inactivity-analysis/infrastructure/inactivity-analysis-singletons';
 import { GenerateAlertFromActivityEventUseCase } from '../application/generate-alert-from-activity-event.use-case';
 import { GetAlertDetailUseCase } from '../application/get-alert-detail.use-case';
 import { ListAlertsUseCase } from '../application/list-alerts.use-case';
-import { MvpRiskCalculator } from '../application/risk-calculator';
 import { UpdateAlertStatusUseCase } from '../application/update-alert-status.use-case';
 import { MariaDbAlertRepository } from './mariadb-alert.repository';
 import { MariaDbAlertEventLookup, RepositoryAlertCattleLookup } from './alert-lookups';
@@ -10,7 +10,6 @@ import { MariaDbAlertEventLookup, RepositoryAlertCattleLookup } from './alert-lo
 export const sharedAlertRepository = new MariaDbAlertRepository();
 export const sharedAlertCattleLookup = new RepositoryAlertCattleLookup(sharedCattleRepository);
 export const sharedAlertEventLookup = new MariaDbAlertEventLookup();
-export const mvpRiskCalculator = new MvpRiskCalculator();
 
 export const generateAlertFromActivityEventUseCase = new GenerateAlertFromActivityEventUseCase(
   sharedAlertRepository,

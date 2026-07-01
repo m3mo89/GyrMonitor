@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { EventTypes, SourceTypes, type ActivityEvent } from '../../activity-events/domain/activity-event';
+import { MvpRiskCalculator } from '../../inactivity-analysis/application/risk-calculator';
 import { LocalAlertRepository } from '../infrastructure/local-alert.repository';
 import { AlertStatuses, createAlert } from '../domain/alert';
 import type { Alert } from '../domain/alert';
@@ -8,7 +9,6 @@ import { AlertNotFoundError, InvalidAlertInputError } from './alert.errors';
 import { GenerateAlertFromActivityEventUseCase } from './generate-alert-from-activity-event.use-case';
 import { GetAlertDetailUseCase } from './get-alert-detail.use-case';
 import { ListAlertsUseCase } from './list-alerts.use-case';
-import { classifySeverity, MvpRiskCalculator } from './risk-calculator';
 import { UpdateAlertStatusUseCase } from './update-alert-status.use-case';
 
 const cattleId = '11111111-1111-4111-8111-111111111111';
@@ -47,25 +47,6 @@ const cattleLookup = {
 const eventLookup = {
   findEventId: async () => eventId
 };
-
-describe('MvpRiskCalculator', () => {
-  it('evaluates inactivity deterministically and classifies severity', () => {
-    const calculator = new MvpRiskCalculator();
-
-    expect(calculator.evaluate({ ...inactivityEvent, inactiveMinutes: 45 })).toEqual({
-      riskScore: 45,
-      severity: 'LOW',
-      exceedsAlertThreshold: false
-    });
-    expect(calculator.evaluate({ ...inactivityEvent, inactiveMinutes: 60 })).toMatchObject({ riskScore: 60, severity: 'MEDIUM', exceedsAlertThreshold: true });
-    expect(calculator.evaluate(inactivityEvent)).toMatchObject({ riskScore: 90, severity: 'HIGH', exceedsAlertThreshold: true });
-    expect(classifySeverity(100)).toBe('HIGH');
-  });
-
-  it('does not evaluate activity events for alert generation', () => {
-    expect(new MvpRiskCalculator().evaluate({ ...inactivityEvent, eventType: EventTypes.ACTIVITY, inactiveMinutes: undefined })).toBeNull();
-  });
-});
 
 describe('GenerateAlertFromActivityEventUseCase', () => {
   it('creates a pending alert for inactivity above threshold', async () => {

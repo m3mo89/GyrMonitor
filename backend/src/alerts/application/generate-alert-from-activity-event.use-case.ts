@@ -1,17 +1,18 @@
 import type { ActivityEvent } from '../../activity-events/domain/activity-event';
+import type { ActivityEventRiskEvaluator } from '../../inactivity-analysis/application/inactivity-analysis.types';
+import { MvpRiskCalculator } from '../../inactivity-analysis/application/risk-calculator';
 import { createAlert } from '../domain/alert';
 import type { ActivityAlertEvaluator, AlertGenerationResult, AlertRepository } from './alert.types';
-import { MvpRiskCalculator } from './risk-calculator';
 
 export class GenerateAlertFromActivityEventUseCase implements ActivityAlertEvaluator {
   private readonly alerts: AlertRepository;
-  private readonly riskCalculator: MvpRiskCalculator;
+  private readonly riskCalculator: ActivityEventRiskEvaluator;
   private readonly generateId: () => string;
   private readonly now: () => string;
 
   constructor(
     alerts: AlertRepository,
-    riskCalculator: MvpRiskCalculator = new MvpRiskCalculator(),
+    riskCalculator: ActivityEventRiskEvaluator = new MvpRiskCalculator(),
     generateId: () => string = generateUuid,
     now: () => string = () => new Date().toISOString()
   ) {

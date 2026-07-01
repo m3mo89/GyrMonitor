@@ -19,7 +19,7 @@ The system SHALL represent alerts with the MVP fields, status values, severity v
 - **THEN** its severity is consistent with the calculated risk score according to the deterministic MVP policy
 
 ### Requirement: Alert generation from inactivity
-The backend SHALL evaluate accepted inactivity events and generate alerts when risk analysis determines that attention is required, as described in `knowledge-base/10-roadmap/phase-6-alerts.md` and `knowledge-base/02-domain/risk-analysis.md`.
+The backend SHALL evaluate accepted inactivity events and generate alerts when the `risk-analysis` capability's evaluator determines that attention is required, as described in `knowledge-base/10-roadmap/phase-6-alerts.md` and `knowledge-base/02-domain/risk-analysis.md`. The alerts module SHALL NOT perform its own risk-score or severity calculation; it SHALL delegate that evaluation to the `risk-analysis` capability and act on the returned result.
 
 #### Scenario: Inactivity above threshold creates alert
 - **WHEN** an authorized caller registers a valid `INACTIVITY` event whose calculated risk score exceeds the alert threshold

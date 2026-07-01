@@ -1,12 +1,5 @@
 import { assertIsoDateTime, assertUuid } from '../../activity-events/domain/activity-event';
-
-export const AlertSeverities = {
-  LOW: 'LOW',
-  MEDIUM: 'MEDIUM',
-  HIGH: 'HIGH'
-} as const;
-
-export type AlertSeverity = (typeof AlertSeverities)[keyof typeof AlertSeverities];
+import { AlertSeverities, type AlertSeverity } from '../../inactivity-analysis/domain/severity';
 
 export const AlertStatuses = {
   PENDING: 'PENDING',
