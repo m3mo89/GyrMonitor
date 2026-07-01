@@ -1,4 +1,5 @@
 import type { ActivityEvent, ActivityEventDto, EventType, RegisterActivityEventResponseDto, SourceType } from '../domain/activity-event';
+import type { AlertGenerationResult } from '../../alerts/application/alert.types';
 
 export type PaginationRequest = {
   page?: number;
@@ -71,6 +72,10 @@ export type ActivityEventRepository = {
 
 export type CattleLookup = {
   exists(id: string): Promise<boolean>;
+};
+
+export type ActivityAlertEvaluator = {
+  evaluate(event: ActivityEvent): Promise<AlertGenerationResult>;
 };
 
 export type CreateActivityEventInput = {

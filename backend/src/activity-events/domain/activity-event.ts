@@ -79,13 +79,16 @@ export function toActivityEventDto(event: ActivityEvent): ActivityEventDto {
   return { ...event };
 }
 
-export function toRegisterActivityEventResponse(event: ActivityEvent): RegisterActivityEventResponseDto {
+export function toRegisterActivityEventResponse(
+  event: ActivityEvent,
+  alertResult?: Pick<RegisterActivityEventResponseDto, 'riskScore' | 'severity' | 'alertGenerated' | 'alertId'>
+): RegisterActivityEventResponseDto {
   return {
     eventId: event.eventId,
-    riskScore: null,
-    severity: null,
-    alertGenerated: false,
-    alertId: null
+    riskScore: alertResult?.riskScore ?? null,
+    severity: alertResult?.severity ?? null,
+    alertGenerated: alertResult?.alertGenerated ?? false,
+    alertId: alertResult?.alertId ?? null
   };
 }
 

@@ -1,9 +1,13 @@
 import { spawn } from 'node:child_process';
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
 
 const port = process.env.SMOKE_BACKEND_PORT ?? '3011';
 const host = process.env.BACKEND_HOST ?? '127.0.0.1';
 const apiPrefix = process.env.API_PREFIX ?? '/api/v1';
 const url = `http://${host}:${port}${apiPrefix}`;
+const deepDatabaseSmoke = process.env.SMOKE_WITH_DATABASE === 'true';
 const timeoutMs = 10_000;
 const intervalMs = 250;
 
@@ -35,8 +39,17 @@ child.once('exit', (code, signal) => {
 });
 
 try {
+  if (deepDatabaseSmoke) {
+    await prepareDatabase();
+  }
+
   const response = await waitForAvailability();
   await assertAvailabilityResponse(response);
+  if (deepDatabaseSmoke) {
+    await assertAlertWorkflow();
+  } else {
+    await assertProtectedAlertRoutes();
+  }
   console.log(`Backend HTTP smoke check passed at ${url}.`);
 } catch (error) {
   console.error('Backend HTTP smoke check failed.');
@@ -88,6 +101,95 @@ async function assertAvailabilityResponse(response) {
 
   if (leaked) {
     throw new Error(`Availability response exposed forbidden value marker: ${leaked}`);
+  }
+}
+
+async function assertProtectedAlertRoutes() {
+  const response = await fetch(`${url}/alerts`);
+  if (response.status !== 401) {
+    throw new Error(`Expected unauthenticated alerts request to return 401, got ${response.status}.`);
+  }
+}
+
+async function assertAlertWorkflow() {
+  const adminToken = await login('admin@gyrmonitor.local', 'local-admin-password');
+  const systemToken = await login('system@gyrmonitor.local', 'local-system-password');
+  const eventId = '30000000-0000-4000-8000-000000000097';
+
+  const eventResponse = await requestJson(`${url}/events`, {
+    method: 'POST',
+    token: systemToken,
+    body: {
+      eventId,
+      deviceId: 'smoke-device',
+      cattleId: '10000000-0000-4000-8000-000000000003',
+      eventType: 'INACTIVITY',
+      inactiveMinutes: 90,
+      confidence: 0.95,
+      capturedAt: '2026-06-30T11:00:00.000Z',
+      source: 'CONTROLLED_TEST_DATA'
+    }
+  });
+
+  if (eventResponse.status !== 201 || eventResponse.body?.data?.alertGenerated !== true || !eventResponse.body?.data?.alertId) {
+    throw new Error(`Expected event smoke request to generate alert: ${JSON.stringify(eventResponse.body)}`);
+  }
+
+  const alertId = eventResponse.body.data.alertId;
+  const listResponse = await requestJson(`${url}/alerts?status=PENDING&severity=HIGH&cattleId=10000000-0000-4000-8000-000000000003`, {
+    token: adminToken
+  });
+  if (listResponse.status !== 200 || !listResponse.body?.data?.some((record) => record.id === alertId)) {
+    throw new Error(`Expected generated alert to be listable: ${JSON.stringify(listResponse.body)}`);
+  }
+
+  const detailResponse = await requestJson(`${url}/alerts/${alertId}`, { token: adminToken });
+  if (detailResponse.status !== 200 || detailResponse.body?.data?.eventId !== eventId) {
+    throw new Error(`Expected generated alert detail to preserve event traceability: ${JSON.stringify(detailResponse.body)}`);
+  }
+}
+
+async function login(email, password) {
+  const response = await requestJson(`${url}/auth/login`, {
+    method: 'POST',
+    body: { email, password }
+  });
+
+  if (response.status !== 201 || !response.body?.data?.accessToken) {
+    throw new Error(`Login failed for ${email}: ${JSON.stringify(response.body)}`);
+  }
+
+  return response.body.data.accessToken;
+}
+
+async function requestJson(endpoint, options = {}) {
+  const headers = {
+    accept: 'application/json',
+    ...(options.body ? { 'content-type': 'application/json' } : {}),
+    ...(options.token ? { authorization: `Bearer ${options.token}` } : {})
+  };
+  const response = await fetch(endpoint, {
+    method: options.method ?? 'GET',
+    headers,
+    body: options.body ? JSON.stringify(options.body) : undefined
+  });
+
+  const text = await response.text();
+  const body = text ? JSON.parse(text) : undefined;
+  return { status: response.status, body };
+}
+
+async function prepareDatabase() {
+  const { createConfiguredMariaDbClient } = require('../dist/database/mysql2-driver.js');
+  const { runMigrations } = require('../dist/database/migrations.js');
+  const { seedDatabase } = require('../dist/database/seeds.js');
+  const client = createConfiguredMariaDbClient();
+
+  try {
+    await runMigrations(client);
+    await seedDatabase(client);
+  } finally {
+    await client.close();
   }
 }
 

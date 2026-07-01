@@ -3,9 +3,7 @@
 ## Purpose
 
 Define the MVP activity-event capability for registering activity and inactivity records associated with cattle, aligned with `knowledge-base/10-roadmap/phase-5-activity-events.md`, `knowledge-base/02-domain/activity-events.md`, and `knowledge-base/05-api/activity-events.md`.
-
 ## Requirements
-
 ### Requirement: Activity event domain record
 The system SHALL represent activity and inactivity events with the MVP fields and rules documented in `knowledge-base/02-domain/activity-events.md`.
 
@@ -98,19 +96,27 @@ The backend SHALL expose protected `GET /api/v1/events` behavior for event consu
 - **THEN** the API returns `FORBIDDEN`
 
 ### Requirement: Activity event risk and alert integration boundary
-The activity-event module SHALL preserve the integration boundary needed for risk analysis and alert generation without owning the complete Phase 6 alert lifecycle.
+The activity-event module SHALL invoke the backend risk-analysis and alert-generation boundary for accepted inactivity events while preserving source-event traceability.
 
-#### Scenario: Inactivity event is eligible for risk evaluation
+#### Scenario: Inactivity event is evaluated for alert generation
 - **WHEN** an `INACTIVITY` event is accepted
-- **THEN** the event is made available to the backend risk-analysis boundary for deterministic evaluation
+- **THEN** the event is made available to the backend risk-analysis boundary for deterministic evaluation and alert threshold handling
+
+#### Scenario: Inactivity event above threshold returns alert integration data
+- **WHEN** an `INACTIVITY` event is accepted and alert generation creates a linked alert
+- **THEN** event registration returns the accepted event result with alert integration fields in the documented activity-event response shape
+
+#### Scenario: Inactivity event below threshold returns no generated alert
+- **WHEN** an `INACTIVITY` event is accepted and risk analysis does not cross the alert threshold
+- **THEN** event registration succeeds without reporting a generated alert
 
 #### Scenario: Activity event does not generate alert by default
 - **WHEN** an `ACTIVITY` event is accepted
 - **THEN** the system does not treat it as an alert-generating inactivity event by default
 
 #### Scenario: Alert generation remains traceable to source event
-- **WHEN** a later alert-generation capability consumes an activity event
-- **THEN** the persisted event includes enough cattle, event id, capture time, inactivity duration, and source data to link the alert back to the source event
+- **WHEN** alert generation consumes an activity event
+- **THEN** the persisted alert links back to the source event using the event's cattle, event id, capture time, inactivity duration, and source data
 
 ### Requirement: Persisted activity event repository
 The backend SHALL persist activity and inactivity events in MariaDB while preserving existing validation, idempotency, listing, and filtering behavior.
@@ -145,3 +151,4 @@ Persisted activity events SHALL maintain database relationships needed for downs
 #### Scenario: Alert source can reference event
 - **WHEN** a later alert-generation capability creates an alert from an inactivity event
 - **THEN** the schema supports linking that alert to the persisted source event
+

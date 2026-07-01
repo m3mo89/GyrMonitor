@@ -197,7 +197,9 @@ async function seedAlerts(client: DatabaseClient): Promise<void> {
       cattleId: '10000000-0000-4000-8000-000000000002',
       sourceEventId: '30000000-0000-4000-8000-000000000002',
       severity: 'HIGH',
+      riskScore: 90,
       status: 'PENDING',
+      reason: 'Inactividad prolongada: 90 minutos.',
       createdAt: '2026-06-29T09:31:00.000Z'
     },
     {
@@ -205,21 +207,37 @@ async function seedAlerts(client: DatabaseClient): Promise<void> {
       cattleId: '10000000-0000-4000-8000-000000000001',
       sourceEventId: null,
       severity: 'LOW',
+      riskScore: 20,
       status: 'ATTENDED',
-      createdAt: '2026-06-29T10:00:00.000Z'
+      reason: 'Seguimiento manual completado.',
+      createdAt: '2026-06-29T10:00:00.000Z',
+      attendedAt: '2026-06-29T10:10:00.000Z'
     }
   ];
 
   for (const alert of alerts) {
     await client.execute(
-      `INSERT INTO alerts (id, cattle_id, source_event_id, severity, status, created_at)
-       VALUES (?, ?, ?, ?, ?, ?)
+      `INSERT INTO alerts (id, cattle_id, source_event_id, severity, risk_score, status, reason, created_at, attended_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
        ON DUPLICATE KEY UPDATE
          cattle_id = VALUES(cattle_id),
          source_event_id = VALUES(source_event_id),
          severity = VALUES(severity),
-         status = VALUES(status)`,
-      [alert.id, alert.cattleId, alert.sourceEventId, alert.severity, alert.status, toDatabaseDateTime(alert.createdAt)]
+         risk_score = VALUES(risk_score),
+         status = VALUES(status),
+         reason = VALUES(reason),
+         attended_at = VALUES(attended_at)`,
+      [
+        alert.id,
+        alert.cattleId,
+        alert.sourceEventId,
+        alert.severity,
+        alert.riskScore,
+        alert.status,
+        alert.reason,
+        toDatabaseDateTime(alert.createdAt),
+        alert.attendedAt ? toDatabaseDateTime(alert.attendedAt) : null
+      ]
     );
   }
 }

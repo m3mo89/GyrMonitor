@@ -71,6 +71,26 @@ describe('RegisterActivityEventUseCase', () => {
     expect(events.save).not.toHaveBeenCalled();
   });
 
+  it('returns alert integration fields when inactivity generates an alert', async () => {
+    const events = repository();
+    const useCase = new RegisterActivityEventUseCase(events, cattle(), () => generatedId, () => event.createdAt, {
+      evaluate: vi.fn(async () => ({
+        riskScore: 90,
+        severity: 'HIGH' as const,
+        alertGenerated: true,
+        alertId: '44444444-4444-4444-8444-444444444444'
+      }))
+    });
+
+    await expect(useCase.execute(command)).resolves.toEqual({
+      eventId,
+      riskScore: 90,
+      severity: 'HIGH',
+      alertGenerated: true,
+      alertId: '44444444-4444-4444-8444-444444444444'
+    });
+  });
+
   it('rejects invalid input', async () => {
     const useCase = new RegisterActivityEventUseCase(repository(), cattle(), () => generatedId, () => event.createdAt);
 

@@ -1,5 +1,11 @@
 import { ActivityEventCattleNotFoundError, InvalidActivityEventInputError } from './activity-event.errors';
-import type { ActivityEventRepository, CattleLookup, RegisterActivityEventCommand, RegisterActivityEventResultDto } from './activity-event.types';
+import type {
+  ActivityAlertEvaluator,
+  ActivityEventRepository,
+  CattleLookup,
+  RegisterActivityEventCommand,
+  RegisterActivityEventResultDto
+} from './activity-event.types';
 import {
   assertEventType,
   assertSourceType,
@@ -10,6 +16,7 @@ import {
 export class RegisterActivityEventUseCase {
   private readonly events: ActivityEventRepository;
   private readonly cattle: CattleLookup;
+  private readonly alertEvaluator?: ActivityAlertEvaluator;
   private readonly generateId: () => string;
   private readonly now: () => string;
 
@@ -17,10 +24,12 @@ export class RegisterActivityEventUseCase {
     events: ActivityEventRepository,
     cattle: CattleLookup,
     generateId: () => string = generateUuid,
-    now: () => string = () => new Date().toISOString()
+    now: () => string = () => new Date().toISOString(),
+    alertEvaluator?: ActivityAlertEvaluator
   ) {
     this.events = events;
     this.cattle = cattle;
+    this.alertEvaluator = alertEvaluator;
     this.generateId = generateId;
     this.now = now;
   }
@@ -29,7 +38,7 @@ export class RegisterActivityEventUseCase {
     try {
       const existing = await this.events.findByEventId(command.eventId);
       if (existing) {
-        return toRegisterActivityEventResponse(existing);
+        return toRegisterActivityEventResponse(existing, await this.alertEvaluator?.evaluate(existing));
       }
 
       assertEventType(command.eventType);
@@ -52,7 +61,8 @@ export class RegisterActivityEventUseCase {
         createdAt: this.now()
       });
 
-      return toRegisterActivityEventResponse(await this.events.save(event));
+      const saved = await this.events.save(event);
+      return toRegisterActivityEventResponse(saved, await this.alertEvaluator?.evaluate(saved));
     } catch (error) {
       if (error instanceof ActivityEventCattleNotFoundError) {
         throw error;

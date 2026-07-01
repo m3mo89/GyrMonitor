@@ -33,7 +33,7 @@ npm run db:seed --workspace backend
 npm run db:check --workspace backend
 ```
 
-`db:migrate` applies versioned SQL migrations and records applied versions in `schema_migrations`. `db:seed` loads repeatable non-production MVP records. `db:check` builds the backend, applies migrations twice to verify idempotency, seeds data, and exercises the MariaDB repositories for authentication, cattle/event persistence, observation idempotency, and UTC timestamp preservation.
+`db:migrate` applies versioned SQL migrations and records applied versions in `schema_migrations`. `db:seed` loads repeatable non-production MVP records. `db:check` builds the backend, applies migrations twice to verify idempotency, seeds data, and exercises the MariaDB repositories for authentication, cattle/event persistence, alert generation/filtering, observation idempotency, and UTC timestamp preservation.
 
 ## Local Authentication
 
@@ -61,4 +61,4 @@ npm run format:check --workspace backend
 npm run test --workspace backend
 ```
 
-The development command starts the Nest runtime locally. The smoke command builds the backend, starts the compiled HTTP server on a test port, and verifies the public availability endpoint at `/api/v1`.
+The development command starts the Nest runtime locally. The smoke command builds the backend, starts the compiled HTTP server on a test port, and verifies the public availability endpoint plus protected alert-route authentication at `/api/v1`. Set `SMOKE_WITH_DATABASE=true` to also run migrations/seeds and verify login, inactivity alert generation, alert listing, and alert detail traceability through HTTP.

@@ -10,6 +10,7 @@ const { closeSharedDatabaseClient } = require('../dist/database/database-singlet
 const { runMigrations } = require('../dist/database/migrations.js');
 const { createConfiguredMariaDbClient } = require('../dist/database/mysql2-driver.js');
 const { seedDatabase } = require('../dist/database/seeds.js');
+const { getAlertDetailUseCase, listAlertsUseCase } = require('../dist/alerts/infrastructure/alert-singletons.js');
 const { addAlertObservationUseCase, listAlertObservationsUseCase } = require('../dist/inspections/infrastructure/observation-singletons.js');
 
 const client = createConfiguredMariaDbClient();
@@ -37,6 +38,7 @@ try {
     capturedAt: '2026-06-30T10:00:00.000Z',
     source: 'CONTROLLED_TEST_DATA'
   });
+  assert.equal(event.alertGenerated, false);
   const duplicateEvent = await registerActivityEventUseCase.execute({
     eventId: '30000000-0000-4000-8000-000000000099',
     deviceId: 'db-check-device',
@@ -48,6 +50,35 @@ try {
     source: 'CONTROLLED_TEST_DATA'
   });
   assert.equal(duplicateEvent.eventId, event.eventId);
+  assert.equal(duplicateEvent.alertGenerated, false);
+
+  const alertingEvent = await registerActivityEventUseCase.execute({
+    eventId: '30000000-0000-4000-8000-000000000098',
+    deviceId: 'db-check-device',
+    cattleId: '10000000-0000-4000-8000-000000000003',
+    eventType: 'INACTIVITY',
+    inactiveMinutes: 90,
+    confidence: 0.93,
+    capturedAt: '2026-06-30T10:10:00.000Z',
+    source: 'CONTROLLED_TEST_DATA'
+  });
+  assert.equal(alertingEvent.alertGenerated, true);
+  assert.equal(alertingEvent.riskScore, 90);
+  assert.equal(alertingEvent.severity, 'HIGH');
+  assert.ok(alertingEvent.alertId, 'alerting inactivity event should return an alert id');
+
+  const duplicateAlertingEvent = await registerActivityEventUseCase.execute({
+    eventId: '30000000-0000-4000-8000-000000000098',
+    deviceId: 'db-check-device',
+    cattleId: '10000000-0000-4000-8000-000000000003',
+    eventType: 'INACTIVITY',
+    inactiveMinutes: 90,
+    confidence: 0.93,
+    capturedAt: '2026-06-30T10:10:00.000Z',
+    source: 'CONTROLLED_TEST_DATA'
+  });
+  assert.equal(duplicateAlertingEvent.alertGenerated, true);
+  assert.equal(duplicateAlertingEvent.alertId, alertingEvent.alertId);
 
   const events = await listActivityEventsUseCase.execute({
     cattleId: '10000000-0000-4000-8000-000000000001',
@@ -57,6 +88,12 @@ try {
   });
   assert.ok(events.data.some((record) => record.eventId === event.eventId));
   assert.equal(events.data.find((record) => record.eventId === event.eventId)?.capturedAt, '2026-06-30T10:00:00.000Z');
+
+  const alerts = await listAlertsUseCase.execute({ status: 'PENDING', severity: 'HIGH', cattleId: '10000000-0000-4000-8000-000000000003' });
+  assert.ok(alerts.data.some((record) => record.id === alertingEvent.alertId), 'generated alert should be listable from MariaDB');
+  const alertDetail = await getAlertDetailUseCase.execute(alertingEvent.alertId);
+  assert.equal(alertDetail.cattleId, '10000000-0000-4000-8000-000000000003');
+  assert.equal(alertDetail.eventId, '30000000-0000-4000-8000-000000000098');
 
   const observation = await addAlertObservationUseCase.execute({
     alertId: '20000000-0000-4000-8000-000000000001',
