@@ -5,10 +5,11 @@ import { AppController } from './app.controller';
 import { AlertsModule } from './alerts/alerts.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { CattleMonitoringModule } from './cattle-monitoring/cattle-monitoring.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 import { InspectionsModule } from './inspections/inspections.module';
 
 @Module({
-  imports: [AuthenticationModule, CattleMonitoringModule, ActivityEventsModule, AlertsModule, InspectionsModule],
+  imports: [AuthenticationModule, CattleMonitoringModule, ActivityEventsModule, AlertsModule, InspectionsModule, DashboardModule],
   controllers: [AppController]
 })
 export class AppModule {}

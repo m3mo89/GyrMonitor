@@ -1,5 +1,5 @@
 import type { ApiClient } from '../../shared/services/api-client';
-import type { CattleDetail, CattleHistoryPlaceholder, CattleSummary, PaginationMetadata } from './cattle.types';
+import type { CattleDetail, CattleHistory, CattleSummary, PaginationMetadata } from './cattle.types';
 
 type ApiEnvelope<T> = {
   success: true;
@@ -30,7 +30,7 @@ export async function getCattleDetail(apiClient: ApiClient, id: string): Promise
   return response.data;
 }
 
-export async function getCattleHistory(apiClient: ApiClient, id: string): Promise<CattleHistoryPlaceholder> {
-  const response = await apiClient.request<ApiEnvelope<CattleHistoryPlaceholder>>(`/cattle/${id}/events`);
+export async function getCattleHistory(apiClient: ApiClient, id: string): Promise<CattleHistory> {
+  const response = await apiClient.request<ApiEnvelope<CattleHistory>>(`/cattle/${id}/events`);
   return response.data;
 }

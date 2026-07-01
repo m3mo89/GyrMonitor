@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { LoadingState, UiState } from '../../shared/components/UiState';
 import { useAuth } from '../auth/AuthProvider';
 import { listCattle, type CattleListResult } from './cattle.api';
 
@@ -46,64 +47,64 @@ export function CattleListPage({ onOpenCattle }: CattleListPageProps) {
   }, [apiClient]);
 
   if (isLoading) {
-    return (
-      <main>
-        <h1>Cattle</h1>
-        <p>Cargando cattle...</p>
-      </main>
-    );
+    return <LoadingState title="Cargando cattle..." />;
   }
 
   if (error) {
     return (
-      <main>
-        <h1>Cattle</h1>
-        <p role="alert">{error}</p>
-      </main>
+      <UiState title="No se pudo cargar cattle" description={error} tone="danger" />
     );
   }
 
   if (!result || result.data.length === 0) {
     return (
-      <main>
-        <h1>Cattle</h1>
-        <p>No hay cattle registrados para mostrar.</p>
-      </main>
+      <UiState title="No hay cattle registrados" description="Cuando exista informacion del hato, aparecera aqui para consulta operativa." />
     );
   }
 
   return (
-    <main>
-      <h1>Cattle</h1>
-      <p>Total: {result.pagination.total} cattle registrados</p>
-      <table>
-        <thead>
-          <tr>
-            <th>Tag</th>
-            <th>Breed</th>
-            <th>Sex</th>
-            <th>Status</th>
-            <th>Risk</th>
-            <th>Detalle</th>
-          </tr>
-        </thead>
-        <tbody>
-          {result.data.map((cattle) => (
-            <tr key={cattle.id}>
-              <td>{cattle.tagNumber}</td>
-              <td>{cattle.breed}</td>
-              <td>{cattle.sex}</td>
-              <td>{cattle.status}</td>
-              <td>{cattle.lastRiskScore ?? 'N/A'}</td>
-              <td>
-                <button onClick={() => onOpenCattle(cattle.id)} type="button">
-                  Ver
-                </button>
-              </td>
+    <div className="page-stack">
+      <header className="page-header">
+        <div>
+          <p className="eyebrow">Hato</p>
+          <h1>Cattle</h1>
+          <p>{result.pagination.total} cattle registrados para seguimiento de riesgo y actividad.</p>
+        </div>
+      </header>
+      <div className="data-table-wrap">
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>Tag</th>
+              <th>Breed</th>
+              <th>Sex</th>
+              <th>Status</th>
+              <th>Risk</th>
+              <th>Detalle</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </main>
+          </thead>
+          <tbody>
+            {result.data.map((cattle) => (
+              <tr key={cattle.id}>
+                <td>
+                  <strong>{cattle.tagNumber}</strong>
+                </td>
+                <td>{cattle.breed}</td>
+                <td>{cattle.sex}</td>
+                <td>
+                  <span className="status-badge">{cattle.status}</span>
+                </td>
+                <td>{cattle.lastRiskScore ?? 'N/A'}</td>
+                <td>
+                  <button className="button" onClick={() => onOpenCattle(cattle.id)} type="button">
+                    Ver
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 }

@@ -36,34 +36,42 @@ export function LoginPage({ onAuthenticated }: { onAuthenticated: () => void }) 
   }
 
   return (
-    <main>
-      <h1>GyrMonitor</h1>
-      <form onSubmit={handleSubmit} aria-label="Iniciar sesion">
-        <label>
+    <main className="auth-screen">
+      <section className="auth-card">
+        <p className="eyebrow">GyrMonitor</p>
+        <h1>Iniciar sesion</h1>
+        <p>Accede al monitoreo operativo de cattle, alertas y dashboard del MVP.</p>
+        <form className="form-stack" onSubmit={handleSubmit} aria-label="Iniciar sesion">
+          <label className="field">
           Correo
-          <input
-            autoComplete="username"
-            name="email"
-            onChange={(event) => setEmail(event.target.value)}
-            type="email"
-            value={email}
-          />
-        </label>
-        <label>
+            <input
+              autoComplete="username"
+              name="email"
+              onChange={(event) => setEmail(event.target.value)}
+              type="email"
+              value={email}
+            />
+          </label>
+          <label className="field">
           Contrasena
-          <input
-            autoComplete="current-password"
-            name="password"
-            onChange={(event) => setPassword(event.target.value)}
-            type="password"
-            value={password}
-          />
-        </label>
-        {error ? <p role="alert">{error}</p> : null}
-        <button disabled={isSubmitting} type="submit">
-          {isSubmitting ? 'Entrando...' : 'Entrar'}
-        </button>
-      </form>
+            <input
+              autoComplete="current-password"
+              name="password"
+              onChange={(event) => setPassword(event.target.value)}
+              type="password"
+              value={password}
+            />
+          </label>
+          {error ? (
+            <p className="status-badge status-badge--danger" role="alert">
+              {error}
+            </p>
+          ) : null}
+          <button className="button button--primary" disabled={isSubmitting} type="submit">
+            {isSubmitting ? 'Entrando...' : 'Entrar'}
+          </button>
+        </form>
+      </section>
     </main>
   );
 }
