@@ -29,3 +29,13 @@ export type UpdateAlertStatusResult = {
   status: AlertStatus;
   attendedAt: string | null;
 };
+
+export type AlertObservation = {
+  id: string;
+  observationId?: string;
+  alertId: string;
+  userId: string;
+  comment: string;
+  createdAt: string;
+  clientId?: string | null;
+};

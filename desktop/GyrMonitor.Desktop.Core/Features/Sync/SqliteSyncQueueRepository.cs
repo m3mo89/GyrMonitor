@@ -1,4 +1,5 @@
-using GyrMonitor.Desktop.Core.Shared.Storage;
+using GyrMonitor.Client.Core.Sync;
+using GyrMonitor.Client.Core.Storage;
 using SQLite;
 
 namespace GyrMonitor.Desktop.Core.Features.Sync;

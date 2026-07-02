@@ -1,3 +1,5 @@
+using GyrMonitor.Client.Core.Sync;
+using GyrMonitor.Client.Core.Session;
 using GyrMonitor.Mobile.Core.Features.Observations;
 using GyrMonitor.Mobile.Core.Features.Sync;
 using Moq;
@@ -18,7 +20,7 @@ public class ObservationCaptureViewModelTests
         var syncQueue = new Mock<ISyncQueueRepository>();
         syncQueue.Setup(repo => repo.AddAsync(It.IsAny<SyncQueueItem>())).Callback<SyncQueueItem>(q => savedQueueItem = q).Returns(Task.CompletedTask);
 
-        var viewModel = new ObservationCaptureViewModel(observations.Object, syncQueue.Object, "MOBILE-001")
+        var viewModel = new ObservationCaptureViewModel(observations.Object, syncQueue.Object, SupportedSession(), "MOBILE-001")
         {
             AlertId = "alert-1",
             Comment = "Checked in field"
@@ -36,11 +38,13 @@ public class ObservationCaptureViewModelTests
         Assert.Equal("alert-1", savedObservation!.AlertId);
         Assert.Equal("Checked in field", savedObservation.Comment);
         Assert.Equal(SyncStatuses.Pending, savedObservation.SyncStatus);
+        Assert.Equal("user-1", savedObservation.OwnerUserId);
 
         Assert.NotNull(savedQueueItem);
         Assert.Equal(SyncEntityTypes.Observation, savedQueueItem!.EntityType);
         Assert.Equal(savedObservation.LocalId, savedQueueItem.EntityLocalId);
         Assert.Equal(SyncStatuses.Pending, savedQueueItem.Status);
+        Assert.Equal("user-1", savedQueueItem.OwnerUserId);
     }
 
     [Fact]
@@ -49,7 +53,7 @@ public class ObservationCaptureViewModelTests
         var observations = new Mock<IPendingObservationRepository>();
         var syncQueue = new Mock<ISyncQueueRepository>();
 
-        var viewModel = new ObservationCaptureViewModel(observations.Object, syncQueue.Object, "MOBILE-001")
+        var viewModel = new ObservationCaptureViewModel(observations.Object, syncQueue.Object, SupportedSession(), "MOBILE-001")
         {
             AlertId = "alert-1",
             Comment = "   "
@@ -68,10 +72,17 @@ public class ObservationCaptureViewModelTests
         var observations = new Mock<IPendingObservationRepository>();
         var syncQueue = new Mock<ISyncQueueRepository>();
 
-        var viewModel = new ObservationCaptureViewModel(observations.Object, syncQueue.Object, "MOBILE-001") { Comment = "Checked" };
+        var viewModel = new ObservationCaptureViewModel(observations.Object, syncQueue.Object, SupportedSession(), "MOBILE-001") { Comment = "Checked" };
 
         await viewModel.SaveCommand.ExecuteAsync(null);
 
         Assert.Equal("Select an alert before saving an observation.", viewModel.ErrorMessage);
+    }
+
+    private static IAuthSession SupportedSession()
+    {
+        var authSession = new Mock<IAuthSession>();
+        authSession.Setup(session => session.GetAsync()).ReturnsAsync(new AuthSessionData("token", "user-1", "Field", "field@example.com", "FIELD_OPERATOR"));
+        return authSession.Object;
     }
 }

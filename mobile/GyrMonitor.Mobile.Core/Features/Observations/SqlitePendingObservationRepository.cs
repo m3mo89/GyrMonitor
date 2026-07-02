@@ -1,5 +1,6 @@
+using GyrMonitor.Client.Core.Sync;
 using GyrMonitor.Mobile.Core.Features.Sync;
-using GyrMonitor.Mobile.Core.Shared.Storage;
+using GyrMonitor.Client.Core.Storage;
 using SQLite;
 
 namespace GyrMonitor.Mobile.Core.Features.Observations;
@@ -28,10 +29,24 @@ public sealed class SqlitePendingObservationRepository : IPendingObservationRepo
             .ToListAsync();
     }
 
+    public async Task<IReadOnlyList<PendingObservation>> GetPendingForUserAsync(string ownerUserId)
+    {
+        var connection = await GetInitializedConnectionAsync();
+        return await connection.Table<PendingObservation>()
+            .Where(observation => observation.OwnerUserId == ownerUserId && (observation.SyncStatus == SyncStatuses.Pending || observation.SyncStatus == SyncStatuses.Failed))
+            .ToListAsync();
+    }
+
     public async Task<PendingObservation?> GetByLocalIdAsync(string localId)
     {
         var connection = await GetInitializedConnectionAsync();
         return await connection.Table<PendingObservation>().Where(observation => observation.LocalId == localId).FirstOrDefaultAsync();
+    }
+
+    public async Task<PendingObservation?> GetByLocalIdForUserAsync(string localId, string ownerUserId)
+    {
+        var connection = await GetInitializedConnectionAsync();
+        return await connection.Table<PendingObservation>().Where(observation => observation.LocalId == localId && observation.OwnerUserId == ownerUserId).FirstOrDefaultAsync();
     }
 
     public async Task UpdateAsync(PendingObservation observation)
@@ -44,6 +59,15 @@ public sealed class SqlitePendingObservationRepository : IPendingObservationRepo
     {
         var connection = await GetInitializedConnectionAsync();
         return await connection.Table<PendingObservation>().OrderByDescending(observation => observation.CreatedAt).ToListAsync();
+    }
+
+    public async Task<IReadOnlyList<PendingObservation>> GetAllForUserAsync(string ownerUserId)
+    {
+        var connection = await GetInitializedConnectionAsync();
+        return await connection.Table<PendingObservation>()
+            .Where(observation => observation.OwnerUserId == ownerUserId)
+            .OrderByDescending(observation => observation.CreatedAt)
+            .ToListAsync();
     }
 
     private async Task<SQLiteAsyncConnection> GetInitializedConnectionAsync()

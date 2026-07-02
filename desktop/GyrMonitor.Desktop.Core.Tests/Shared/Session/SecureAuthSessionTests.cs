@@ -1,4 +1,4 @@
-using GyrMonitor.Desktop.Core.Shared.Session;
+using GyrMonitor.Client.Core.Session;
 
 namespace GyrMonitor.Desktop.Core.Tests.Shared.Session;
 

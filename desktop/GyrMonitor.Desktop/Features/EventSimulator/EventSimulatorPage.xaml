@@ -7,8 +7,10 @@
     <ScrollView>
         <VerticalStackLayout Padding="16" Spacing="12">
 
-            <Label Text="Cattle id" FontAttributes="Bold" />
-            <Entry Placeholder="cattle uuid" Text="{Binding CattleId}" />
+            <Label Text="Cattle" FontAttributes="Bold" />
+            <Picker ItemsSource="{Binding CattleOptions}"
+                    ItemDisplayBinding="{Binding DisplayName}"
+                    SelectedItem="{Binding SelectedCattle}" />
 
             <Label Text="Event type" FontAttributes="Bold" />
             <HorizontalStackLayout Spacing="12">
@@ -22,6 +24,7 @@
             <Label Text="Confidence (0-1)" />
             <Entry Text="{Binding Confidence}" Keyboard="Numeric" />
 
+            <Button Text="Refresh cattle" Command="{Binding LoadCattleCommand}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
             <Button Text="Generate event" Command="{Binding GenerateCommand}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
 
             <Label Text="{Binding ErrorMessage}"

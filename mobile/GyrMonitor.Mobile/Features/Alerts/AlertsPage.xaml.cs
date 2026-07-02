@@ -1,5 +1,6 @@
 using GyrMonitor.Mobile.Core.Features.Alerts;
-using GyrMonitor.Mobile.Core.Shared.Session;
+using GyrMonitor.Client.Core.Session;
+using GyrMonitor.Mobile.Core.Shared.Authorization;
 using GyrMonitor.Mobile.Shared.Navigation;
 
 namespace GyrMonitor.Mobile.Features.Alerts;
@@ -21,7 +22,8 @@ public partial class AlertsPage : ContentPage
     {
         base.OnAppearing();
 
-        if (await _authSession.GetAsync() is null)
+        var session = await _authSession.GetAsync();
+        if (session is null || !MobileRoleAccess.IsSupported(session.Role))
         {
             await Shell.Current.GoToAsync($"//{Routes.Login}");
             return;

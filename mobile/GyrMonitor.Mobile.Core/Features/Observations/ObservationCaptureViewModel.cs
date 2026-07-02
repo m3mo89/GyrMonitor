@@ -1,6 +1,9 @@
+using GyrMonitor.Client.Core.Sync;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GyrMonitor.Mobile.Core.Features.Sync;
+using GyrMonitor.Client.Core.Session;
+using GyrMonitor.Mobile.Core.Shared.Authorization;
 
 namespace GyrMonitor.Mobile.Core.Features.Observations;
 
@@ -8,6 +11,7 @@ public sealed partial class ObservationCaptureViewModel : ObservableObject
 {
     private readonly IPendingObservationRepository _observations;
     private readonly ISyncQueueRepository _syncQueue;
+    private readonly IAuthSession _authSession;
     private readonly string _clientId;
 
     public event EventHandler? Saved;
@@ -27,10 +31,11 @@ public sealed partial class ObservationCaptureViewModel : ObservableObject
     [ObservableProperty]
     private bool savedOffline;
 
-    public ObservationCaptureViewModel(IPendingObservationRepository observations, ISyncQueueRepository syncQueue, string clientId)
+    public ObservationCaptureViewModel(IPendingObservationRepository observations, ISyncQueueRepository syncQueue, IAuthSession authSession, string clientId)
     {
         _observations = observations;
         _syncQueue = syncQueue;
+        _authSession = authSession;
         _clientId = clientId;
     }
 
@@ -60,6 +65,13 @@ public sealed partial class ObservationCaptureViewModel : ObservableObject
 
         try
         {
+            var session = await _authSession.GetAsync();
+            if (session is null || !MobileRoleAccess.IsSupported(session.Role))
+            {
+                ErrorMessage = "This mobile workflow is available only for field operators.";
+                return;
+            }
+
             var now = DateTime.UtcNow.ToString("O");
             var observation = new PendingObservation
             {
@@ -69,6 +81,7 @@ public sealed partial class ObservationCaptureViewModel : ObservableObject
                 Comment = Comment.Trim(),
                 CreatedAt = now,
                 ClientId = _clientId,
+                OwnerUserId = session.UserId,
                 SyncStatus = SyncStatuses.Pending
             };
 
@@ -81,7 +94,8 @@ public sealed partial class ObservationCaptureViewModel : ObservableObject
                 EntityLocalId = observation.LocalId,
                 Operation = SyncOperations.Create,
                 Status = SyncStatuses.Pending,
-                CreatedAt = now
+                CreatedAt = now,
+                OwnerUserId = session.UserId
             });
 
             Comment = string.Empty;

@@ -1,4 +1,7 @@
+using GyrMonitor.Client.Core.Sync;
+using GyrMonitor.Client.Core.Session;
 using GyrMonitor.Mobile.Core.Features.Sync;
+using Moq;
 
 namespace GyrMonitor.Mobile.Core.Tests.Features.Sync;
 
@@ -8,7 +11,7 @@ public class SyncViewModelTests
     public async Task RefreshPendingCountAsync_ReflectsQueuedItems()
     {
         var (queue, observations, _) = await SeedAsync();
-        var service = new MobileSyncService(queue, observations, new NeverCalledSyncApi(), "MOBILE-001");
+        var service = CreateService(queue, observations, new NeverCalledSyncApi());
         var viewModel = new SyncViewModel(service);
 
         await viewModel.RefreshPendingCountCommand.ExecuteAsync(null);
@@ -21,7 +24,7 @@ public class SyncViewModelTests
     {
         var (queue, observations, localId) = await SeedAsync();
         var syncApi = new StubSyncApi(localId);
-        var service = new MobileSyncService(queue, observations, syncApi, "MOBILE-001");
+        var service = CreateService(queue, observations, syncApi);
         var viewModel = new SyncViewModel(service);
 
         await viewModel.SyncNowCommand.ExecuteAsync(null);
@@ -43,7 +46,8 @@ public class SyncViewModelTests
             AlertId = "alert-1",
             Comment = "Checked",
             CreatedAt = "2026-06-30T02:00:00.000Z",
-            ClientId = "MOBILE-001"
+            ClientId = "MOBILE-001",
+            OwnerUserId = "user-1"
         };
         await observations.AddAsync(observation);
 
@@ -53,7 +57,8 @@ public class SyncViewModelTests
             EntityType = SyncEntityTypes.Observation,
             EntityLocalId = observation.LocalId,
             Status = SyncStatuses.Pending,
-            CreatedAt = observation.CreatedAt
+            CreatedAt = observation.CreatedAt,
+            OwnerUserId = "user-1"
         });
 
         return (queue, observations, observation.LocalId);
@@ -80,5 +85,12 @@ public class SyncViewModelTests
                 Failed = 0,
                 Results = new List<SyncObservationItemResultDto> { new() { LocalId = _localId, ObservationId = "22222222-2222-4222-8222-222222222222", Status = "SYNCED", ServerId = "server-1" } }
             });
+    }
+
+    private static MobileSyncService CreateService(ISyncQueueRepository queue, Core.Features.Observations.IPendingObservationRepository observations, ISyncObservationsApi syncApi)
+    {
+        var authSession = new Mock<IAuthSession>();
+        authSession.Setup(session => session.GetAsync()).ReturnsAsync(new AuthSessionData("token", "user-1", "Field", "field@example.com", "FIELD_OPERATOR"));
+        return new MobileSyncService(queue, observations, syncApi, authSession.Object, "MOBILE-001");
     }
 }

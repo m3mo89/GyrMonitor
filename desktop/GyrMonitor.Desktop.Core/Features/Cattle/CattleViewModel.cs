@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using GyrMonitor.Desktop.Core.Shared.Networking;
+using GyrMonitor.Client.Core.Networking;
 
 namespace GyrMonitor.Desktop.Core.Features.Cattle;
 

@@ -80,6 +80,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\..\shared\GyrMonitor.Client.Core\GyrMonitor.Client.Core.csproj" />
 	  <ProjectReference Include="..\GyrMonitor.Desktop.Core\GyrMonitor.Desktop.Core.csproj" />
 	</ItemGroup>
 

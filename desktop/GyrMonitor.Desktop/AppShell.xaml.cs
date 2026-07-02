@@ -1,6 +1,6 @@
 using GyrMonitor.Desktop.Core.Features.Sync;
-using GyrMonitor.Desktop.Core.Shared.Networking;
-using GyrMonitor.Desktop.Core.Shared.Session;
+using GyrMonitor.Client.Core.Networking;
+using GyrMonitor.Client.Core.Session;
 using GyrMonitor.Desktop.Shared.Navigation;
 
 namespace GyrMonitor.Desktop;

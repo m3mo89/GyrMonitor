@@ -1,5 +1,5 @@
 using GyrMonitor.Desktop.Core.Features.Dashboard;
-using GyrMonitor.Desktop.Core.Shared.Session;
+using GyrMonitor.Client.Core.Session;
 using GyrMonitor.Desktop.Shared.Navigation;
 
 namespace GyrMonitor.Desktop.Features.Dashboard;

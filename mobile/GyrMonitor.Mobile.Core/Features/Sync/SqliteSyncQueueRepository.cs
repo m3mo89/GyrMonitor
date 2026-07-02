@@ -1,4 +1,5 @@
-using GyrMonitor.Mobile.Core.Shared.Storage;
+using GyrMonitor.Client.Core.Sync;
+using GyrMonitor.Client.Core.Storage;
 using SQLite;
 
 namespace GyrMonitor.Mobile.Core.Features.Sync;
@@ -28,6 +29,15 @@ public sealed class SqliteSyncQueueRepository : ISyncQueueRepository
             .ToListAsync();
     }
 
+    public async Task<IReadOnlyList<SyncQueueItem>> GetPendingForUserAsync(string ownerUserId)
+    {
+        var connection = await GetInitializedConnectionAsync();
+        return await connection.Table<SyncQueueItem>()
+            .Where(item => item.OwnerUserId == ownerUserId && (item.Status == SyncStatuses.Pending || item.Status == SyncStatuses.Failed))
+            .OrderBy(item => item.CreatedAt)
+            .ToListAsync();
+    }
+
     public async Task UpdateAsync(SyncQueueItem item)
     {
         var connection = await GetInitializedConnectionAsync();
@@ -38,6 +48,15 @@ public sealed class SqliteSyncQueueRepository : ISyncQueueRepository
     {
         var connection = await GetInitializedConnectionAsync();
         return await connection.Table<SyncQueueItem>().OrderByDescending(item => item.CreatedAt).ToListAsync();
+    }
+
+    public async Task<IReadOnlyList<SyncQueueItem>> GetAllForUserAsync(string ownerUserId)
+    {
+        var connection = await GetInitializedConnectionAsync();
+        return await connection.Table<SyncQueueItem>()
+            .Where(item => item.OwnerUserId == ownerUserId)
+            .OrderByDescending(item => item.CreatedAt)
+            .ToListAsync();
     }
 
     private async Task<SQLiteAsyncConnection> GetInitializedConnectionAsync()

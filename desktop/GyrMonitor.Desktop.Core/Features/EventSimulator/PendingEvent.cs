@@ -1,3 +1,4 @@
+using GyrMonitor.Client.Core.Sync;
 using GyrMonitor.Desktop.Core.Features.Sync;
 using SQLite;
 

@@ -2,9 +2,9 @@ using GyrMonitor.Mobile.Core.Features.Alerts;
 using GyrMonitor.Mobile.Core.Features.Authentication;
 using GyrMonitor.Mobile.Core.Features.Observations;
 using GyrMonitor.Mobile.Core.Features.Sync;
-using GyrMonitor.Mobile.Core.Shared.Networking;
-using GyrMonitor.Mobile.Core.Shared.Session;
-using GyrMonitor.Mobile.Core.Shared.Storage;
+using GyrMonitor.Client.Core.Networking;
+using GyrMonitor.Client.Core.Session;
+using GyrMonitor.Client.Core.Storage;
 using GyrMonitor.Mobile.Features.Alerts;
 using GyrMonitor.Mobile.Features.Authentication;
 using GyrMonitor.Mobile.Features.Observations;
@@ -70,6 +70,7 @@ public static class MauiProgram
             sp.GetRequiredService<ISyncQueueRepository>(),
             sp.GetRequiredService<IPendingObservationRepository>(),
             sp.GetRequiredService<ISyncObservationsApi>(),
+            sp.GetRequiredService<IAuthSession>(),
             MobileClientId));
     }
 
@@ -82,6 +83,7 @@ public static class MauiProgram
         services.AddTransient(sp => new ObservationCaptureViewModel(
             sp.GetRequiredService<IPendingObservationRepository>(),
             sp.GetRequiredService<ISyncQueueRepository>(),
+            sp.GetRequiredService<IAuthSession>(),
             MobileClientId));
     }
 

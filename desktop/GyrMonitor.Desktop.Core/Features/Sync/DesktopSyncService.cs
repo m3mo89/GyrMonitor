@@ -1,5 +1,4 @@
-using System.Security.Cryptography;
-using System.Text;
+using GyrMonitor.Client.Core.Sync;
 using GyrMonitor.Desktop.Core.Features.EventSimulator;
 
 namespace GyrMonitor.Desktop.Core.Features.Sync;
@@ -74,7 +73,7 @@ public sealed class DesktopSyncService
                 .ToList()
         };
 
-        var idempotencyKey = ComputeIdempotencyKey(itemsByLocalId.Values.Select(pair => pair.Event.EventId));
+        var idempotencyKey = SyncIdempotency.ComputeKey(itemsByLocalId.Values.Select(pair => pair.Event.EventId));
 
         try
         {
@@ -148,10 +147,4 @@ public sealed class DesktopSyncService
         return new DesktopSyncSummary(synced, duplicated, failed, null);
     }
 
-    private static string ComputeIdempotencyKey(IEnumerable<string> eventIds)
-    {
-        var joined = string.Join(",", eventIds.OrderBy(id => id, StringComparer.Ordinal));
-        var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(joined));
-        return Convert.ToHexString(bytes).ToLowerInvariant();
-    }
 }

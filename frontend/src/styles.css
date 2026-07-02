@@ -545,6 +545,29 @@ meter {
   font-weight: 800;
 }
 
+.observation-list {
+  display: grid;
+  gap: 10px;
+}
+
+.observation-item {
+  display: grid;
+  gap: 6px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+.observation-item p {
+  margin-bottom: 0;
+  color: var(--text);
+}
+
+.observation-item small {
+  color: var(--muted);
+}
+
 @media (max-width: 900px) {
   .app-shell {
     grid-template-columns: 1fr;

@@ -1,4 +1,4 @@
-using GyrMonitor.Desktop.Core.Shared.Storage;
+using GyrMonitor.Client.Core.Storage;
 using SQLite;
 
 namespace GyrMonitor.Desktop.Core.Features.EventSimulator;

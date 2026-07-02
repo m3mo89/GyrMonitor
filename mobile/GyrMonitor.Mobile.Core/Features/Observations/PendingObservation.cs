@@ -1,3 +1,4 @@
+using GyrMonitor.Client.Core.Sync;
 using GyrMonitor.Mobile.Core.Features.Sync;
 using SQLite;
 
@@ -18,6 +19,8 @@ public sealed class PendingObservation
     public string CreatedAt { get; set; } = string.Empty;
 
     public string? ClientId { get; set; }
+
+    public string OwnerUserId { get; set; } = string.Empty;
 
     public string SyncStatus { get; set; } = SyncStatuses.Pending;
 

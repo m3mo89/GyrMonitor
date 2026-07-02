@@ -1,6 +1,6 @@
 using GyrMonitor.Desktop.Core.Features.Authentication;
-using GyrMonitor.Desktop.Core.Shared.Networking;
-using GyrMonitor.Desktop.Core.Shared.Session;
+using GyrMonitor.Client.Core.Networking;
+using GyrMonitor.Client.Core.Session;
 using Moq;
 
 namespace GyrMonitor.Desktop.Core.Tests.Features.Authentication;

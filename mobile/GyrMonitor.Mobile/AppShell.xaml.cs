@@ -1,6 +1,7 @@
 using GyrMonitor.Mobile.Core.Features.Sync;
-using GyrMonitor.Mobile.Core.Shared.Networking;
-using GyrMonitor.Mobile.Core.Shared.Session;
+using GyrMonitor.Client.Core.Networking;
+using GyrMonitor.Client.Core.Session;
+using GyrMonitor.Mobile.Core.Shared.Authorization;
 using GyrMonitor.Mobile.Features.Alerts;
 using GyrMonitor.Mobile.Features.Observations;
 using GyrMonitor.Mobile.Shared.Navigation;
@@ -11,13 +12,15 @@ public partial class AppShell : Shell
 {
     private readonly IConnectivityService _connectivity;
     private readonly MobileSyncService _syncService;
+    private readonly IAuthSession _authSession;
 
-    public AppShell(IConnectivityService connectivity, MobileSyncService syncService)
+    public AppShell(IConnectivityService connectivity, MobileSyncService syncService, IAuthSession authSession)
     {
         InitializeComponent();
 
         _connectivity = connectivity;
         _syncService = syncService;
+        _authSession = authSession;
 
         Routing.RegisterRoute(Routes.AlertDetail, typeof(AlertDetailPage));
         Routing.RegisterRoute(Routes.ObservationCapture, typeof(ObservationCapturePage));
@@ -31,8 +34,12 @@ public partial class AppShell : Shell
         MainThread.BeginInvokeOnMainThread(async () => await GoToAsync($"//{Routes.Login}"));
     }
 
-    private void OnConnectivityRestored(object? sender, EventArgs e)
+    private async void OnConnectivityRestored(object? sender, EventArgs e)
     {
-        _ = _syncService.SyncPendingObservationsAsync();
+        var session = await _authSession.GetAsync();
+        if (MobileRoleAccess.IsSupported(session?.Role))
+        {
+            _ = _syncService.SyncPendingObservationsAsync();
+        }
     }
 }

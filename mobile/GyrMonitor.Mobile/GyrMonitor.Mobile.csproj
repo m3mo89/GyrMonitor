@@ -71,6 +71,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\..\shared\GyrMonitor.Client.Core\GyrMonitor.Client.Core.csproj" />
 	  <ProjectReference Include="..\GyrMonitor.Mobile.Core\GyrMonitor.Mobile.Core.csproj" />
 	</ItemGroup>
 

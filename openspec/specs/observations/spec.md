@@ -51,6 +51,13 @@ The system SHALL avoid duplicate backend records when an offline client retries 
 - **WHEN** an authorized user submits an observation with a valid client-side `createdAt` timestamp
 - **THEN** the persisted observation keeps that original timestamp rather than replacing it with server receipt time
 
+### Requirement: Duplicate mobile observation retry traceability
+The observations capability SHALL return the existing backend observation when mobile retries a previously synchronized `observationId`.
+
+#### Scenario: Retried mobile observation returns existing backend record
+- **WHEN** mobile retries synchronization for an observation whose `observationId` already exists
+- **THEN** the backend does not create another observation and returns a duplicate or existing-record outcome that includes the existing server id
+
 ### Requirement: Alert observation consultation
 The system SHALL allow observations to be consulted from alert context for traceability, following RF-14 in `knowledge-base/03-requirements/functional-requirements.md`.
 
@@ -61,6 +68,17 @@ The system SHALL allow observations to be consulted from alert context for trace
 #### Scenario: Unknown alert observations return not found
 - **WHEN** an authenticated authorized user requests observations for an alert id that does not exist
 - **THEN** the API returns the standardized not-found error response
+
+### Requirement: Mobile-to-backend observation traceability
+The observations capability SHALL support release validation from a mobile captured observation through backend persistence and alert-scoped consultation.
+
+#### Scenario: Synced mobile observation is consultable by alert
+- **WHEN** a mobile observation is synchronized successfully through `POST /api/v1/sync/observations`
+- **THEN** the observation is returned by `GET /api/v1/alerts/{id}/observations` for the related alert
+
+#### Scenario: Synced mobile observation preserves client identifiers
+- **WHEN** a mobile observation is persisted through synchronization
+- **THEN** the backend record preserves the client-provided `observationId`, `clientId`, and original `createdAt`
 
 ### Requirement: Persisted observation repository
 The backend SHALL persist alert observations in MariaDB while preserving alert-scoped creation, idempotency, timestamp preservation, and consultation behavior.

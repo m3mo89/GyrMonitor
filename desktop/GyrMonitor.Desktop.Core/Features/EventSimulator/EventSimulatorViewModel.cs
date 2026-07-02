@@ -1,5 +1,8 @@
+using GyrMonitor.Client.Core.Sync;
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GyrMonitor.Desktop.Core.Features.Cattle;
 using GyrMonitor.Desktop.Core.Features.Sync;
 
 namespace GyrMonitor.Desktop.Core.Features.EventSimulator;
@@ -8,11 +11,17 @@ public sealed partial class EventSimulatorViewModel : ObservableObject
 {
     private readonly IPendingEventRepository _events;
     private readonly ISyncQueueRepository _syncQueue;
+    private readonly ICattleApi _cattleApi;
 
     public event EventHandler? Saved;
 
+    public ObservableCollection<CattleSelectionItem> CattleOptions { get; } = new();
+
     [ObservableProperty]
-    private string cattleId = string.Empty;
+    [NotifyPropertyChangedFor(nameof(HasCattleOptions))]
+    private CattleSelectionItem? selectedCattle;
+
+    public bool HasCattleOptions => CattleOptions.Count > 0;
 
     [ObservableProperty]
     private bool isInactivity = true;
@@ -32,10 +41,49 @@ public sealed partial class EventSimulatorViewModel : ObservableObject
     [ObservableProperty]
     private bool savedOffline;
 
-    public EventSimulatorViewModel(IPendingEventRepository events, ISyncQueueRepository syncQueue)
+    public EventSimulatorViewModel(IPendingEventRepository events, ISyncQueueRepository syncQueue, ICattleApi cattleApi)
     {
         _events = events;
         _syncQueue = syncQueue;
+        _cattleApi = cattleApi;
+    }
+
+    [RelayCommand]
+    public async Task LoadCattleAsync()
+    {
+        if (IsBusy)
+        {
+            return;
+        }
+
+        IsBusy = true;
+        ErrorMessage = null;
+
+        try
+        {
+            var cattle = await _cattleApi.GetCattleAsync();
+            CattleOptions.Clear();
+            foreach (var item in cattle)
+            {
+                CattleOptions.Add(new CattleSelectionItem(item.Id, item.TagNumber, item.Status));
+            }
+
+            OnPropertyChanged(nameof(HasCattleOptions));
+            SelectedCattle ??= CattleOptions.FirstOrDefault();
+
+            if (CattleOptions.Count == 0)
+            {
+                ErrorMessage = "No cattle records are available for simulation.";
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"Unable to load cattle records: {ex.Message}";
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     [RelayCommand]
@@ -48,9 +96,9 @@ public sealed partial class EventSimulatorViewModel : ObservableObject
 
         ErrorMessage = null;
 
-        if (string.IsNullOrWhiteSpace(CattleId))
+        if (SelectedCattle is null)
         {
-            ErrorMessage = "Select a cattle id before generating an event.";
+            ErrorMessage = "Select a cattle record before generating an event.";
             return;
         }
 
@@ -69,7 +117,7 @@ public sealed partial class EventSimulatorViewModel : ObservableObject
             {
                 LocalId = Guid.NewGuid().ToString(),
                 EventId = Guid.NewGuid().ToString(),
-                CattleId = CattleId,
+                CattleId = SelectedCattle.Id,
                 EventType = IsInactivity ? SimulatedEventTypes.Inactivity : SimulatedEventTypes.Activity,
                 InactiveMinutes = IsInactivity ? InactiveMinutes : null,
                 Confidence = Confidence,
@@ -98,4 +146,11 @@ public sealed partial class EventSimulatorViewModel : ObservableObject
             IsBusy = false;
         }
     }
+}
+
+public sealed record CattleSelectionItem(string Id, string TagNumber, string Status)
+{
+    public string DisplayName => string.IsNullOrWhiteSpace(TagNumber)
+        ? $"{Id} ({Status})"
+        : $"{TagNumber} ({Status})";
 }

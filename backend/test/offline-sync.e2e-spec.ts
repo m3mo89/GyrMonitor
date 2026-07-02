@@ -117,13 +117,26 @@ describe('OfflineSyncController e2e', () => {
     await request(app!.getHttpAdapter().getInstance())
       .post('/sync/observations')
       .set('idempotency-key', 'idem-2')
-      .send({ clientId: 'MOBILE-001', items: [{ localId: 'local-2', observationId, alertId: 'alert-1', comment: 'Checked', createdAt: '2026-06-30T02:00:00.000Z' }] })
+      .send({
+        clientId: 'MOBILE-001',
+        items: [
+          {
+            localId: 'local-2',
+            observationId,
+            alertId: 'alert-1',
+            comment: 'Checked',
+            createdAt: '2026-06-30T02:00:00.000Z',
+            ownerUserId: 'client-side-user-id-must-not-win'
+          }
+        ]
+      })
       .expect(201)
       .expect(({ body }) => {
         expect(body.data.results[0]).toMatchObject({ status: 'SYNCED', serverId: 'server-observation-id' });
       });
 
     expect(syncObservations).toHaveBeenCalledWith(expect.objectContaining({ idempotencyKey: 'idem-2', userId }));
+    expect(syncObservations).not.toHaveBeenCalledWith(expect.objectContaining({ userId: 'client-side-user-id-must-not-win' }));
   });
 
   it('rejects unauthorized roles for sync observations', async () => {

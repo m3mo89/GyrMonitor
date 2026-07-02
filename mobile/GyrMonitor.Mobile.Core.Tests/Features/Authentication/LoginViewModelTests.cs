@@ -1,6 +1,6 @@
 using GyrMonitor.Mobile.Core.Features.Authentication;
-using GyrMonitor.Mobile.Core.Shared.Networking;
-using GyrMonitor.Mobile.Core.Shared.Session;
+using GyrMonitor.Client.Core.Networking;
+using GyrMonitor.Client.Core.Session;
 using Moq;
 
 namespace GyrMonitor.Mobile.Core.Tests.Features.Authentication;
@@ -68,5 +68,29 @@ public class LoginViewModelTests
         await viewModel.LoginCommand.ExecuteAsync(null);
 
         Assert.Equal("Unable to reach the server. Please try again.", viewModel.ErrorMessage);
+    }
+
+    [Fact]
+    public async Task LoginAsync_BlocksUnsupportedMobileRole()
+    {
+        var authApi = new Mock<IAuthApi>();
+        authApi
+            .Setup(api => api.LoginAsync("researcher@gyrmonitor.test", "secret"))
+            .ReturnsAsync(new LoginResponseDataDto
+            {
+                AccessToken = "token-123",
+                User = new AuthenticatedUserDto { Id = "user-2", Name = "Researcher", Email = "researcher@gyrmonitor.test", Role = "RESEARCHER" }
+            });
+
+        var authSession = new Mock<IAuthSession>();
+        var viewModel = new LoginViewModel(authApi.Object, authSession.Object) { Email = "researcher@gyrmonitor.test", Password = "secret" };
+        var raised = false;
+        viewModel.LoginSucceeded += (_, _) => raised = true;
+
+        await viewModel.LoginCommand.ExecuteAsync(null);
+
+        Assert.False(raised);
+        Assert.Equal("This mobile workflow is available only for field operators.", viewModel.ErrorMessage);
+        authSession.Verify(session => session.SaveAsync(It.IsAny<AuthSessionData>()), Times.Never);
     }
 }

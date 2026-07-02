@@ -1,6 +1,7 @@
-using System.Security.Cryptography;
-using System.Text;
+using GyrMonitor.Client.Core.Sync;
 using GyrMonitor.Mobile.Core.Features.Observations;
+using GyrMonitor.Client.Core.Session;
+using GyrMonitor.Mobile.Core.Shared.Authorization;
 
 namespace GyrMonitor.Mobile.Core.Features.Sync;
 
@@ -11,25 +12,39 @@ public sealed class MobileSyncService
     private readonly ISyncQueueRepository _queue;
     private readonly IPendingObservationRepository _observations;
     private readonly ISyncObservationsApi _syncApi;
+    private readonly IAuthSession _authSession;
     private readonly string _clientId;
 
-    public MobileSyncService(ISyncQueueRepository queue, IPendingObservationRepository observations, ISyncObservationsApi syncApi, string clientId)
+    public MobileSyncService(ISyncQueueRepository queue, IPendingObservationRepository observations, ISyncObservationsApi syncApi, IAuthSession authSession, string clientId)
     {
         _queue = queue;
         _observations = observations;
         _syncApi = syncApi;
+        _authSession = authSession;
         _clientId = clientId;
     }
 
     public async Task<int> GetPendingCountAsync()
     {
-        var pending = await _queue.GetPendingAsync();
+        var session = await GetSupportedSessionAsync();
+        if (session is null)
+        {
+            return 0;
+        }
+
+        var pending = await _queue.GetPendingForUserAsync(session.UserId);
         return pending.Count;
     }
 
     public async Task<MobileSyncSummary> SyncPendingObservationsAsync()
     {
-        var pendingQueueItems = (await _queue.GetPendingAsync())
+        var session = await GetSupportedSessionAsync();
+        if (session is null)
+        {
+            return new MobileSyncSummary(0, 0, 0, "No supported mobile session is active.");
+        }
+
+        var pendingQueueItems = (await _queue.GetPendingForUserAsync(session.UserId))
             .Where(item => item.EntityType == SyncEntityTypes.Observation)
             .ToList();
 
@@ -41,7 +56,7 @@ public sealed class MobileSyncService
         var itemsByLocalId = new Dictionary<string, (SyncQueueItem Queue, PendingObservation Observation)>();
         foreach (var queueItem in pendingQueueItems)
         {
-            var observation = await _observations.GetByLocalIdAsync(queueItem.EntityLocalId);
+            var observation = await _observations.GetByLocalIdForUserAsync(queueItem.EntityLocalId, session.UserId);
             if (observation is not null)
             {
                 itemsByLocalId[queueItem.EntityLocalId] = (queueItem, observation);
@@ -69,7 +84,7 @@ public sealed class MobileSyncService
                 .ToList()
         };
 
-        var idempotencyKey = ComputeIdempotencyKey(itemsByLocalId.Values.Select(pair => pair.Observation.ObservationId));
+        var idempotencyKey = SyncIdempotency.ComputeKey(itemsByLocalId.Values.Select(pair => pair.Observation.ObservationId));
 
         try
         {
@@ -143,10 +158,9 @@ public sealed class MobileSyncService
         return new MobileSyncSummary(synced, duplicated, failed, null);
     }
 
-    private static string ComputeIdempotencyKey(IEnumerable<string> observationIds)
+    private async Task<AuthSessionData?> GetSupportedSessionAsync()
     {
-        var joined = string.Join(",", observationIds.OrderBy(id => id, StringComparer.Ordinal));
-        var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(joined));
-        return Convert.ToHexString(bytes).ToLowerInvariant();
+        var session = await _authSession.GetAsync();
+        return MobileRoleAccess.IsSupported(session?.Role) ? session : null;
     }
 }

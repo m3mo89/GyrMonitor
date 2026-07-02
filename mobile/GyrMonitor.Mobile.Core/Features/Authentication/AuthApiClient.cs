@@ -1,4 +1,4 @@
-using GyrMonitor.Mobile.Core.Shared.Networking;
+using GyrMonitor.Client.Core.Networking;
 
 namespace GyrMonitor.Mobile.Core.Features.Authentication;
 

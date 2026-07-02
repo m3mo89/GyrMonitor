@@ -1,7 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using GyrMonitor.Mobile.Core.Shared.Networking;
-using GyrMonitor.Mobile.Core.Shared.Session;
+using GyrMonitor.Client.Core.Networking;
+using GyrMonitor.Client.Core.Session;
+using GyrMonitor.Mobile.Core.Shared.Authorization;
 
 namespace GyrMonitor.Mobile.Core.Features.Authentication;
 
@@ -44,6 +45,12 @@ public sealed partial class LoginViewModel : ObservableObject
         try
         {
             var response = await _authApi.LoginAsync(Email.Trim(), Password);
+            if (!MobileRoleAccess.IsSupported(response.User.Role))
+            {
+                ErrorMessage = "This mobile workflow is available only for field operators.";
+                return;
+            }
+
             await _authSession.SaveAsync(new AuthSessionData(
                 response.AccessToken,
                 response.User.Id,
@@ -63,7 +70,7 @@ public sealed partial class LoginViewModel : ObservableObject
                 _ => "Unable to sign in. Please try again."
             };
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             ErrorMessage = "Unable to reach the server. Please try again.";
         }

@@ -1,5 +1,5 @@
 import type { ApiClient } from '../../shared/services/api-client';
-import type { AlertDetail, AlertListItem, AlertListResult, AlertStatus, UpdateAlertStatusResult } from './alert.types';
+import type { AlertDetail, AlertListItem, AlertListResult, AlertObservation, AlertStatus, UpdateAlertStatusResult } from './alert.types';
 
 type ApiEnvelope<T> = {
   success: true;
@@ -36,5 +36,10 @@ export async function updateAlertStatus(apiClient: ApiClient, id: string, status
     method: 'PATCH',
     body
   });
+  return response.data;
+}
+
+export async function listAlertObservations(apiClient: ApiClient, alertId: string): Promise<AlertObservation[]> {
+  const response = await apiClient.request<ApiEnvelope<AlertObservation[]>>(`/alerts/${alertId}/observations`);
   return response.data;
 }

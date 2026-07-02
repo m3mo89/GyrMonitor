@@ -6,6 +6,10 @@ namespace GyrMonitor.Mobile.Core.Features.Alerts;
 public sealed class LocalAlert
 {
     [PrimaryKey]
+    public string LocalCacheId { get; set; } = string.Empty;
+
+    public string OwnerUserId { get; set; } = string.Empty;
+
     public string Id { get; set; } = string.Empty;
 
     public string CattleId { get; set; } = string.Empty;

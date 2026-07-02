@@ -1,4 +1,4 @@
-using GyrMonitor.Mobile.Core.Shared.Session;
+using GyrMonitor.Client.Core.Session;
 
 namespace GyrMonitor.Mobile.Core.Tests.Shared.Session;
 

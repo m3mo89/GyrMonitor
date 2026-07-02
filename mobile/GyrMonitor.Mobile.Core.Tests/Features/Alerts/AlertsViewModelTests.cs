@@ -1,5 +1,6 @@
 using GyrMonitor.Mobile.Core.Features.Alerts;
-using GyrMonitor.Mobile.Core.Shared.Networking;
+using GyrMonitor.Client.Core.Networking;
+using GyrMonitor.Client.Core.Session;
 using Moq;
 
 namespace GyrMonitor.Mobile.Core.Tests.Features.Alerts;
@@ -25,19 +26,19 @@ public class AlertsViewModelTests
         alertsApi.Setup(api => api.GetAlertsAsync()).ReturnsAsync(new List<AlertSummaryDto> { SampleAlert() });
 
         var localAlerts = new Mock<ILocalAlertRepository>();
-        localAlerts.Setup(repo => repo.ReplaceAllAsync(It.IsAny<IReadOnlyList<LocalAlert>>())).Returns(Task.CompletedTask);
+        localAlerts.Setup(repo => repo.ReplaceAllForUserAsync("user-1", It.IsAny<IReadOnlyList<LocalAlert>>())).Returns(Task.CompletedTask);
 
         var connectivity = new Mock<IConnectivityService>();
         connectivity.SetupGet(c => c.IsConnected).Returns(true);
 
-        var viewModel = new AlertsViewModel(alertsApi.Object, localAlerts.Object, connectivity.Object);
+        var viewModel = new AlertsViewModel(alertsApi.Object, localAlerts.Object, connectivity.Object, SupportedSession());
 
         await viewModel.LoadCommand.ExecuteAsync(null);
 
         Assert.Single(viewModel.Alerts);
         Assert.Equal("alert-1", viewModel.Alerts[0].Id);
         Assert.False(viewModel.IsStale);
-        localAlerts.Verify(repo => repo.ReplaceAllAsync(It.Is<IReadOnlyList<LocalAlert>>(list => list.Count == 1)), Times.Once);
+        localAlerts.Verify(repo => repo.ReplaceAllForUserAsync("user-1", It.Is<IReadOnlyList<LocalAlert>>(list => list.Count == 1)), Times.Once);
     }
 
     [Fact]
@@ -46,13 +47,13 @@ public class AlertsViewModelTests
         var alertsApi = new Mock<IAlertsApi>();
         var localAlerts = new Mock<ILocalAlertRepository>();
         localAlerts
-            .Setup(repo => repo.GetAllAsync())
+            .Setup(repo => repo.GetAllForUserAsync("user-1"))
             .ReturnsAsync(new List<LocalAlert> { new() { Id = "alert-1", CattleId = "cattle-1", Severity = "HIGH", Status = "PENDING", CreatedAt = "2026-06-20T12:40:00Z", CachedAt = "2026-06-20T13:00:00Z" } });
 
         var connectivity = new Mock<IConnectivityService>();
         connectivity.SetupGet(c => c.IsConnected).Returns(false);
 
-        var viewModel = new AlertsViewModel(alertsApi.Object, localAlerts.Object, connectivity.Object);
+        var viewModel = new AlertsViewModel(alertsApi.Object, localAlerts.Object, connectivity.Object, SupportedSession());
 
         await viewModel.LoadCommand.ExecuteAsync(null);
 
@@ -69,18 +70,44 @@ public class AlertsViewModelTests
 
         var localAlerts = new Mock<ILocalAlertRepository>();
         localAlerts
-            .Setup(repo => repo.GetAllAsync())
+            .Setup(repo => repo.GetAllForUserAsync("user-1"))
             .ReturnsAsync(new List<LocalAlert> { new() { Id = "alert-1", CattleId = "cattle-1", Severity = "HIGH", Status = "PENDING", CreatedAt = "2026-06-20T12:40:00Z", CachedAt = "2026-06-20T13:00:00Z" } });
 
         var connectivity = new Mock<IConnectivityService>();
         connectivity.SetupGet(c => c.IsConnected).Returns(true);
 
-        var viewModel = new AlertsViewModel(alertsApi.Object, localAlerts.Object, connectivity.Object);
+        var viewModel = new AlertsViewModel(alertsApi.Object, localAlerts.Object, connectivity.Object, SupportedSession());
 
         await viewModel.LoadCommand.ExecuteAsync(null);
 
         Assert.Single(viewModel.Alerts);
         Assert.True(viewModel.IsStale);
         Assert.NotNull(viewModel.ErrorMessage);
+    }
+
+    [Fact]
+    public async Task LoadAsync_BlocksUnsupportedRole()
+    {
+        var alertsApi = new Mock<IAlertsApi>();
+        var localAlerts = new Mock<ILocalAlertRepository>();
+        var connectivity = new Mock<IConnectivityService>();
+        connectivity.SetupGet(c => c.IsConnected).Returns(true);
+
+        var authSession = new Mock<IAuthSession>();
+        authSession.Setup(session => session.GetAsync()).ReturnsAsync(new AuthSessionData("token", "user-2", "Researcher", "researcher@example.com", "RESEARCHER"));
+        var viewModel = new AlertsViewModel(alertsApi.Object, localAlerts.Object, connectivity.Object, authSession.Object);
+
+        await viewModel.LoadCommand.ExecuteAsync(null);
+
+        Assert.Empty(viewModel.Alerts);
+        Assert.Equal("This mobile workflow is available only for field operators.", viewModel.ErrorMessage);
+        alertsApi.Verify(api => api.GetAlertsAsync(), Times.Never);
+    }
+
+    private static IAuthSession SupportedSession()
+    {
+        var authSession = new Mock<IAuthSession>();
+        authSession.Setup(session => session.GetAsync()).ReturnsAsync(new AuthSessionData("token", "user-1", "Field", "field@example.com", "FIELD_OPERATOR"));
+        return authSession.Object;
     }
 }

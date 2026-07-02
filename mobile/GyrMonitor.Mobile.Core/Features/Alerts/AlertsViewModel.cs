@@ -1,7 +1,9 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using GyrMonitor.Mobile.Core.Shared.Networking;
+using GyrMonitor.Client.Core.Networking;
+using GyrMonitor.Client.Core.Session;
+using GyrMonitor.Mobile.Core.Shared.Authorization;
 
 namespace GyrMonitor.Mobile.Core.Features.Alerts;
 
@@ -10,6 +12,7 @@ public sealed partial class AlertsViewModel : ObservableObject
     private readonly IAlertsApi _alertsApi;
     private readonly ILocalAlertRepository _localAlerts;
     private readonly IConnectivityService _connectivity;
+    private readonly IAuthSession _authSession;
 
     public ObservableCollection<LocalAlert> Alerts { get; } = new();
 
@@ -24,11 +27,12 @@ public sealed partial class AlertsViewModel : ObservableObject
 
     public bool IsOffline => !_connectivity.IsConnected;
 
-    public AlertsViewModel(IAlertsApi alertsApi, ILocalAlertRepository localAlerts, IConnectivityService connectivity)
+    public AlertsViewModel(IAlertsApi alertsApi, ILocalAlertRepository localAlerts, IConnectivityService connectivity, IAuthSession authSession)
     {
         _alertsApi = alertsApi;
         _localAlerts = localAlerts;
         _connectivity = connectivity;
+        _authSession = authSession;
     }
 
     [RelayCommand]
@@ -44,6 +48,14 @@ public sealed partial class AlertsViewModel : ObservableObject
 
         try
         {
+            var session = await _authSession.GetAsync();
+            if (session is null || !MobileRoleAccess.IsSupported(session.Role))
+            {
+                ReplaceAlerts([]);
+                ErrorMessage = "This mobile workflow is available only for field operators.";
+                return;
+            }
+
             if (_connectivity.IsConnected)
             {
                 var remoteAlerts = await _alertsApi.GetAlertsAsync();
@@ -59,11 +71,13 @@ public sealed partial class AlertsViewModel : ObservableObject
                         Status = alert.Status,
                         Reason = alert.Reason,
                         CreatedAt = alert.CreatedAt,
-                        CachedAt = cachedAt
+                        CachedAt = cachedAt,
+                        OwnerUserId = session.UserId,
+                        LocalCacheId = $"{session.UserId}:{alert.Id}"
                     })
                     .ToList();
 
-                await _localAlerts.ReplaceAllAsync(localAlerts);
+                await _localAlerts.ReplaceAllForUserAsync(session.UserId, localAlerts);
                 ReplaceAlerts(localAlerts);
                 IsStale = false;
             }
@@ -90,7 +104,15 @@ public sealed partial class AlertsViewModel : ObservableObject
 
     private async Task LoadFromCacheAsync(bool markStale)
     {
-        var cached = await _localAlerts.GetAllAsync();
+        var session = await _authSession.GetAsync();
+        if (session is null || !MobileRoleAccess.IsSupported(session.Role))
+        {
+            ReplaceAlerts([]);
+            IsStale = markStale;
+            return;
+        }
+
+        var cached = await _localAlerts.GetAllForUserAsync(session.UserId);
         ReplaceAlerts(cached);
         IsStale = markStale;
     }

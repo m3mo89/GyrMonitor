@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 
 import { LoadingState, UiState } from '../../shared/components/UiState';
 import { useAuth } from '../auth/AuthProvider';
-import { getAlertDetail, updateAlertStatus } from './alerts.api';
-import type { AlertDetail, AlertStatus } from './alert.types';
+import { getAlertDetail, listAlertObservations, updateAlertStatus } from './alerts.api';
+import type { AlertDetail, AlertObservation, AlertStatus } from './alert.types';
 import { severityClass, statusClass } from './AlertsListPage';
 
 type AlertDetailPageProps = {
@@ -17,6 +17,8 @@ export function AlertDetailPage({ alertId, onBackToList, onOpenCattle }: AlertDe
   const [alert, setAlert] = useState<AlertDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [observations, setObservations] = useState<AlertObservation[]>([]);
+  const [observationsError, setObservationsError] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -27,13 +29,16 @@ export function AlertDetailPage({ alertId, onBackToList, onOpenCattle }: AlertDe
       setError(null);
 
       try {
-        const nextAlert = await getAlertDetail(apiClient, alertId);
+        const [nextAlert, nextObservations] = await Promise.all([getAlertDetail(apiClient, alertId), listAlertObservations(apiClient, alertId)]);
         if (isCurrent) {
           setAlert(nextAlert);
+          setObservations(nextObservations);
+          setObservationsError(null);
         }
       } catch {
         if (isCurrent) {
           setAlert(null);
+          setObservations([]);
           setError('No se pudo cargar el detalle de la alerta.');
         }
       } finally {
@@ -139,6 +144,30 @@ export function AlertDetailPage({ alertId, onBackToList, onOpenCattle }: AlertDe
           <dd>{alert.cattleId}</dd>
         </div>
       </dl>
+      <section className="panel">
+        <div className="panel__header">
+          <div>
+            <h2>Observaciones</h2>
+            <p>Notas registradas desde mobile o backend para esta alerta.</p>
+          </div>
+        </div>
+        {observationsError ? <UiState title="No se pudieron cargar las observaciones" description={observationsError} tone="danger" /> : null}
+        {observations.length === 0 ? (
+          <UiState title="Sin observaciones" description="Todavia no hay observaciones sincronizadas para esta alerta." />
+        ) : (
+          <div className="observation-list">
+            {observations.map((observation) => (
+              <article className="observation-item" key={observation.id}>
+                <p>{observation.comment}</p>
+                <small>
+                  {formatDateTime(observation.createdAt)}
+                  {observation.clientId ? ` · ${observation.clientId}` : ''}
+                </small>
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
       {canUpdate ? (
         <section className="panel">
           <div className="panel__header">

@@ -1,3 +1,5 @@
+using GyrMonitor.Client.Core.Sync;
+using GyrMonitor.Client.Core.Session;
 using GyrMonitor.Mobile.Core.Features.Observations;
 using GyrMonitor.Mobile.Core.Features.Sync;
 using Moq;
@@ -23,6 +25,15 @@ public sealed class InMemorySyncQueueRepository : ISyncQueueRepository
         return Task.FromResult(pending);
     }
 
+    public Task<IReadOnlyList<SyncQueueItem>> GetPendingForUserAsync(string ownerUserId)
+    {
+        IReadOnlyList<SyncQueueItem> pending = _items.Values
+            .Where(item => item.OwnerUserId == ownerUserId && item.Status is SyncStatuses.Pending or SyncStatuses.Failed)
+            .Select(Clone)
+            .ToList();
+        return Task.FromResult(pending);
+    }
+
     public Task UpdateAsync(SyncQueueItem item)
     {
         _items[item.LocalId] = Clone(item);
@@ -35,6 +46,12 @@ public sealed class InMemorySyncQueueRepository : ISyncQueueRepository
         return Task.FromResult(all);
     }
 
+    public Task<IReadOnlyList<SyncQueueItem>> GetAllForUserAsync(string ownerUserId)
+    {
+        IReadOnlyList<SyncQueueItem> all = _items.Values.Where(item => item.OwnerUserId == ownerUserId).Select(Clone).ToList();
+        return Task.FromResult(all);
+    }
+
     private static SyncQueueItem Clone(SyncQueueItem item) => new()
     {
         LocalId = item.LocalId,
@@ -44,6 +61,7 @@ public sealed class InMemorySyncQueueRepository : ISyncQueueRepository
         Status = item.Status,
         RetryCount = item.RetryCount,
         CreatedAt = item.CreatedAt,
+        OwnerUserId = item.OwnerUserId,
         ServerId = item.ServerId,
         LastError = item.LastError
     };
@@ -68,9 +86,23 @@ public sealed class InMemoryPendingObservationRepository : IPendingObservationRe
         return Task.FromResult(pending);
     }
 
+    public Task<IReadOnlyList<PendingObservation>> GetPendingForUserAsync(string ownerUserId)
+    {
+        IReadOnlyList<PendingObservation> pending = _observations.Values
+            .Where(o => o.OwnerUserId == ownerUserId && o.SyncStatus is SyncStatuses.Pending or SyncStatuses.Failed)
+            .Select(Clone)
+            .ToList();
+        return Task.FromResult(pending);
+    }
+
     public Task<PendingObservation?> GetByLocalIdAsync(string localId)
     {
         return Task.FromResult(_observations.TryGetValue(localId, out var value) ? Clone(value) : null);
+    }
+
+    public Task<PendingObservation?> GetByLocalIdForUserAsync(string localId, string ownerUserId)
+    {
+        return Task.FromResult(_observations.TryGetValue(localId, out var value) && value.OwnerUserId == ownerUserId ? Clone(value) : null);
     }
 
     public Task UpdateAsync(PendingObservation observation)
@@ -85,6 +117,12 @@ public sealed class InMemoryPendingObservationRepository : IPendingObservationRe
         return Task.FromResult(all);
     }
 
+    public Task<IReadOnlyList<PendingObservation>> GetAllForUserAsync(string ownerUserId)
+    {
+        IReadOnlyList<PendingObservation> all = _observations.Values.Where(o => o.OwnerUserId == ownerUserId).Select(Clone).ToList();
+        return Task.FromResult(all);
+    }
+
     private static PendingObservation Clone(PendingObservation observation) => new()
     {
         LocalId = observation.LocalId,
@@ -93,6 +131,7 @@ public sealed class InMemoryPendingObservationRepository : IPendingObservationRe
         Comment = observation.Comment,
         CreatedAt = observation.CreatedAt,
         ClientId = observation.ClientId,
+        OwnerUserId = observation.OwnerUserId,
         SyncStatus = observation.SyncStatus,
         ServerId = observation.ServerId
     };
@@ -100,6 +139,8 @@ public sealed class InMemoryPendingObservationRepository : IPendingObservationRe
 
 public class MobileSyncServiceTests
 {
+    private const string UserId = "user-1";
+
     private static async Task<(InMemorySyncQueueRepository Queue, InMemoryPendingObservationRepository Observations, string LocalId)> SeedPendingObservationAsync()
     {
         var queue = new InMemorySyncQueueRepository();
@@ -113,6 +154,7 @@ public class MobileSyncServiceTests
             Comment = "Checked in field",
             CreatedAt = "2026-06-30T02:00:00.000Z",
             ClientId = "MOBILE-001",
+            OwnerUserId = UserId,
             SyncStatus = SyncStatuses.Pending
         };
         await observations.AddAsync(observation);
@@ -124,7 +166,8 @@ public class MobileSyncServiceTests
             EntityLocalId = observation.LocalId,
             Operation = SyncOperations.Create,
             Status = SyncStatuses.Pending,
-            CreatedAt = observation.CreatedAt
+            CreatedAt = observation.CreatedAt,
+            OwnerUserId = UserId
         });
 
         return (queue, observations, observation.LocalId);
@@ -134,7 +177,7 @@ public class MobileSyncServiceTests
     public async Task SyncPendingObservationsAsync_NoPendingItems_DoesNotCallApi()
     {
         var syncApi = new Mock<ISyncObservationsApi>();
-        var service = new MobileSyncService(new InMemorySyncQueueRepository(), new InMemoryPendingObservationRepository(), syncApi.Object, "MOBILE-001");
+        var service = CreateService(new InMemorySyncQueueRepository(), new InMemoryPendingObservationRepository(), syncApi.Object);
 
         var summary = await service.SyncPendingObservationsAsync();
 
@@ -162,7 +205,7 @@ public class MobileSyncServiceTests
                 }
             });
 
-        var service = new MobileSyncService(queue, observations, syncApi.Object, "MOBILE-001");
+        var service = CreateService(queue, observations, syncApi.Object);
 
         var summary = await service.SyncPendingObservationsAsync();
 
@@ -198,7 +241,7 @@ public class MobileSyncServiceTests
                 }
             });
 
-        var service = new MobileSyncService(queue, observations, syncApi.Object, "MOBILE-001");
+        var service = CreateService(queue, observations, syncApi.Object);
 
         var summary = await service.SyncPendingObservationsAsync();
 
@@ -217,7 +260,7 @@ public class MobileSyncServiceTests
         var syncApi = new Mock<ISyncObservationsApi>();
         syncApi.Setup(api => api.SyncAsync(It.IsAny<SyncObservationsRequestDto>(), It.IsAny<string>())).ThrowsAsync(new HttpRequestException("offline"));
 
-        var service = new MobileSyncService(queue, observations, syncApi.Object, "MOBILE-001");
+        var service = CreateService(queue, observations, syncApi.Object);
 
         var summary = await service.SyncPendingObservationsAsync();
 
@@ -240,7 +283,7 @@ public class MobileSyncServiceTests
             .Setup(api => api.SyncAsync(It.IsAny<SyncObservationsRequestDto>(), It.IsAny<string>()))
             .ThrowsAsync(new HttpRequestException("simulated timeout, client does not know server outcome"));
 
-        var service = new MobileSyncService(queue, observations, syncApi.Object, "MOBILE-001");
+        var service = CreateService(queue, observations, syncApi.Object);
 
         await service.SyncPendingObservationsAsync();
         firstKey = GetLastCapturedKey(syncApi);
@@ -254,9 +297,67 @@ public class MobileSyncServiceTests
         Assert.Equal(firstKey, secondKey);
     }
 
+    [Fact]
+    public async Task SyncPendingObservationsAsync_ExcludesOtherUsersPendingObservations()
+    {
+        var (queue, observations, _) = await SeedPendingObservationAsync();
+        await observations.AddAsync(new PendingObservation
+        {
+            LocalId = "local-obs-2",
+            ObservationId = "33333333-3333-4333-8333-333333333333",
+            AlertId = "alert-2",
+            Comment = "Other user",
+            CreatedAt = "2026-06-30T03:00:00.000Z",
+            ClientId = "MOBILE-001",
+            OwnerUserId = "user-2",
+            SyncStatus = SyncStatuses.Pending
+        });
+        await queue.AddAsync(new SyncQueueItem
+        {
+            LocalId = "queue-2",
+            EntityType = SyncEntityTypes.Observation,
+            EntityLocalId = "local-obs-2",
+            Operation = SyncOperations.Create,
+            Status = SyncStatuses.Pending,
+            CreatedAt = "2026-06-30T03:00:00.000Z",
+            OwnerUserId = "user-2"
+        });
+
+        SyncObservationsRequestDto? captured = null;
+        var syncApi = new Mock<ISyncObservationsApi>();
+        syncApi
+            .Setup(api => api.SyncAsync(It.IsAny<SyncObservationsRequestDto>(), It.IsAny<string>()))
+            .Callback<SyncObservationsRequestDto, string>((request, _) => captured = request)
+            .ReturnsAsync(new SyncObservationsResultDto
+            {
+                Processed = 1,
+                Created = 1,
+                Results = new List<SyncObservationItemResultDto>
+                {
+                    new() { LocalId = "local-obs-1", ObservationId = "22222222-2222-4222-8222-222222222222", Status = "SYNCED", ServerId = "server-1" }
+                }
+            });
+
+        var service = CreateService(queue, observations, syncApi.Object);
+
+        await service.SyncPendingObservationsAsync();
+
+        Assert.NotNull(captured);
+        Assert.Single(captured!.Items);
+        Assert.Equal("local-obs-1", captured.Items[0].LocalId);
+        Assert.Equal(0, await service.GetPendingCountAsync());
+    }
+
     private static string? GetLastCapturedKey(Mock<ISyncObservationsApi> syncApi)
     {
         var invocation = syncApi.Invocations.Last();
         return (string)invocation.Arguments[1];
+    }
+
+    private static MobileSyncService CreateService(ISyncQueueRepository queue, IPendingObservationRepository observations, ISyncObservationsApi syncApi)
+    {
+        var authSession = new Mock<IAuthSession>();
+        authSession.Setup(session => session.GetAsync()).ReturnsAsync(new AuthSessionData("token", UserId, "Field", "field@example.com", "FIELD_OPERATOR"));
+        return new MobileSyncService(queue, observations, syncApi, authSession.Object, "MOBILE-001");
     }
 }

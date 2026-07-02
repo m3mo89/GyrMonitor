@@ -1,5 +1,5 @@
 using GyrMonitor.Desktop.Core.Features.Dashboard;
-using GyrMonitor.Desktop.Core.Shared.Networking;
+using GyrMonitor.Client.Core.Networking;
 using Moq;
 
 namespace GyrMonitor.Desktop.Core.Tests.Features.Dashboard;
