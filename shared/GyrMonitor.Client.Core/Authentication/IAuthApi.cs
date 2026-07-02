@@ -1,4 +1,4 @@
-namespace GyrMonitor.Desktop.Core.Features.Authentication;
+namespace GyrMonitor.Client.Core.Authentication;
 
 public interface IAuthApi
 {

@@ -1,7 +1,6 @@
 using GyrMonitor.Client.Core.Sync;
 using GyrMonitor.Desktop.Core.Features.Cattle;
 using GyrMonitor.Desktop.Core.Features.EventSimulator;
-using GyrMonitor.Desktop.Core.Features.Sync;
 using Moq;
 
 namespace GyrMonitor.Desktop.Core.Tests.Features.EventSimulator;

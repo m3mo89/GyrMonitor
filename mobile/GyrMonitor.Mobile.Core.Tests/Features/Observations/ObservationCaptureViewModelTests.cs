@@ -17,7 +17,7 @@ public class ObservationCaptureViewModelTests
         var observations = new Mock<IPendingObservationRepository>();
         observations.Setup(repo => repo.AddAsync(It.IsAny<PendingObservation>())).Callback<PendingObservation>(o => savedObservation = o).Returns(Task.CompletedTask);
 
-        var syncQueue = new Mock<ISyncQueueRepository>();
+        var syncQueue = new Mock<IMobileSyncQueueRepository>();
         syncQueue.Setup(repo => repo.AddAsync(It.IsAny<SyncQueueItem>())).Callback<SyncQueueItem>(q => savedQueueItem = q).Returns(Task.CompletedTask);
 
         var viewModel = new ObservationCaptureViewModel(observations.Object, syncQueue.Object, SupportedSession(), "MOBILE-001")
@@ -51,7 +51,7 @@ public class ObservationCaptureViewModelTests
     public async Task SaveAsync_SetsError_WhenCommentIsEmpty()
     {
         var observations = new Mock<IPendingObservationRepository>();
-        var syncQueue = new Mock<ISyncQueueRepository>();
+        var syncQueue = new Mock<IMobileSyncQueueRepository>();
 
         var viewModel = new ObservationCaptureViewModel(observations.Object, syncQueue.Object, SupportedSession(), "MOBILE-001")
         {
@@ -70,7 +70,7 @@ public class ObservationCaptureViewModelTests
     public async Task SaveAsync_SetsError_WhenAlertIdMissing()
     {
         var observations = new Mock<IPendingObservationRepository>();
-        var syncQueue = new Mock<ISyncQueueRepository>();
+        var syncQueue = new Mock<IMobileSyncQueueRepository>();
 
         var viewModel = new ObservationCaptureViewModel(observations.Object, syncQueue.Object, SupportedSession(), "MOBILE-001") { Comment = "Checked" };
 

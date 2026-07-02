@@ -1,6 +1,6 @@
 using GyrMonitor.Client.Core.Session;
 
-namespace GyrMonitor.Desktop.Core.Tests.Shared.Session;
+namespace GyrMonitor.Client.Core.Tests.Session;
 
 public sealed class InMemoryKeyValueStore : ISecureKeyValueStore
 {

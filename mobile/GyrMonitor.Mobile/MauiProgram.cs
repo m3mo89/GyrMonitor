@@ -2,6 +2,8 @@ using GyrMonitor.Mobile.Core.Features.Alerts;
 using GyrMonitor.Mobile.Core.Features.Authentication;
 using GyrMonitor.Mobile.Core.Features.Observations;
 using GyrMonitor.Mobile.Core.Features.Sync;
+using GyrMonitor.Client.Core.Alerts;
+using GyrMonitor.Client.Core.Authentication;
 using GyrMonitor.Client.Core.Networking;
 using GyrMonitor.Client.Core.Session;
 using GyrMonitor.Client.Core.Storage;
@@ -64,10 +66,10 @@ public static class MauiProgram
             new SqliteConnectionProvider(Path.Combine(FileSystem.AppDataDirectory, "gyrmonitor-mobile.db3")));
         services.AddSingleton<ILocalAlertRepository, SqliteLocalAlertRepository>();
         services.AddSingleton<IPendingObservationRepository, SqlitePendingObservationRepository>();
-        services.AddSingleton<ISyncQueueRepository, SqliteSyncQueueRepository>();
+        services.AddSingleton<IMobileSyncQueueRepository, SqliteSyncQueueRepository>();
 
         services.AddSingleton(sp => new MobileSyncService(
-            sp.GetRequiredService<ISyncQueueRepository>(),
+            sp.GetRequiredService<IMobileSyncQueueRepository>(),
             sp.GetRequiredService<IPendingObservationRepository>(),
             sp.GetRequiredService<ISyncObservationsApi>(),
             sp.GetRequiredService<IAuthSession>(),
@@ -82,7 +84,7 @@ public static class MauiProgram
         services.AddTransient<SyncViewModel>();
         services.AddTransient(sp => new ObservationCaptureViewModel(
             sp.GetRequiredService<IPendingObservationRepository>(),
-            sp.GetRequiredService<ISyncQueueRepository>(),
+            sp.GetRequiredService<IMobileSyncQueueRepository>(),
             sp.GetRequiredService<IAuthSession>(),
             MobileClientId));
     }

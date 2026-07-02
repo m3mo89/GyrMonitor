@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace GyrMonitor.Mobile.Core.Features.Alerts;
+namespace GyrMonitor.Client.Core.Alerts;
 
 public sealed class AlertSummaryDto
 {

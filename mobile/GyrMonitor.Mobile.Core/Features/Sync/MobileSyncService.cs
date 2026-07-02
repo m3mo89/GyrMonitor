@@ -9,13 +9,13 @@ public sealed record MobileSyncSummary(int Synced, int Duplicated, int Failed, s
 
 public sealed class MobileSyncService
 {
-    private readonly ISyncQueueRepository _queue;
+    private readonly IMobileSyncQueueRepository _queue;
     private readonly IPendingObservationRepository _observations;
     private readonly ISyncObservationsApi _syncApi;
     private readonly IAuthSession _authSession;
     private readonly string _clientId;
 
-    public MobileSyncService(ISyncQueueRepository queue, IPendingObservationRepository observations, ISyncObservationsApi syncApi, IAuthSession authSession, string clientId)
+    public MobileSyncService(IMobileSyncQueueRepository queue, IPendingObservationRepository observations, ISyncObservationsApi syncApi, IAuthSession authSession, string clientId)
     {
         _queue = queue;
         _observations = observations;

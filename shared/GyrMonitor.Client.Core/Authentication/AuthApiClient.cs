@@ -1,6 +1,6 @@
 using GyrMonitor.Client.Core.Networking;
 
-namespace GyrMonitor.Desktop.Core.Features.Authentication;
+namespace GyrMonitor.Client.Core.Authentication;
 
 public sealed class AuthApiClient : IAuthApi
 {

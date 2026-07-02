@@ -1,5 +1,4 @@
-using GyrMonitor.Client.Core.Sync;
-namespace GyrMonitor.Desktop.Core.Features.Sync;
+namespace GyrMonitor.Client.Core.Sync;
 
 public interface ISyncQueueRepository
 {

@@ -1,6 +1,6 @@
 using GyrMonitor.Client.Core.Networking;
 
-namespace GyrMonitor.Mobile.Core.Features.Alerts;
+namespace GyrMonitor.Client.Core.Alerts;
 
 public sealed class AlertsApiClient : IAlertsApi
 {
@@ -13,7 +13,6 @@ public sealed class AlertsApiClient : IAlertsApi
 
     public async Task<IReadOnlyList<AlertSummaryDto>> GetAlertsAsync()
     {
-        var result = await _sender.GetAsync<List<AlertSummaryDto>>("/api/v1/alerts");
-        return result;
+        return await _sender.GetAsync<List<AlertSummaryDto>>("/api/v1/alerts");
     }
 }

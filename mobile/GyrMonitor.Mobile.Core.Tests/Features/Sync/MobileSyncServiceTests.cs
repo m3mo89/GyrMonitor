@@ -6,7 +6,7 @@ using Moq;
 
 namespace GyrMonitor.Mobile.Core.Tests.Features.Sync;
 
-public sealed class InMemorySyncQueueRepository : ISyncQueueRepository
+public sealed class InMemorySyncQueueRepository : IMobileSyncQueueRepository
 {
     private readonly Dictionary<string, SyncQueueItem> _items = new();
 
@@ -354,7 +354,7 @@ public class MobileSyncServiceTests
         return (string)invocation.Arguments[1];
     }
 
-    private static MobileSyncService CreateService(ISyncQueueRepository queue, IPendingObservationRepository observations, ISyncObservationsApi syncApi)
+    private static MobileSyncService CreateService(IMobileSyncQueueRepository queue, IPendingObservationRepository observations, ISyncObservationsApi syncApi)
     {
         var authSession = new Mock<IAuthSession>();
         authSession.Setup(session => session.GetAsync()).ReturnsAsync(new AuthSessionData("token", UserId, "Field", "field@example.com", "FIELD_OPERATOR"));

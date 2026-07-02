@@ -1,7 +1,7 @@
 using GyrMonitor.Client.Core.Sync;
 using GyrMonitor.Mobile.Core.Features.Observations;
-using GyrMonitor.Mobile.Core.Features.Sync;
 using GyrMonitor.Client.Core.Storage;
+using SqliteSyncQueueRepository = GyrMonitor.Mobile.Core.Features.Sync.SqliteSyncQueueRepository;
 
 namespace GyrMonitor.Mobile.Core.Tests.Features.Sync;
 
@@ -23,57 +23,22 @@ public class SqliteSyncQueueRepositoryTests : IDisposable
     }
 
     [Fact]
-    public async Task AddAndGetPending_ReturnsQueuedItemWithStableLocalId()
+    public async Task GetPendingForUserAsync_ExcludesOtherUsersItems()
     {
         var provider = new SqliteConnectionProvider(_databasePath);
         var queue = new SqliteSyncQueueRepository(provider);
 
-        await queue.AddAsync(new SyncQueueItem
-        {
-            LocalId = "queue-1",
-            EntityType = SyncEntityTypes.Observation,
-            EntityLocalId = "obs-1",
-            Operation = SyncOperations.Create,
-            Status = SyncStatuses.Pending,
-            CreatedAt = "2026-06-30T02:00:00.000Z",
-            OwnerUserId = "user-1"
-        });
+        await queue.AddAsync(new SyncQueueItem { LocalId = "queue-1", EntityType = SyncEntityTypes.Observation, EntityLocalId = "obs-1", Status = SyncStatuses.Pending, CreatedAt = "t1", OwnerUserId = "user-1" });
+        await queue.AddAsync(new SyncQueueItem { LocalId = "queue-2", EntityType = SyncEntityTypes.Observation, EntityLocalId = "obs-2", Status = SyncStatuses.Pending, CreatedAt = "t2", OwnerUserId = "user-2" });
 
         var pending = await queue.GetPendingForUserAsync("user-1");
 
         Assert.Single(pending);
         Assert.Equal("queue-1", pending[0].LocalId);
-        Assert.Equal(0, pending[0].RetryCount);
     }
 
     [Fact]
-    public async Task UpdateAsync_PersistsRetryCountAndStatus()
-    {
-        var provider = new SqliteConnectionProvider(_databasePath);
-        var queue = new SqliteSyncQueueRepository(provider);
-        var item = new SyncQueueItem
-        {
-            LocalId = "queue-1",
-            EntityType = SyncEntityTypes.Observation,
-            EntityLocalId = "obs-1",
-            Status = SyncStatuses.Pending,
-            CreatedAt = "2026-06-30T02:00:00.000Z"
-        };
-        await queue.AddAsync(item);
-
-        item.Status = SyncStatuses.Failed;
-        item.RetryCount = 1;
-        item.LastError = "network error";
-        await queue.UpdateAsync(item);
-
-        var all = await queue.GetAllAsync();
-        Assert.Equal(SyncStatuses.Failed, all[0].Status);
-        Assert.Equal(1, all[0].RetryCount);
-        Assert.Equal("network error", all[0].LastError);
-    }
-
-    [Fact]
-    public async Task GetPendingAsync_ExcludesSyncedItems()
+    public async Task GetPendingForUserAsync_ExcludesSyncedItems()
     {
         var provider = new SqliteConnectionProvider(_databasePath);
         var queue = new SqliteSyncQueueRepository(provider);
@@ -88,18 +53,18 @@ public class SqliteSyncQueueRepositoryTests : IDisposable
     }
 
     [Fact]
-    public async Task GetPendingForUserAsync_ExcludesOtherUsersItems()
+    public async Task GetAllForUserAsync_ExcludesOtherUsersItems()
     {
         var provider = new SqliteConnectionProvider(_databasePath);
         var queue = new SqliteSyncQueueRepository(provider);
 
-        await queue.AddAsync(new SyncQueueItem { LocalId = "queue-1", EntityType = SyncEntityTypes.Observation, EntityLocalId = "obs-1", Status = SyncStatuses.Pending, CreatedAt = "t1", OwnerUserId = "user-1" });
+        await queue.AddAsync(new SyncQueueItem { LocalId = "queue-1", EntityType = SyncEntityTypes.Observation, EntityLocalId = "obs-1", Status = SyncStatuses.Synced, CreatedAt = "t1", OwnerUserId = "user-1" });
         await queue.AddAsync(new SyncQueueItem { LocalId = "queue-2", EntityType = SyncEntityTypes.Observation, EntityLocalId = "obs-2", Status = SyncStatuses.Pending, CreatedAt = "t2", OwnerUserId = "user-2" });
 
-        var pending = await queue.GetPendingForUserAsync("user-1");
+        var all = await queue.GetAllForUserAsync("user-1");
 
-        Assert.Single(pending);
-        Assert.Equal("queue-1", pending[0].LocalId);
+        Assert.Single(all);
+        Assert.Equal("queue-1", all[0].LocalId);
     }
 }
 

@@ -1,4 +1,5 @@
 using GyrMonitor.Mobile.Core.Features.Authentication;
+using GyrMonitor.Client.Core.Authentication;
 using GyrMonitor.Client.Core.Networking;
 using GyrMonitor.Client.Core.Session;
 using Moq;

@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GyrMonitor.Client.Core.Authentication;
 using GyrMonitor.Client.Core.Networking;
 using GyrMonitor.Client.Core.Session;
 

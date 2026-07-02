@@ -1,4 +1,4 @@
-namespace GyrMonitor.Mobile.Core.Features.Alerts;
+namespace GyrMonitor.Client.Core.Alerts;
 
 public interface IAlertsApi
 {

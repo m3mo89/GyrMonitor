@@ -1,10 +1,9 @@
-using GyrMonitor.Client.Core.Sync;
 using GyrMonitor.Client.Core.Storage;
 using SQLite;
 
-namespace GyrMonitor.Desktop.Core.Features.Sync;
+namespace GyrMonitor.Client.Core.Sync;
 
-public sealed class SqliteSyncQueueRepository : ISyncQueueRepository
+public class SqliteSyncQueueRepository : ISyncQueueRepository
 {
     private readonly ISqliteConnectionProvider _connectionProvider;
     private bool _initialized;
@@ -41,7 +40,7 @@ public sealed class SqliteSyncQueueRepository : ISyncQueueRepository
         return await connection.Table<SyncQueueItem>().OrderByDescending(item => item.CreatedAt).ToListAsync();
     }
 
-    private async Task<SQLiteAsyncConnection> GetInitializedConnectionAsync()
+    protected async Task<SQLiteAsyncConnection> GetInitializedConnectionAsync()
     {
         var connection = _connectionProvider.GetConnection();
         if (!_initialized)

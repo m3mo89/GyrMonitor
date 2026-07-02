@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GyrMonitor.Desktop.Core.Features.Cattle;
-using GyrMonitor.Desktop.Core.Features.Sync;
 
 namespace GyrMonitor.Desktop.Core.Features.EventSimulator;
 

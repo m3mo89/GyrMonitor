@@ -87,7 +87,7 @@ public class SyncViewModelTests
             });
     }
 
-    private static MobileSyncService CreateService(ISyncQueueRepository queue, Core.Features.Observations.IPendingObservationRepository observations, ISyncObservationsApi syncApi)
+    private static MobileSyncService CreateService(IMobileSyncQueueRepository queue, Core.Features.Observations.IPendingObservationRepository observations, ISyncObservationsApi syncApi)
     {
         var authSession = new Mock<IAuthSession>();
         authSession.Setup(session => session.GetAsync()).ReturnsAsync(new AuthSessionData("token", "user-1", "Field", "field@example.com", "FIELD_OPERATOR"));

@@ -10,7 +10,7 @@ namespace GyrMonitor.Mobile.Core.Features.Observations;
 public sealed partial class ObservationCaptureViewModel : ObservableObject
 {
     private readonly IPendingObservationRepository _observations;
-    private readonly ISyncQueueRepository _syncQueue;
+    private readonly IMobileSyncQueueRepository _syncQueue;
     private readonly IAuthSession _authSession;
     private readonly string _clientId;
 
@@ -31,7 +31,7 @@ public sealed partial class ObservationCaptureViewModel : ObservableObject
     [ObservableProperty]
     private bool savedOffline;
 
-    public ObservationCaptureViewModel(IPendingObservationRepository observations, ISyncQueueRepository syncQueue, IAuthSession authSession, string clientId)
+    public ObservationCaptureViewModel(IPendingObservationRepository observations, IMobileSyncQueueRepository syncQueue, IAuthSession authSession, string clientId)
     {
         _observations = observations;
         _syncQueue = syncQueue;

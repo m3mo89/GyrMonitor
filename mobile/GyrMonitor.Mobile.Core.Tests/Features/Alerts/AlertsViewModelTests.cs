@@ -1,4 +1,5 @@
 using GyrMonitor.Mobile.Core.Features.Alerts;
+using GyrMonitor.Client.Core.Alerts;
 using GyrMonitor.Client.Core.Networking;
 using GyrMonitor.Client.Core.Session;
 using Moq;

@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace GyrMonitor.Mobile.Core.Features.Authentication;
+namespace GyrMonitor.Client.Core.Authentication;
 
 public sealed class LoginRequestDto
 {
