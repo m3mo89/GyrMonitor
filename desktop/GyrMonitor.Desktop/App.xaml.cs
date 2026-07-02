@@ -1,4 +1,4 @@
-﻿namespace GyrMonitor.Desktop;
+namespace GyrMonitor.Desktop;
 
 public partial class App : Application
 {

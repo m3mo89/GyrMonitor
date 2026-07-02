@@ -74,4 +74,19 @@
 	  <ProjectReference Include="..\GyrMonitor.Mobile.Core\GyrMonitor.Mobile.Core.csproj" />
 	</ItemGroup>
 
+	<!-- Native libraries pulled in via NuGet (e.g. sqlite-net-pcl's libe_sqlite3.dylib) ship
+	     unsigned. Apple Silicon refuses to dyld-load unsigned code, which crashes the app on
+	     launch with "Trying to load an unsigned library". Ad-hoc sign the bundle after build. -->
+	<Target Name="CodesignMacCatalystNativeLibraries" AfterTargets="Build" Condition="'$(TargetFramework)' == 'net10.0-maccatalyst' And $([MSBuild]::IsOSPlatform('osx'))">
+		<ItemGroup>
+			<_NativeDylibs Include="$(OutDir)$(AssemblyName).app/Contents/MonoBundle/*.dylib" />
+		</ItemGroup>
+		<Exec Command="codesign --force --sign - &quot;%(_NativeDylibs.Identity)&quot;" Condition="'@(_NativeDylibs)' != ''" />
+		<!-- Re-signing the outer bundle must keep the original entitlements (network client, app
+		     sandbox) or Mac Catalyst silently loses outbound network access. Use the build-generated
+		     Entitlements.xcent, not the source Platforms/MacCatalyst/Entitlements.plist directly -
+		     the source file's BOM makes codesign's XML parser choke ("AMFIUnserializeXML: syntax error"). -->
+		<Exec Command="codesign --force --sign - --entitlements &quot;$(IntermediateOutputPath)Entitlements.xcent&quot; &quot;$(OutDir)$(AssemblyName).app&quot;" />
+	</Target>
+
 </Project>

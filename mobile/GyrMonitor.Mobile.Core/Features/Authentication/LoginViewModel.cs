@@ -63,7 +63,7 @@ public sealed partial class LoginViewModel : ObservableObject
                 _ => "Unable to sign in. Please try again."
             };
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             ErrorMessage = "Unable to reach the server. Please try again.";
         }

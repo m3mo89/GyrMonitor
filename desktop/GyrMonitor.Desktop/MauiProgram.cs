@@ -22,7 +22,7 @@ namespace GyrMonitor.Desktop;
 
 public static class MauiProgram
 {
-    private const string ApiBaseUrl = "http://localhost:3000";
+    private const string ApiBaseUrl = "http://127.0.0.1:3000";
     private const string DesktopClientId = "DESKTOP-001";
     private const string DesktopDeviceId = "DEVICE-DESKTOP-001";
 

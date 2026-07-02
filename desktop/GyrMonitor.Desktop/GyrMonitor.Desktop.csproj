@@ -47,6 +47,15 @@
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 	</PropertyGroup>
 
+	<!-- Real Team ID signing (needed for the keychain-access-groups entitlement) instead of ad-hoc
+	     "-" (see Platforms/MacCatalyst/Entitlements.plist for why this is needed). Identified by
+	     SHA-1 hash, not the "Apple Development: ..." display name, because the login keychain has
+	     two identically-named certificates and codesign refuses to pick between them by name. -->
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net10.0-maccatalyst'">
+		<CodesignKey>257B55CBEC01A8A00948AC5792E11E4D9461544E</CodesignKey>
+		<CodesignProvision>Automatic</CodesignProvision>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
@@ -73,5 +82,28 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\GyrMonitor.Desktop.Core\GyrMonitor.Desktop.Core.csproj" />
 	</ItemGroup>
+
+	<!-- Native libraries pulled in via NuGet (e.g. sqlite-net-pcl's libe_sqlite3.dylib) ship
+	     unsigned. Apple Silicon refuses to dyld-load unsigned code, which crashes the app on
+	     launch with "Trying to load an unsigned library". Re-sign the bundle after build using
+	     $(CodesignKey) (falls back to ad-hoc "-" if unset) - ad-hoc signing alone satisfies the
+	     dylib-loading check, but re-signing the outer .app ad-hoc would strip the real Team ID
+	     identity needed for the keychain-access-groups entitlement, so this must reuse the same
+	     identity the main build signed with. -->
+	<Target Name="CodesignMacCatalystNativeLibraries" AfterTargets="Build" Condition="'$(TargetFramework)' == 'net10.0-maccatalyst' And $([MSBuild]::IsOSPlatform('osx'))">
+		<PropertyGroup>
+			<_MacCatalystCodesignIdentity Condition="'$(CodesignKey)' == ''">-</_MacCatalystCodesignIdentity>
+			<_MacCatalystCodesignIdentity Condition="'$(CodesignKey)' != ''">$(CodesignKey)</_MacCatalystCodesignIdentity>
+		</PropertyGroup>
+		<ItemGroup>
+			<_NativeDylibs Include="$(OutDir)$(AssemblyName).app/Contents/MonoBundle/*.dylib" />
+		</ItemGroup>
+		<Exec Command="codesign --force --sign - &quot;%(_NativeDylibs.Identity)&quot;" Condition="'@(_NativeDylibs)' != ''" />
+		<!-- Re-signing the outer bundle must keep the original entitlements (network client, app
+		     sandbox) or Mac Catalyst silently loses outbound network access. Use the build-generated
+		     Entitlements.xcent, not the source Platforms/MacCatalyst/Entitlements.plist directly -
+		     the source file's BOM makes codesign's XML parser choke ("AMFIUnserializeXML: syntax error"). -->
+		<Exec Command="codesign --force --sign &quot;$(_MacCatalystCodesignIdentity)&quot; --entitlements &quot;$(IntermediateOutputPath)Entitlements.xcent&quot; &quot;$(OutDir)$(AssemblyName).app&quot;" />
+	</Target>
 
 </Project>

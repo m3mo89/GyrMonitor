@@ -18,7 +18,11 @@ namespace GyrMonitor.Mobile;
 
 public static class MauiProgram
 {
-    private const string ApiBaseUrl = "http://localhost:3000";
+#if ANDROID
+    private const string ApiBaseUrl = "http://10.0.2.2:3000";
+#else
+    private const string ApiBaseUrl = "http://127.0.0.1:3000";
+#endif
     private const string MobileClientId = "MOBILE-001";
 
     public static MauiApp CreateMauiApp()
