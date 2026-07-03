@@ -19,6 +19,10 @@ public partial class AppShell : Shell
 
         AuthenticationEvents.SessionExpired += OnSessionExpired;
         _connectivity.ConnectivityRestored += OnConnectivityRestored;
+        _syncService.SyncCompleted += OnSyncCompleted;
+        Navigated += OnShellNavigated;
+
+        PageTitleLabel.Text = CurrentPage?.Title;
     }
 
     private void OnSessionExpired()
@@ -29,5 +33,38 @@ public partial class AppShell : Shell
     private void OnConnectivityRestored(object? sender, EventArgs e)
     {
         _ = _syncService.SyncPendingEventsAsync();
+    }
+
+    private void OnShellNavigated(object? sender, ShellNavigatedEventArgs e)
+    {
+        PageTitleLabel.Text = CurrentPage?.Title;
+    }
+
+    private void OnSyncCompleted(object? sender, DesktopSyncSummary summary)
+    {
+        var message = BuildSyncMessage(summary);
+        if (message is null)
+        {
+            return;
+        }
+
+        MainThread.BeginInvokeOnMainThread(() => SyncNotification.Show(message));
+    }
+
+    private static string? BuildSyncMessage(DesktopSyncSummary summary)
+    {
+        if (summary.ErrorMessage is not null)
+        {
+            return $"Sync failed: {summary.ErrorMessage}";
+        }
+
+        if (summary.Synced == 0 && summary.Duplicated == 0 && summary.Failed == 0)
+        {
+            return null;
+        }
+
+        return summary.Failed > 0
+            ? $"Synced {summary.Synced} pending event(s), {summary.Failed} failed."
+            : $"Synced {summary.Synced} pending event(s).";
     }
 }

@@ -126,12 +126,12 @@ function assertConfidence(value: number): void {
   }
 }
 
-function assertInactiveMinutes(eventType: EventType, value: number | undefined): void {
+function assertInactiveMinutes(eventType: EventType, value: number | undefined | null): void {
   if (eventType === EventTypes.INACTIVITY && (!Number.isInteger(value) || (value as number) < 1)) {
     throw new Error('inactiveMinutes must be a positive integer for inactivity events.');
   }
 
-  if (value !== undefined && (!Number.isInteger(value) || value < 1)) {
+  if (value !== undefined && value !== null && (!Number.isInteger(value) || value < 1)) {
     throw new Error('inactiveMinutes must be a positive integer when provided.');
   }
 }

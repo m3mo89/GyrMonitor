@@ -118,11 +118,19 @@ The desktop client SHALL synchronize queued events against `POST /api/v1/sync/ev
 - **THEN** the backend does not create a duplicate server record
 
 ### Requirement: Desktop connectivity and sync status UX
-The desktop client SHALL clearly indicate offline state, pending saves, sync in progress, sync failure, and stale data, per the User Experience Requirements in `knowledge-base/04-architecture/offline-first.md`.
+The desktop client SHALL clearly indicate offline state, pending saves, sync in progress, sync failure, and stale data, per the User Experience Requirements in `knowledge-base/04-architecture/offline-first.md`. The offline indicator SHALL be visible from any tab and SHALL update live as connectivity changes, and the outcome of a synchronization run (automatic or manual) SHALL be surfaced to the user without requiring them to already be on the Sync tab.
 
-#### Scenario: App indicates offline state
-- **WHEN** the desktop app has no connectivity
-- **THEN** the app displays an indicator that the user is offline
+#### Scenario: App indicates offline state on any tab, live
+- **WHEN** the desktop app's network access transitions from available to unavailable while an administrator is on any tab
+- **THEN** the app displays an offline indicator without requiring the administrator to navigate away from and back to the current tab
+
+#### Scenario: Offline indicator clears on connectivity restoration
+- **WHEN** the desktop app's network access transitions from unavailable to available while the offline indicator is shown
+- **THEN** the app hides the offline indicator without requiring navigation
+
+#### Scenario: Screens remain usable while offline
+- **WHEN** the offline indicator is shown
+- **THEN** the administrator can still open the Dashboard, Cattle, Alerts, Simulator, and Sync tabs, and can still generate simulated events
 
 #### Scenario: App indicates pending sync count
 - **WHEN** pending `SyncQueue` items exist
@@ -131,3 +139,47 @@ The desktop client SHALL clearly indicate offline state, pending saves, sync in 
 #### Scenario: App indicates sync failure
 - **WHEN** a queued item's status is `FAILED`
 - **THEN** the app surfaces the failure to the user instead of silently discarding it
+
+#### Scenario: Automatic reconnect sync shows a confirmation
+- **WHEN** connectivity is restored and the desktop client automatically synchronizes pending events
+- **THEN** the app displays a confirmation summarizing how many events were synchronized, without the administrator needing to open the Sync tab
+
+#### Scenario: Manual sync shows a confirmation
+- **WHEN** an administrator taps "Sync now" on the Sync tab and the synchronization run completes
+- **THEN** the app displays a confirmation summarizing the outcome, including any failures
+
+### Requirement: Desktop dashboard visual presentation
+The desktop dashboard screen SHALL present its summary metrics (total cattle, active alerts, high-risk cattle, average risk score, events today, pending sync) as visually distinct metric cards using the shared desktop UI design system, rather than bare labels in a grid.
+
+#### Scenario: Dashboard metrics render as cards
+- **WHEN** an authenticated administrator opens the desktop dashboard screen with metrics loaded
+- **THEN** each metric is displayed inside a styled card with a label and value, using the shared card style
+
+#### Scenario: Empty risk ranking shows empty state
+- **WHEN** an authenticated administrator opens the desktop dashboard screen and the risk ranking list is empty
+- **THEN** the screen displays the shared empty-state view in place of the risk ranking list
+
+### Requirement: Desktop list screen visual presentation
+The desktop cattle and alerts screens SHALL present each record as a styled card-style row with clear visual hierarchy (primary identifier, secondary detail, status/severity badge) using the shared desktop UI design system, and SHALL display the shared empty-state view when their bound collection is empty after loading.
+
+#### Scenario: Alert row shows severity as a badge
+- **WHEN** an authenticated administrator opens the desktop alerts screen with alerts loaded
+- **THEN** each alert's severity is displayed using the shared severity badge style instead of a plain colored label
+
+#### Scenario: Empty cattle list shows empty state
+- **WHEN** an authenticated administrator opens the desktop cattle screen and no cattle records are returned
+- **THEN** the screen displays the shared empty-state view instead of a blank list area
+
+### Requirement: Desktop login visual presentation
+The desktop login screen SHALL present the sign-in form as a centered, branded card using the shared desktop UI design system, with the shared error-brush styling for login error messages.
+
+#### Scenario: Login form renders as a branded card
+- **WHEN** an unauthenticated user opens the desktop app
+- **THEN** the sign-in form is displayed inside a centered card with consistent spacing from the shared design system
+
+### Requirement: Desktop sync screen visual presentation
+The desktop sync screen SHALL present pending sync items using the shared desktop UI design system, including status badges for queue item state, and SHALL display the shared empty-state view when there are no pending sync items.
+
+#### Scenario: Empty sync queue shows empty state
+- **WHEN** an authenticated administrator opens the desktop sync screen and there are no pending sync items
+- **THEN** the screen displays the shared empty-state view instead of a blank list area

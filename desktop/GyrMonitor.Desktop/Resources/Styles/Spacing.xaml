@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Shared spacing scale: use these instead of ad hoc numeric Padding/Spacing values -->
+    <x:Double x:Key="SpacingCompact">8</x:Double>
+    <x:Double x:Key="SpacingDefault">16</x:Double>
+    <x:Double x:Key="SpacingSection">24</x:Double>
+
+    <x:Double x:Key="CardCornerRadius">12</x:Double>
+    <x:Double x:Key="BadgeCornerRadius">10</x:Double>
+
+</ResourceDictionary>

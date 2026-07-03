@@ -1,22 +1,42 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:GyrMonitor.Desktop.Shared.Controls"
              x:Class="GyrMonitor.Desktop.Features.Sync.SyncPage"
              Title="Synchronization">
 
-    <VerticalStackLayout Padding="16" Spacing="16">
+    <VerticalStackLayout Padding="{StaticResource SpacingDefault}" Spacing="{StaticResource SpacingDefault}">
 
-        <Label Text="You are offline. Generated events stay queued until connectivity returns."
-               TextColor="OrangeRed"
-               IsVisible="{Binding IsOffline}" />
+        <controls:EmptyStateView Glyph="&#9989;"
+                                  Title="All synced"
+                                  Subtitle="There are no pending items waiting to sync."
+                                  IsVisible="{Binding PendingCount, Converter={StaticResource IsZeroConverter}}" />
 
-        <Label Text="{Binding PendingCount, StringFormat='Pending items: {0}'}" FontSize="18" />
+        <Border Style="{StaticResource CardStyle}"
+                IsVisible="{Binding PendingCount, Converter={StaticResource IsZeroConverter}, ConverterParameter=Invert}">
+            <Grid ColumnDefinitions="*,Auto">
+                <VerticalStackLayout Grid.Column="0" Spacing="2">
+                    <Label Text="Pending items" Style="{StaticResource CaptionLabelStyle}" />
+                    <Label Text="{Binding PendingCount}" Style="{StaticResource PageTitleStyle}" />
+                </VerticalStackLayout>
+                <Border Grid.Column="1" Style="{StaticResource BadgeStyle}"
+                        Stroke="{StaticResource StatusPendingBrush}"
+                        VerticalOptions="Center">
+                    <Label Text="Pending" Style="{StaticResource BadgeLabelStyle}" TextColor="{StaticResource StatusPendingBrush}" />
+                </Border>
+            </Grid>
+        </Border>
 
-        <Button Text="Sync now" Command="{Binding SyncNowCommand}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
+        <Button Text="Sync now"
+                Style="{StaticResource PrimaryButtonStyle}"
+                Command="{Binding SyncNowCommand}"
+                IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
 
         <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
 
-        <Label Text="{Binding StatusMessage}" IsVisible="{Binding StatusMessage, Converter={StaticResource StringNotEmptyConverter}}" />
+        <Label Text="{Binding StatusMessage}"
+               Style="{StaticResource BodyLabelStyle}"
+               IsVisible="{Binding StatusMessage, Converter={StaticResource StringNotEmptyConverter}}" />
 
     </VerticalStackLayout>
 

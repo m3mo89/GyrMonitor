@@ -13,6 +13,8 @@ public sealed class DesktopSyncService
     private readonly string _clientId;
     private readonly string _deviceId;
 
+    public event EventHandler<DesktopSyncSummary>? SyncCompleted;
+
     public DesktopSyncService(ISyncQueueRepository queue, IPendingEventRepository events, ISyncEventsApi syncApi, string clientId, string deviceId)
     {
         _queue = queue;
@@ -36,7 +38,7 @@ public sealed class DesktopSyncService
 
         if (pendingQueueItems.Count == 0)
         {
-            return new DesktopSyncSummary(0, 0, 0, null);
+            return Complete(new DesktopSyncSummary(0, 0, 0, null));
         }
 
         var itemsByLocalId = new Dictionary<string, (SyncQueueItem Queue, PendingEvent Event)>();
@@ -51,7 +53,7 @@ public sealed class DesktopSyncService
 
         if (itemsByLocalId.Count == 0)
         {
-            return new DesktopSyncSummary(0, 0, 0, null);
+            return Complete(new DesktopSyncSummary(0, 0, 0, null));
         }
 
         var request = new SyncEventsRequestDto
@@ -78,7 +80,7 @@ public sealed class DesktopSyncService
         try
         {
             var result = await _syncApi.SyncAsync(request, idempotencyKey);
-            return await ApplyResultAsync(result, itemsByLocalId);
+            return Complete(await ApplyResultAsync(result, itemsByLocalId));
         }
         catch (Exception ex)
         {
@@ -93,8 +95,14 @@ public sealed class DesktopSyncService
                 await _events.UpdateAsync(pendingEvent);
             }
 
-            return new DesktopSyncSummary(0, 0, itemsByLocalId.Count, ex.Message);
+            return Complete(new DesktopSyncSummary(0, 0, itemsByLocalId.Count, ex.Message));
         }
+    }
+
+    private DesktopSyncSummary Complete(DesktopSyncSummary summary)
+    {
+        SyncCompleted?.Invoke(this, summary);
+        return summary;
     }
 
     private async Task<DesktopSyncSummary> ApplyResultAsync(

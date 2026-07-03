@@ -8,10 +8,13 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Spacing.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <converters:InvertedBoolConverter x:Key="InvertedBoolConverter" />
             <converters:StringNotEmptyConverter x:Key="StringNotEmptyConverter" />
+            <converters:SeverityToBrushConverter x:Key="SeverityToBrushConverter" />
+            <converters:IsZeroConverter x:Key="IsZeroConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

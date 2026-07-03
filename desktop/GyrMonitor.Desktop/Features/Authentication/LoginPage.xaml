@@ -5,23 +5,38 @@
              Title="Sign in">
 
     <ScrollView>
-        <VerticalStackLayout Padding="24" Spacing="16" VerticalOptions="Center">
+        <Grid Padding="{StaticResource SpacingSection}" VerticalOptions="Center">
+            <Border Style="{StaticResource CardStyle}"
+                    Padding="{StaticResource SpacingSection}"
+                    MaximumWidthRequest="360"
+                    HorizontalOptions="Center">
+                <VerticalStackLayout Spacing="{StaticResource SpacingDefault}">
 
-            <Label Text="GyrMonitor" FontSize="28" HorizontalOptions="Center" />
-            <Label Text="Administrator sign in" FontSize="14" HorizontalOptions="Center" TextColor="Gray" />
+                    <Label Text="GyrMonitor" Style="{StaticResource Headline}" />
+                    <Label Text="Administrator sign in" Style="{StaticResource SubHeadline}" />
 
-            <Entry Placeholder="Email" Keyboard="Email" Text="{Binding Email}" />
-            <Entry Placeholder="Password" IsPassword="True" Text="{Binding Password}" />
+                    <VerticalStackLayout Spacing="{StaticResource SpacingCompact}">
+                        <Entry Placeholder="Email" Keyboard="Email" Text="{Binding Email}" />
+                        <Entry Placeholder="Password" IsPassword="True" Text="{Binding Password}" />
+                    </VerticalStackLayout>
 
-            <Button Text="Sign in" Command="{Binding LoginCommand}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
+                    <Button Text="Sign in"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Command="{Binding LoginCommand}"
+                            IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
+                            HorizontalOptions="Fill" />
 
-            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
 
-            <Label Text="{Binding ErrorMessage}"
-                   TextColor="Red"
-                   IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}" />
+                    <Label Text="{Binding ErrorMessage}"
+                           Style="{StaticResource ErrorLabelStyle}"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}" />
 
-        </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
     </ScrollView>
 
 </ContentPage>

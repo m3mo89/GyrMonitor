@@ -208,4 +208,65 @@ public class DesktopSyncServiceTests
 
         Assert.Equal(firstKey, secondKey);
     }
+
+    [Fact]
+    public async Task SyncPendingEventsAsync_RaisesSyncCompleted_OnSuccess()
+    {
+        var (queue, events, localId) = await SeedPendingEventAsync();
+
+        var syncApi = new Mock<ISyncEventsApi>();
+        syncApi
+            .Setup(api => api.SyncAsync(It.IsAny<SyncEventsRequestDto>(), It.IsAny<string>()))
+            .ReturnsAsync(new SyncEventsResultDto
+            {
+                Processed = 1,
+                Created = 1,
+                Results = new List<SyncEventItemResultDto> { new() { LocalId = localId, EventId = "22222222-2222-4222-8222-222222222222", Status = "SYNCED", ServerId = "22222222-2222-4222-8222-222222222222" } }
+            });
+
+        var service = new DesktopSyncService(queue, events, syncApi.Object, "DESKTOP-001", "DEVICE-001");
+
+        DesktopSyncSummary? raised = null;
+        service.SyncCompleted += (_, summary) => raised = summary;
+
+        await service.SyncPendingEventsAsync();
+
+        Assert.NotNull(raised);
+        Assert.Equal(1, raised!.Synced);
+        Assert.Null(raised.ErrorMessage);
+    }
+
+    [Fact]
+    public async Task SyncPendingEventsAsync_RaisesSyncCompleted_OnException()
+    {
+        var (queue, events, _) = await SeedPendingEventAsync();
+
+        var syncApi = new Mock<ISyncEventsApi>();
+        syncApi.Setup(api => api.SyncAsync(It.IsAny<SyncEventsRequestDto>(), It.IsAny<string>())).ThrowsAsync(new HttpRequestException("offline"));
+
+        var service = new DesktopSyncService(queue, events, syncApi.Object, "DESKTOP-001", "DEVICE-001");
+
+        DesktopSyncSummary? raised = null;
+        service.SyncCompleted += (_, summary) => raised = summary;
+
+        await service.SyncPendingEventsAsync();
+
+        Assert.NotNull(raised);
+        Assert.Equal(1, raised!.Failed);
+        Assert.Equal("offline", raised.ErrorMessage);
+    }
+
+    [Fact]
+    public async Task SyncPendingEventsAsync_RaisesSyncCompleted_WhenNothingPending()
+    {
+        var service = new DesktopSyncService(new InMemorySyncQueueRepository(), new InMemoryPendingEventRepository(), new Mock<ISyncEventsApi>().Object, "DESKTOP-001", "DEVICE-001");
+
+        DesktopSyncSummary? raised = null;
+        service.SyncCompleted += (_, summary) => raised = summary;
+
+        await service.SyncPendingEventsAsync();
+
+        Assert.NotNull(raised);
+        Assert.Equal(0, raised!.Synced + raised.Duplicated + raised.Failed);
+    }
 }

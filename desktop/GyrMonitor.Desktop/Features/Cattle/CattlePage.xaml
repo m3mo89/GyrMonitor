@@ -2,21 +2,48 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:cattle="clr-namespace:GyrMonitor.Desktop.Core.Features.Cattle;assembly=GyrMonitor.Desktop.Core"
+             xmlns:controls="clr-namespace:GyrMonitor.Desktop.Shared.Controls"
              x:Class="GyrMonitor.Desktop.Features.Cattle.CattlePage"
              Title="Cattle">
 
     <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding LoadCommand}">
-        <CollectionView ItemsSource="{Binding Cattle}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="cattle:CattleSummaryDto">
-                    <Grid Padding="12" ColumnDefinitions="*,Auto,Auto">
-                        <Label Grid.Column="0" Text="{Binding TagNumber}" FontAttributes="Bold" />
-                        <Label Grid.Column="1" Text="{Binding Status}" />
-                        <Label Grid.Column="2" Text="{Binding LastRiskScore}" />
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+        <Grid Padding="{StaticResource SpacingDefault}" RowDefinitions="Auto,*" RowSpacing="{StaticResource SpacingCompact}">
+
+            <Label Grid.Row="0"
+                   Text="{Binding ErrorMessage}"
+                   Style="{StaticResource ErrorLabelStyle}"
+                   IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}" />
+
+            <controls:EmptyStateView Grid.Row="1"
+                                      Glyph="&#128032;"
+                                      Title="No cattle records"
+                                      Subtitle="Cattle synced from the backend will appear here."
+                                      IsVisible="{Binding Cattle.Count, Converter={StaticResource IsZeroConverter}}" />
+
+            <CollectionView Grid.Row="1"
+                             ItemsSource="{Binding Cattle}"
+                             IsVisible="{Binding Cattle.Count, Converter={StaticResource IsZeroConverter}, ConverterParameter=Invert}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="cattle:CattleSummaryDto">
+                        <Border Style="{StaticResource CardStyle}" Margin="0,4">
+                            <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="{StaticResource SpacingCompact}">
+                                <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                    <Label Text="{Binding TagNumber}" Style="{StaticResource BodyLabelStyle}" FontAttributes="Bold" />
+                                    <Label Text="{Binding Breed}" Style="{StaticResource CaptionLabelStyle}" />
+                                </VerticalStackLayout>
+                                <Border Grid.Column="1" Style="{StaticResource BadgeStyle}"
+                                        Stroke="{Binding Status, Converter={StaticResource SeverityToBrushConverter}}"
+                                        VerticalOptions="Center">
+                                    <Label Text="{Binding Status}" Style="{StaticResource BadgeLabelStyle}"
+                                           TextColor="{Binding Status, Converter={StaticResource SeverityToBrushConverter}}" />
+                                </Border>
+                                <Label Grid.Column="2" Text="{Binding LastRiskScore, StringFormat='{0:F1}'}" Style="{StaticResource BodyLabelStyle}" VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
     </RefreshView>
 
 </ContentPage>

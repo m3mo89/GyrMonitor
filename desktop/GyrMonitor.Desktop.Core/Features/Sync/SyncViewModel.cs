@@ -1,13 +1,11 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using GyrMonitor.Client.Core.Networking;
 
 namespace GyrMonitor.Desktop.Core.Features.Sync;
 
 public sealed partial class SyncViewModel : ObservableObject
 {
     private readonly DesktopSyncService _syncService;
-    private readonly IConnectivityService _connectivity;
 
     [ObservableProperty]
     private int pendingCount;
@@ -18,12 +16,9 @@ public sealed partial class SyncViewModel : ObservableObject
     [ObservableProperty]
     private string? statusMessage;
 
-    public bool IsOffline => !_connectivity.IsConnected;
-
-    public SyncViewModel(DesktopSyncService syncService, IConnectivityService connectivity)
+    public SyncViewModel(DesktopSyncService syncService)
     {
         _syncService = syncService;
-        _connectivity = connectivity;
     }
 
     [RelayCommand]

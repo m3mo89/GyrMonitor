@@ -5,35 +5,44 @@
              Title="Event simulator">
 
     <ScrollView>
-        <VerticalStackLayout Padding="16" Spacing="12">
+        <VerticalStackLayout Padding="{StaticResource SpacingDefault}" Spacing="{StaticResource SpacingDefault}">
 
-            <Label Text="Cattle" FontAttributes="Bold" />
-            <Picker ItemsSource="{Binding CattleOptions}"
-                    ItemDisplayBinding="{Binding DisplayName}"
-                    SelectedItem="{Binding SelectedCattle}" />
+            <Border Style="{StaticResource CardStyle}">
+                <VerticalStackLayout Spacing="{StaticResource SpacingCompact}">
 
-            <Label Text="Event type" FontAttributes="Bold" />
-            <HorizontalStackLayout Spacing="12">
-                <RadioButton Content="Inactivity" IsChecked="{Binding IsInactivity}" GroupName="EventType" />
-                <RadioButton Content="Activity" IsChecked="{Binding IsInactivity, Converter={StaticResource InvertedBoolConverter}}" GroupName="EventType" />
-            </HorizontalStackLayout>
+                    <Label Text="Cattle" Style="{StaticResource SectionHeaderStyle}" />
+                    <Picker ItemsSource="{Binding CattleOptions}"
+                            ItemDisplayBinding="{Binding DisplayName}"
+                            SelectedItem="{Binding SelectedCattle}" />
 
-            <Label Text="Inactive minutes" IsVisible="{Binding IsInactivity}" />
-            <Entry Text="{Binding InactiveMinutes}" Keyboard="Numeric" IsVisible="{Binding IsInactivity}" />
+                    <Label Text="Event type" Style="{StaticResource SectionHeaderStyle}" />
+                    <HorizontalStackLayout Spacing="{StaticResource SpacingDefault}">
+                        <RadioButton Content="Inactivity" IsChecked="{Binding IsInactivity}" GroupName="EventType" />
+                        <RadioButton Content="Activity" IsChecked="{Binding IsInactivity, Converter={StaticResource InvertedBoolConverter}}" GroupName="EventType" />
+                    </HorizontalStackLayout>
 
-            <Label Text="Confidence (0-1)" />
-            <Entry Text="{Binding Confidence}" Keyboard="Numeric" />
+                    <Label Text="Inactive minutes" Style="{StaticResource CaptionLabelStyle}" IsVisible="{Binding IsInactivity}" />
+                    <Entry Text="{Binding InactiveMinutes}" Keyboard="Numeric" IsVisible="{Binding IsInactivity}" />
 
-            <Button Text="Refresh cattle" Command="{Binding LoadCattleCommand}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
-            <Button Text="Generate event" Command="{Binding GenerateCommand}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
+                    <Label Text="Confidence (0-1)" Style="{StaticResource CaptionLabelStyle}" />
+                    <Entry Text="{Binding Confidence}" Keyboard="Numeric" />
 
-            <Label Text="{Binding ErrorMessage}"
-                   TextColor="Red"
-                   IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}" />
+                    <HorizontalStackLayout Spacing="{StaticResource SpacingCompact}">
+                        <Button Text="Refresh cattle" Style="{StaticResource SecondaryButtonStyle}" Command="{Binding LoadCattleCommand}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
+                        <Button Text="Generate event" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding GenerateCommand}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
+                    </HorizontalStackLayout>
 
-            <Label Text="Saved locally as a simulator-tagged event. It will sync automatically when connectivity returns."
-                   TextColor="Green"
-                   IsVisible="{Binding SavedOffline}" />
+                    <Label Text="{Binding ErrorMessage}"
+                           Style="{StaticResource ErrorLabelStyle}"
+                           IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}" />
+
+                    <Label Text="Saved locally as a simulator-tagged event. It will sync automatically when connectivity returns."
+                           Style="{StaticResource BodyLabelStyle}"
+                           TextColor="{StaticResource SuccessBrush}"
+                           IsVisible="{Binding SavedOffline}" />
+
+                </VerticalStackLayout>
+            </Border>
 
         </VerticalStackLayout>
     </ScrollView>

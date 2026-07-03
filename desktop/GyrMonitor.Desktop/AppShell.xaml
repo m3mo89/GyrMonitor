@@ -9,8 +9,17 @@
     xmlns:alerts="clr-namespace:GyrMonitor.Desktop.Features.Alerts"
     xmlns:simulator="clr-namespace:GyrMonitor.Desktop.Features.EventSimulator"
     xmlns:sync="clr-namespace:GyrMonitor.Desktop.Features.Sync"
+    xmlns:controls="clr-namespace:GyrMonitor.Desktop.Shared.Controls"
     Title="GyrMonitor Desktop"
     FlyoutBehavior="Disabled">
+
+    <Shell.TitleView>
+        <Grid>
+            <Label x:Name="PageTitleLabel" Style="{StaticResource SectionHeaderStyle}" VerticalOptions="Center" />
+            <controls:OfflineBannerView VerticalOptions="Fill" />
+            <controls:SyncNotificationView x:Name="SyncNotification" VerticalOptions="Fill" />
+        </Grid>
+    </Shell.TitleView>
 
     <ShellContent
         Title="Sign in"
@@ -20,22 +29,27 @@
     <TabBar Route="Main">
         <ShellContent
             Title="Dashboard"
+            Icon="icon_dashboard"
             ContentTemplate="{DataTemplate dashboard:DashboardPage}"
             Route="DashboardPage" />
         <ShellContent
             Title="Cattle"
+            Icon="icon_cattle"
             ContentTemplate="{DataTemplate cattle:CattlePage}"
             Route="CattlePage" />
         <ShellContent
             Title="Alerts"
+            Icon="icon_alerts"
             ContentTemplate="{DataTemplate alerts:AlertsPage}"
             Route="AlertsPage" />
         <ShellContent
             Title="Simulator"
+            Icon="icon_simulator"
             ContentTemplate="{DataTemplate simulator:EventSimulatorPage}"
             Route="EventSimulatorPage" />
         <ShellContent
             Title="Sync"
+            Icon="icon_sync"
             ContentTemplate="{DataTemplate sync:SyncPage}"
             Route="SyncPage" />
     </TabBar>

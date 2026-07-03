@@ -86,7 +86,8 @@ public static class MauiProgram
         services.AddTransient<CattleViewModel>();
         services.AddTransient<AlertsViewModel>();
         services.AddTransient<EventSimulatorViewModel>();
-        services.AddTransient<SyncViewModel>();
+        services.AddSingleton<SyncViewModel>();
+        services.AddSingleton<ConnectivityStatusViewModel>();
     }
 
     private static void RegisterPages(IServiceCollection services)
