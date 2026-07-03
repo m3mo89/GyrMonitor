@@ -1,58 +1,21 @@
-import { useEffect, useState } from 'react';
-
 import { LoadingState, UiState } from '../../shared/components/UiState';
-import { useAuth } from '../auth/AuthProvider';
-import { listCattle, type CattleListResult } from './cattle.api';
+import { useApiQuery } from '../../shared/hooks/useApiQuery';
+import { listCattle } from './cattle.api';
 
 type CattleListPageProps = {
   onOpenCattle(id: string): void;
 };
 
 export function CattleListPage({ onOpenCattle }: CattleListPageProps) {
-  const { apiClient } = useAuth();
-  const [result, setResult] = useState<CattleListResult | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    let isCurrent = true;
-
-    async function loadCattle() {
-      setIsLoading(true);
-      setError(null);
-
-      try {
-        const nextResult = await listCattle(apiClient);
-
-        if (isCurrent) {
-          setResult(nextResult);
-        }
-      } catch {
-        if (isCurrent) {
-          setResult(null);
-          setError('No se pudo cargar el listado de cattle.');
-        }
-      } finally {
-        if (isCurrent) {
-          setIsLoading(false);
-        }
-      }
-    }
-
-    void loadCattle();
-
-    return () => {
-      isCurrent = false;
-    };
-  }, [apiClient]);
+  const { data: result, isLoading, isError } = useApiQuery(['cattle', 'list'], listCattle);
 
   if (isLoading) {
     return <LoadingState title="Cargando cattle..." />;
   }
 
-  if (error) {
+  if (isError) {
     return (
-      <UiState title="No se pudo cargar cattle" description={error} tone="danger" />
+      <UiState title="No se pudo cargar cattle" description="No se pudo cargar el listado de cattle." tone="danger" />
     );
   }
 

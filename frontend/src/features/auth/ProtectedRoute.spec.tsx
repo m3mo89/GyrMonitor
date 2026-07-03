@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { AuthProvider } from './AuthProvider';
@@ -15,11 +16,13 @@ describe('ProtectedRoute', () => {
 
   it('shows login when the user is unauthenticated', () => {
     render(
-      <AuthProvider>
-        <ProtectedRoute allowedRoles={[Roles.ADMIN]} onAuthenticated={() => undefined}>
-          <p>Private content</p>
-        </ProtectedRoute>
-      </AuthProvider>
+      <MemoryRouter>
+        <AuthProvider>
+          <ProtectedRoute allowedRoles={[Roles.ADMIN]}>
+            <p>Private content</p>
+          </ProtectedRoute>
+        </AuthProvider>
+      </MemoryRouter>
     );
 
     expect(screen.getByRole('heading', { name: 'Iniciar sesion' })).toBeInTheDocument();
@@ -36,11 +39,13 @@ describe('ProtectedRoute', () => {
     );
 
     render(
-      <AuthProvider>
-        <ProtectedRoute allowedRoles={[Roles.ADMIN]} onAuthenticated={() => undefined}>
-          <p>Private content</p>
-        </ProtectedRoute>
-      </AuthProvider>
+      <MemoryRouter>
+        <AuthProvider>
+          <ProtectedRoute allowedRoles={[Roles.ADMIN]}>
+            <p>Private content</p>
+          </ProtectedRoute>
+        </AuthProvider>
+      </MemoryRouter>
     );
 
     expect(screen.getByRole('heading', { name: 'Acceso denegado' })).toBeInTheDocument();

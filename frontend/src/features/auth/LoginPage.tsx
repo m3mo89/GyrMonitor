@@ -1,10 +1,12 @@
 import { FormEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { login } from './auth.api';
 import { useAuth } from './AuthProvider';
 
 export function LoginPage({ onAuthenticated }: { onAuthenticated: () => void }) {
   const { apiClient, setSession } = useAuth();
+  const navigate = useNavigate();
   const [email, setEmail] = useState('admin@gyrmonitor.local');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -25,7 +27,7 @@ export function LoginPage({ onAuthenticated }: { onAuthenticated: () => void }) 
       const response = await login(apiClient, { email, password });
       setPassword('');
       setSession({ accessToken: response.accessToken, user: response.user });
-      window.history.replaceState(null, '', '/dashboard');
+      navigate('/dashboard', { replace: true });
       onAuthenticated();
     } catch {
       setPassword('');

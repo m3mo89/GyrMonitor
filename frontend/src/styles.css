@@ -90,15 +90,13 @@ p {
 }
 
 .brand-mark {
-  display: grid;
+  display: block;
   width: 44px;
   height: 44px;
-  place-items: center;
   border: 1px solid rgba(255, 255, 255, 0.26);
   border-radius: 8px;
-  background: #24583b;
-  color: #ffffff;
-  font-weight: 800;
+  overflow: hidden;
+  object-fit: cover;
 }
 
 .sidebar-nav {

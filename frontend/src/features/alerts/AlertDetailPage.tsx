@@ -1,9 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { LoadingState, UiState } from '../../shared/components/UiState';
+import { useApiQuery } from '../../shared/hooks/useApiQuery';
+import { formatDateTime } from '../../shared/utils/format-date-time';
 import { useAuth } from '../auth/AuthProvider';
 import { getAlertDetail, listAlertObservations, updateAlertStatus } from './alerts.api';
-import type { AlertDetail, AlertObservation, AlertStatus } from './alert.types';
+import type { AlertDetail, AlertStatus } from './alert.types';
 import { severityClass, statusClass } from './AlertsListPage';
 
 type AlertDetailPageProps = {
@@ -14,56 +17,38 @@ type AlertDetailPageProps = {
 
 export function AlertDetailPage({ alertId, onBackToList, onOpenCattle }: AlertDetailPageProps) {
   const { apiClient, session } = useAuth();
-  const [alert, setAlert] = useState<AlertDetail | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const queryClient = useQueryClient();
+  const alertQueryKey = ['alerts', 'detail', alertId];
+  const {
+    data: alert,
+    isLoading: isAlertLoading,
+    isError: isAlertError
+  } = useApiQuery(alertQueryKey, (client) => getAlertDetail(client, alertId));
+  const {
+    data: observations = [],
+    isLoading: isObservationsLoading,
+    isError: isObservationsError
+  } = useApiQuery(['alerts', 'observations', alertId], (client) => listAlertObservations(client, alertId));
   const [isUpdating, setIsUpdating] = useState(false);
-  const [observations, setObservations] = useState<AlertObservation[]>([]);
-  const [observationsError, setObservationsError] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [updateError, setUpdateError] = useState<string | null>(null);
 
-  useEffect(() => {
-    let isCurrent = true;
-
-    async function loadAlert() {
-      setIsLoading(true);
-      setError(null);
-
-      try {
-        const [nextAlert, nextObservations] = await Promise.all([getAlertDetail(apiClient, alertId), listAlertObservations(apiClient, alertId)]);
-        if (isCurrent) {
-          setAlert(nextAlert);
-          setObservations(nextObservations);
-          setObservationsError(null);
-        }
-      } catch {
-        if (isCurrent) {
-          setAlert(null);
-          setObservations([]);
-          setError('No se pudo cargar el detalle de la alerta.');
-        }
-      } finally {
-        if (isCurrent) {
-          setIsLoading(false);
-        }
-      }
-    }
-
-    void loadAlert();
-
-    return () => {
-      isCurrent = false;
-    };
-  }, [apiClient, alertId]);
+  const isLoading = isAlertLoading || isObservationsLoading;
+  const error = isAlertError || isObservationsError ? 'No se pudo cargar el detalle de la alerta.' : null;
+  const observationsError = isObservationsError && !isAlertError ? 'No se pudieron cargar las observaciones.' : null;
 
   async function changeStatus(status: AlertStatus) {
     setIsUpdating(true);
-    setError(null);
+    setUpdateError(null);
 
     try {
       const updated = await updateAlertStatus(apiClient, alertId, status);
-      setAlert((current) => (current ? { ...current, status: updated.status, attendedAt: updated.attendedAt } : current));
+      queryClient.setQueryData<AlertDetail>(alertQueryKey, (current) =>
+        current ? { ...current, status: updated.status, attendedAt: updated.attendedAt } : current
+      );
+      void queryClient.invalidateQueries({ queryKey: ['alerts', 'list'] });
+      void queryClient.invalidateQueries({ queryKey: ['dashboard', 'metrics'] });
     } catch {
-      setError('No se pudo actualizar el estado de la alerta.');
+      setUpdateError('No se pudo actualizar el estado de la alerta.');
     } finally {
       setIsUpdating(false);
     }
@@ -115,7 +100,7 @@ export function AlertDetailPage({ alertId, onBackToList, onOpenCattle }: AlertDe
         </div>
         <span className={statusClass(alert.status)}>{alert.status}</span>
       </header>
-      {error ? <UiState title="Actualizacion no aplicada" description={error} tone="danger" /> : null}
+      {updateError ? <UiState title="Actualizacion no aplicada" description={updateError} tone="danger" /> : null}
       <dl className="detail-grid">
         <div className="detail-item">
           <dt>Severity</dt>
@@ -188,11 +173,4 @@ export function AlertDetailPage({ alertId, onBackToList, onOpenCattle }: AlertDe
       ) : null}
     </div>
   );
-}
-
-function formatDateTime(value: string): string {
-  return new Intl.DateTimeFormat('es-MX', {
-    dateStyle: 'medium',
-    timeStyle: 'short'
-  }).format(new Date(value));
 }

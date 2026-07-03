@@ -7,11 +7,11 @@ import { LoginPage } from './LoginPage';
 export function ProtectedRoute({
   allowedRoles,
   children,
-  onAuthenticated
+  onAuthenticated = () => undefined
 }: {
   allowedRoles?: Role[];
   children: ReactNode;
-  onAuthenticated: () => void;
+  onAuthenticated?: () => void;
 }) {
   const { session } = useAuth();
 

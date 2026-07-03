@@ -1,4 +1,5 @@
 import { createContext, useContext, useMemo, useState, type ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { ApiClient } from '../../shared/services/api-client';
 import { browserSessionStore } from './session-store';
@@ -14,13 +15,14 @@ type AuthContextValue = {
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const navigate = useNavigate();
   const [session, setSessionState] = useState<SessionState | null>(() => browserSessionStore.getSession());
 
   const value = useMemo<AuthContextValue>(() => {
     const clearSession = () => {
       browserSessionStore.clearSession();
       setSessionState(null);
-      window.history.replaceState(null, '', '/login');
+      navigate('/login', { replace: true });
     };
 
     return {
@@ -36,7 +38,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       },
       clearSession
     };
-  }, [session]);
+  }, [navigate, session]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

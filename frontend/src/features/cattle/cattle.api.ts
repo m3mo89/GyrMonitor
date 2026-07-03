@@ -1,11 +1,6 @@
 import type { ApiClient } from '../../shared/services/api-client';
+import type { ApiEnvelope } from '../../shared/types/api-envelope';
 import type { CattleDetail, CattleHistory, CattleSummary, PaginationMetadata } from './cattle.types';
-
-type ApiEnvelope<T> = {
-  success: true;
-  data: T;
-  pagination?: PaginationMetadata;
-};
 
 export type CattleListResult = {
   data: CattleSummary[];

@@ -1,57 +1,21 @@
-import { useEffect, useState } from 'react';
-
 import { LoadingState, UiState } from '../../shared/components/UiState';
-import { useAuth } from '../auth/AuthProvider';
+import { useApiQuery } from '../../shared/hooks/useApiQuery';
+import { formatDateTime } from '../../shared/utils/format-date-time';
 import { listAlerts } from './alerts.api';
-import type { AlertListResult } from './alert.types';
 
 type AlertsListPageProps = {
   onOpenAlert(id: string): void;
 };
 
 export function AlertsListPage({ onOpenAlert }: AlertsListPageProps) {
-  const { apiClient } = useAuth();
-  const [result, setResult] = useState<AlertListResult | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    let isCurrent = true;
-
-    async function loadAlerts() {
-      setIsLoading(true);
-      setError(null);
-
-      try {
-        const nextResult = await listAlerts(apiClient);
-        if (isCurrent) {
-          setResult(nextResult);
-        }
-      } catch {
-        if (isCurrent) {
-          setResult(null);
-          setError('No se pudo cargar el listado de alertas.');
-        }
-      } finally {
-        if (isCurrent) {
-          setIsLoading(false);
-        }
-      }
-    }
-
-    void loadAlerts();
-
-    return () => {
-      isCurrent = false;
-    };
-  }, [apiClient]);
+  const { data: result, isLoading, isError } = useApiQuery(['alerts', 'list'], listAlerts);
 
   if (isLoading) {
     return <LoadingState title="Cargando alertas..." />;
   }
 
-  if (error) {
-    return <UiState title="No se pudieron cargar las alertas" description={error} tone="danger" />;
+  if (isError) {
+    return <UiState title="No se pudieron cargar las alertas" description="No se pudo cargar el listado de alertas." tone="danger" />;
   }
 
   if (!result || result.data.length === 0) {
@@ -131,11 +95,4 @@ export function severityClass(severity: string): string {
   }
 
   return 'status-badge';
-}
-
-function formatDateTime(value: string): string {
-  return new Intl.DateTimeFormat('es-MX', {
-    dateStyle: 'medium',
-    timeStyle: 'short'
-  }).format(new Date(value));
 }

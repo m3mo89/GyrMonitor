@@ -31,9 +31,7 @@ export function AppShell({
     <div className="app-shell">
       <aside className="sidebar" aria-label="Navegacion principal">
         <div className="brand-lockup">
-          <span className="brand-mark" aria-hidden="true">
-            GM
-          </span>
+          <img alt="" aria-hidden="true" className="brand-mark" src="/favicon.svg" />
           <div>
             <strong>GyrMonitor</strong>
             <span>MVP operativo</span>

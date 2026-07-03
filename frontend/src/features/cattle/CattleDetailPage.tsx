@@ -1,9 +1,7 @@
-import { useEffect, useState } from 'react';
-
 import { LoadingState, UiState } from '../../shared/components/UiState';
-import { useAuth } from '../auth/AuthProvider';
+import { useApiQuery } from '../../shared/hooks/useApiQuery';
+import { formatDateTime } from '../../shared/utils/format-date-time';
 import { getCattleDetail, getCattleHistory } from './cattle.api';
-import type { CattleDetail, CattleHistory } from './cattle.types';
 
 type CattleDetailPageProps = {
   cattleId: string;
@@ -11,48 +9,23 @@ type CattleDetailPageProps = {
 };
 
 export function CattleDetailPage({ cattleId, onBackToList }: CattleDetailPageProps) {
-  const { apiClient } = useAuth();
-  const [cattle, setCattle] = useState<CattleDetail | null>(null);
-  const [history, setHistory] = useState<CattleHistory | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    data: cattle,
+    isLoading: isCattleLoading,
+    isError: isCattleError,
+    error: cattleError
+  } = useApiQuery(['cattle', 'detail', cattleId], (client) => getCattleDetail(client, cattleId));
+  const { data: history, isLoading: isHistoryLoading, isError: isHistoryError } = useApiQuery(['cattle', 'history', cattleId], (client) =>
+    getCattleHistory(client, cattleId)
+  );
 
-  useEffect(() => {
-    let isCurrent = true;
-
-    async function loadDetail() {
-      setIsLoading(true);
-      setError(null);
-
-      try {
-        const [nextCattle, nextHistory] = await Promise.all([
-          getCattleDetail(apiClient, cattleId),
-          getCattleHistory(apiClient, cattleId)
-        ]);
-
-        if (isCurrent) {
-          setCattle(nextCattle);
-          setHistory(nextHistory);
-        }
-      } catch (requestError) {
-        if (isCurrent) {
-          setCattle(null);
-          setHistory(null);
-          setError(isNotFound(requestError) ? 'No se encontro el cattle solicitado.' : 'No se pudo cargar el detalle de cattle.');
-        }
-      } finally {
-        if (isCurrent) {
-          setIsLoading(false);
-        }
-      }
-    }
-
-    void loadDetail();
-
-    return () => {
-      isCurrent = false;
-    };
-  }, [apiClient, cattleId]);
+  const isLoading = isCattleLoading || isHistoryLoading;
+  const error =
+    isCattleError || isHistoryError
+      ? isNotFound(cattleError)
+        ? 'No se encontro el cattle solicitado.'
+        : 'No se pudo cargar el detalle de cattle.'
+      : null;
 
   if (isLoading) {
     return (
@@ -150,13 +123,6 @@ export function CattleDetailPage({ cattleId, onBackToList }: CattleDetailPagePro
       </section>
     </div>
   );
-}
-
-function formatDateTime(value: string): string {
-  return new Intl.DateTimeFormat('es-MX', {
-    dateStyle: 'medium',
-    timeStyle: 'short'
-  }).format(new Date(value));
 }
 
 function isNotFound(error: unknown): boolean {

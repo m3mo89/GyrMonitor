@@ -104,10 +104,10 @@ assert.match(detailPage, /Cattle history/);
 assert.match(detailPage, /onBackToList/);
 assert.match(detailPage, /getCattleHistory/);
 
-const app = source('src/app/App.tsx');
-assert.match(app, /\/cattle/);
-assert.match(app, /CattleListPage/);
-assert.match(app, /CattleDetailPage/);
+const router = source('src/app/router/AppRouter.tsx');
+assert.match(router, /cattle/);
+assert.match(router, /CattleListPage/);
+assert.match(router, /CattleDetailPage/);
 
 const readme = source('src/features/cattle/README.md');
 assert.match(readme, /knowledge-base\/10-roadmap\/phase-3-cattle-management\.md/);

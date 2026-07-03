@@ -1,3 +1,3 @@
 # Providers Boundary
 
-Placeholder for future app providers such as query clients, routing, or theme setup.
+`AppQueryProvider` supplies the shared TanStack Query `QueryClient` used by every feature's data-fetching hooks (see `shared/hooks/useApiQuery`), per ADR-004.

@@ -1,11 +1,6 @@
 import type { ApiClient } from '../../shared/services/api-client';
+import type { ApiEnvelope } from '../../shared/types/api-envelope';
 import type { AlertDetail, AlertListItem, AlertListResult, AlertObservation, AlertStatus, UpdateAlertStatusResult } from './alert.types';
-
-type ApiEnvelope<T> = {
-  success: true;
-  data: T;
-  pagination?: AlertListResult['pagination'];
-};
 
 export async function listAlerts(apiClient: ApiClient): Promise<AlertListResult> {
   const response = await apiClient.request<ApiEnvelope<AlertListItem[]>>('/alerts');

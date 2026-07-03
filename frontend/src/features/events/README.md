@@ -1,3 +1,3 @@
 # Events Feature Boundary
 
-Placeholder for future events UI. No event workflow exists in Phase 1.
+No implementation exists here. Activity event registration, listing, and per-cattle history are scoped to `knowledge-base/10-roadmap/phase-5-activity-events.md` (OpenSpec change `add-activity-events`), which covers the backend event pipeline; a dedicated frontend events UI has not been scheduled yet. `features/cattle/CattleDetailPage` already renders a read-only activity-event history sourced from that backend work.
