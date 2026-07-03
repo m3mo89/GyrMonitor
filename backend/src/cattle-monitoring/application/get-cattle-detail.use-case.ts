@@ -1,6 +1,6 @@
 import { CattleNotFoundError, InvalidCattleIdError } from './cattle.errors';
 import type { CattleDetailResponseDto, CattleRepository } from './cattle.types';
-import { isUuid } from './uuid';
+import { isUuid } from '../../shared/validation/assertions';
 import { toCattleDetailDto } from '../domain/cattle';
 
 export class GetCattleDetailUseCase {

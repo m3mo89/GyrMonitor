@@ -1,4 +1,5 @@
 import { BadRequestException, Body, Controller, Inject, InternalServerErrorException, Post, UnauthorizedException } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { InvalidCredentialsError, ValidationError } from '../application/authentication.errors';
 import type { LoginRequestDto } from '../application/authentication.types';
@@ -17,11 +18,16 @@ export type ApiError = {
   };
 };
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthenticationController {
   constructor(@Inject(LoginUseCase) private readonly loginUseCase: LoginUseCase) {}
 
   @Post('login')
+  @ApiOperation({ summary: 'Authenticate with email and password and receive a JWT.' })
+  @ApiResponse({ status: 201, description: 'Login succeeded, JWT and user info returned.' })
+  @ApiResponse({ status: 400, description: 'Missing or malformed email/password.' })
+  @ApiResponse({ status: 401, description: 'Invalid credentials.' })
   async login(@Body() request: LoginRequestDto) {
     try {
       return {

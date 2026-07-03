@@ -70,6 +70,8 @@ export type ActivityEventRepository = {
   list(query: NormalizedActivityEventsQuery): Promise<PaginatedResult<ActivityEvent>>;
 };
 
+export const ACTIVITY_EVENT_REPOSITORY = Symbol('ActivityEventRepository');
+
 export type CattleLookup = {
   exists(id: string): Promise<boolean>;
 };

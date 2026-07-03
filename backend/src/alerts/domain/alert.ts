@@ -1,4 +1,4 @@
-import { assertIsoDateTime, assertUuid } from '../../activity-events/domain/activity-event';
+import { assertIsoDateTime, assertNonEmptyString, assertUuid } from '../../shared/validation/assertions';
 import { AlertSeverities, type AlertSeverity } from '../../inactivity-analysis/domain/severity';
 
 export const AlertStatuses = {
@@ -116,11 +116,5 @@ export function canTransitionAlertStatus(from: AlertStatus, to: AlertStatus): bo
 function assertRiskScore(value: number): void {
   if (typeof value !== 'number' || Number.isNaN(value) || value < 0 || value > 100) {
     throw new Error('riskScore must be a number between 0 and 100.');
-  }
-}
-
-function assertNonEmptyString(value: string, field: string): void {
-  if (typeof value !== 'string' || value.trim().length === 0) {
-    throw new Error(`${field} must not be empty.`);
   }
 }

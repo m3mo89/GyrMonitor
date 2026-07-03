@@ -1,25 +1,15 @@
-import { BadRequestException, Controller, Get, Inject, InternalServerErrorException, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Inject, Query, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { Roles } from '../../authentication/domain/role';
 import { JwtAuthenticationGuard } from '../../authentication/http/authentication.guard';
 import { RoleAuthorizationGuard, RolesAllowed } from '../../authentication/http/roles.guard';
-import { InvalidDashboardQueryError } from '../application/dashboard.errors';
 import type { DashboardMetricsResponseDto } from '../application/dashboard.types';
 import { GetDashboardMetricsUseCase } from '../application/get-dashboard-metrics.use-case';
+import type { ApiSuccess } from '../../shared/http/api-response';
 
-type ApiSuccess<T> = {
-  success: true;
-  data: T;
-};
-
-type ApiError = {
-  success: false;
-  error: {
-    code: 'VALIDATION_ERROR' | 'INTERNAL_ERROR';
-    message: string;
-  };
-};
-
+@ApiTags('dashboard')
+@ApiBearerAuth()
 @Controller('dashboard')
 @UseGuards(JwtAuthenticationGuard, RoleAuthorizationGuard)
 export class DashboardController {
@@ -27,36 +17,15 @@ export class DashboardController {
 
   @Get()
   @RolesAllowed(Roles.ADMIN, Roles.RESEARCHER)
+  @ApiOperation({ summary: 'Get aggregated dashboard metrics, optionally filtered by date range and corral.' })
   async metrics(
     @Query('from') from?: string,
     @Query('to') to?: string,
     @Query('corralId') corralId?: string
   ): Promise<ApiSuccess<DashboardMetricsResponseDto>> {
-    try {
-      return {
-        success: true,
-        data: await this.getDashboardMetricsUseCase.execute({ from, to, corralId })
-      };
-    } catch (error) {
-      throw toHttpError(error);
-    }
+    return {
+      success: true,
+      data: await this.getDashboardMetricsUseCase.execute({ from, to, corralId })
+    };
   }
-}
-
-function toHttpError(error: unknown) {
-  if (error instanceof InvalidDashboardQueryError) {
-    return new BadRequestException(apiError('VALIDATION_ERROR', error.message));
-  }
-
-  return new InternalServerErrorException(apiError('INTERNAL_ERROR', 'Unexpected dashboard error.'));
-}
-
-function apiError(code: ApiError['error']['code'], message: string): ApiError {
-  return {
-    success: false,
-    error: {
-      code,
-      message
-    }
-  };
 }

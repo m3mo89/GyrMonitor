@@ -1,6 +1,6 @@
 import { CattleNotFoundError, InvalidCattleIdError } from './cattle.errors';
 import type { CattleHistoryDto, CattleRepository, PaginationRequest } from './cattle.types';
-import { isUuid } from './uuid';
+import { isUuid } from '../../shared/validation/assertions';
 import type { ActivityEventRepository } from '../../activity-events/application/activity-event.types';
 import { toActivityEventDto } from '../../activity-events/domain/activity-event';
 

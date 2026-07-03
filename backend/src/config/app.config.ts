@@ -11,6 +11,7 @@ export type BackendConfig = {
   idempotencyTtlHours: number;
   syncBatchSize: number;
   logLevel: string;
+  swaggerEnabled: boolean;
 };
 
 export type DatabaseConfig = {
@@ -29,6 +30,14 @@ function readNumber(value: string | undefined, fallback: number): number {
 
   const parsed = Number(value);
   return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function readBoolean(value: string | undefined, fallback: boolean): boolean {
+  if (value === undefined) {
+    return fallback;
+  }
+
+  return value.toLowerCase() === 'true';
 }
 
 function readDatabaseConfig(): DatabaseConfig {
@@ -76,5 +85,6 @@ export const appConfig: BackendConfig = {
   passwordHashIterations: readNumber(process.env.PASSWORD_HASH_ITERATIONS, 100000),
   idempotencyTtlHours: readNumber(process.env.IDEMPOTENCY_TTL_HOURS, 24),
   syncBatchSize: readNumber(process.env.SYNC_BATCH_SIZE, 100),
-  logLevel: process.env.LOG_LEVEL ?? 'info'
+  logLevel: process.env.LOG_LEVEL ?? 'info',
+  swaggerEnabled: readBoolean(process.env.SWAGGER_ENABLED, process.env.NODE_ENV !== 'production')
 };

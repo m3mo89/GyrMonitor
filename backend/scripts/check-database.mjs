@@ -10,8 +10,18 @@ const { closeSharedDatabaseClient } = require('../dist/database/database-singlet
 const { runMigrations } = require('../dist/database/migrations.js');
 const { createConfiguredMariaDbClient } = require('../dist/database/mysql2-driver.js');
 const { seedDatabase } = require('../dist/database/seeds.js');
-const { getAlertDetailUseCase, listAlertsUseCase } = require('../dist/alerts/infrastructure/alert-singletons.js');
+const { sharedAlertEventLookup, sharedAlertRepository } = require('../dist/alerts/infrastructure/alert-singletons.js');
+const { RepositoryAlertCattleLookup } = require('../dist/alerts/infrastructure/alert-lookups.js');
+const { GetAlertDetailUseCase } = require('../dist/alerts/application/get-alert-detail.use-case.js');
+const { ListAlertsUseCase } = require('../dist/alerts/application/list-alerts.use-case.js');
+const { sharedCattleRepository } = require('../dist/cattle-monitoring/infrastructure/cattle-repository-singleton.js');
 const { addAlertObservationUseCase, listAlertObservationsUseCase } = require('../dist/inspections/infrastructure/observation-singletons.js');
+
+// Mirrors the Nest DI wiring in alerts.module.ts: alerts' cattle lookup is built here from the
+// shared cattle repository since this script runs outside the Nest container.
+const alertCattleLookup = new RepositoryAlertCattleLookup(sharedCattleRepository);
+const listAlertsUseCase = new ListAlertsUseCase(sharedAlertRepository, alertCattleLookup);
+const getAlertDetailUseCase = new GetAlertDetailUseCase(sharedAlertRepository, alertCattleLookup, sharedAlertEventLookup);
 
 const client = createConfiguredMariaDbClient();
 

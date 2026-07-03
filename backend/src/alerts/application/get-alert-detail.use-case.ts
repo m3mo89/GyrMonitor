@@ -1,4 +1,4 @@
-import { assertUuid } from '../../activity-events/domain/activity-event';
+import { assertUuid } from '../../shared/validation/assertions';
 import { toAlertDetailDto } from '../domain/alert';
 import { AlertNotFoundError, InvalidAlertInputError } from './alert.errors';
 import type { AlertCattleLookup, AlertDetailResponseDto, AlertEventLookup, AlertRepository } from './alert.types';

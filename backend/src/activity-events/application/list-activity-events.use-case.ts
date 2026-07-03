@@ -1,6 +1,7 @@
 import { InvalidActivityEventInputError } from './activity-event.errors';
 import type { ActivityEventListResponseDto, ActivityEventRepository, ListActivityEventsQuery, NormalizedActivityEventsQuery } from './activity-event.types';
-import { assertEventType, assertIsoDateTime, assertUuid, toActivityEventDto } from '../domain/activity-event';
+import { assertEventType, toActivityEventDto } from '../domain/activity-event';
+import { assertIsoDateTime, assertUuid } from '../../shared/validation/assertions';
 
 export class ListActivityEventsUseCase {
   private readonly events: ActivityEventRepository;

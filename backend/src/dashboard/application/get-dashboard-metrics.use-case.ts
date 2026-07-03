@@ -1,4 +1,4 @@
-import { assertIsoDateTime, assertUuid } from '../../activity-events/domain/activity-event';
+import { assertIsoDateTime, assertUuid } from '../../shared/validation/assertions';
 import { InvalidDashboardQueryError } from './dashboard.errors';
 import type { DashboardDataSource, DashboardMetricsResponseDto, DashboardQuery, NormalizedDashboardQuery } from './dashboard.types';
 

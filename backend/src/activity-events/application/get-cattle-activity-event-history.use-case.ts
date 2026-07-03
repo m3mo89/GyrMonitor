@@ -1,6 +1,7 @@
 import { ActivityEventCattleNotFoundError, InvalidActivityEventInputError } from './activity-event.errors';
 import type { ActivityEventRepository, CattleActivityEventHistoryDto, CattleLookup, PaginationRequest } from './activity-event.types';
-import { assertUuid, toActivityEventDto } from '../domain/activity-event';
+import { toActivityEventDto } from '../domain/activity-event';
+import { assertUuid } from '../../shared/validation/assertions';
 
 export class GetCattleActivityEventHistoryUseCase {
   private readonly events: ActivityEventRepository;

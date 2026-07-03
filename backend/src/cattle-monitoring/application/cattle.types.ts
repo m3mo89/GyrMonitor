@@ -29,5 +29,7 @@ export type CattleRepository = {
   exists(id: string): Promise<boolean>;
 };
 
+export const CATTLE_REPOSITORY = Symbol('CattleRepository');
+
 export type CattleListResponseDto = PaginatedResult<CattleSummaryDto>;
 export type CattleDetailResponseDto = CattleDetailDto;

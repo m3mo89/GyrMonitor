@@ -1,13 +1,12 @@
 import type { AlertCattleLookup, AlertEventLookup } from '../application/alert.types';
 import type { CattleRepository } from '../../cattle-monitoring/application/cattle.types';
-import { sharedCattleRepository } from '../../cattle-monitoring/infrastructure/cattle-repository-singleton';
 import { getSharedDatabaseClient } from '../../database/database-singleton';
 import type { DatabaseClient } from '../../database/database.types';
 
 export class RepositoryAlertCattleLookup implements AlertCattleLookup {
   private readonly cattle: CattleRepository;
 
-  constructor(cattle: CattleRepository = sharedCattleRepository) {
+  constructor(cattle: CattleRepository) {
     this.cattle = cattle;
   }
 

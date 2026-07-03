@@ -1,6 +1,7 @@
 import { IdempotencyConflictError } from './offline-sync.errors';
 import type { SyncLogRepository } from './offline-sync.types';
-import { assertNonEmptyString, hashPayload, type SyncBatchResult, type SyncEndpoint } from '../domain/sync-log';
+import { hashPayload, type SyncBatchResult, type SyncEndpoint } from '../domain/sync-log';
+import { assertNonEmptyString } from '../../shared/validation/assertions';
 
 export class SyncIdempotencyService {
   private readonly logs: SyncLogRepository;

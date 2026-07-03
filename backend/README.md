@@ -35,6 +35,12 @@ npm run db:check --workspace backend
 
 `db:migrate` applies versioned SQL migrations and records applied versions in `schema_migrations`. `db:seed` loads repeatable non-production MVP records. `db:check` builds the backend, applies migrations twice to verify idempotency, seeds data, and exercises the MariaDB repositories for authentication, cattle/event persistence, alert generation/filtering, observation idempotency, and UTC timestamp preservation.
 
+## API Documentation
+
+The backend serves interactive OpenAPI (Swagger) documentation at `/api/docs`, and the raw OpenAPI document at `/api/docs-json`, generated from the live controllers. These paths are independent of `API_PREFIX`, so they stay stable if the API version prefix changes.
+
+Docs are enabled by default outside production. Control this with `SWAGGER_ENABLED` (`true`/`false`) in `.env`; when disabled, `/api/docs` returns 404 while the rest of the API is unaffected.
+
 ## Local Authentication
 
 Use local-only credentials for development and tests. They are intentionally documented as non-production examples:

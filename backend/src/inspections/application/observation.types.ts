@@ -20,6 +20,8 @@ export type ObservationRepository = {
   listByAlertId(alertId: string): Promise<Observation[]>;
 };
 
+export const OBSERVATION_REPOSITORY = Symbol('ObservationRepository');
+
 export type AlertLookup = {
   exists(alertId: string): Promise<boolean>;
 };

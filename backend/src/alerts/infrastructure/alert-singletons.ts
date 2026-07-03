@@ -1,25 +1,20 @@
-import { sharedCattleRepository } from '../../cattle-monitoring/infrastructure/cattle-repository-singleton';
 import { mvpRiskCalculator } from '../../inactivity-analysis/infrastructure/inactivity-analysis-singletons';
 import { GenerateAlertFromActivityEventUseCase } from '../application/generate-alert-from-activity-event.use-case';
-import { GetAlertDetailUseCase } from '../application/get-alert-detail.use-case';
-import { ListAlertsUseCase } from '../application/list-alerts.use-case';
 import { UpdateAlertStatusUseCase } from '../application/update-alert-status.use-case';
 import { MariaDbAlertRepository } from './mariadb-alert.repository';
-import { MariaDbAlertEventLookup, RepositoryAlertCattleLookup } from './alert-lookups';
+import { MariaDbAlertEventLookup } from './alert-lookups';
 
 export const sharedAlertRepository = new MariaDbAlertRepository();
-export const sharedAlertCattleLookup = new RepositoryAlertCattleLookup(sharedCattleRepository);
 export const sharedAlertEventLookup = new MariaDbAlertEventLookup();
+export const updateAlertStatusUseCase = new UpdateAlertStatusUseCase(sharedAlertRepository);
 
+// Kept as a directly-constructed singleton (not Nest DI) because `activity-events` consumes
+// it via a raw import when registering activity events. Wiring it through Nest DI would
+// require ActivityEventsModule to import AlertsModule, which — combined with
+// AlertsModule -> CattleMonitoringModule and CattleMonitoringModule -> ActivityEventsModule
+// (see cattle-monitoring.module.ts) — would form a genuine 3-module Nest import cycle.
+// Resolving that would need `forwardRef()` or a deeper restructuring, out of scope here.
 export const generateAlertFromActivityEventUseCase = new GenerateAlertFromActivityEventUseCase(
   sharedAlertRepository,
   mvpRiskCalculator
 );
-
-export const listAlertsUseCase = new ListAlertsUseCase(sharedAlertRepository, sharedAlertCattleLookup);
-export const getAlertDetailUseCase = new GetAlertDetailUseCase(
-  sharedAlertRepository,
-  sharedAlertCattleLookup,
-  sharedAlertEventLookup
-);
-export const updateAlertStatusUseCase = new UpdateAlertStatusUseCase(sharedAlertRepository);

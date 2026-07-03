@@ -1,13 +1,13 @@
-export class InvalidSyncInputError extends Error {
+import { DomainError } from '../../shared/domain/domain-error';
+
+export class InvalidSyncInputError extends DomainError {
   constructor(message: string) {
-    super(message);
-    this.name = 'InvalidSyncInputError';
+    super(message, 400, 'VALIDATION_ERROR');
   }
 }
 
-export class IdempotencyConflictError extends Error {
+export class IdempotencyConflictError extends DomainError {
   constructor() {
-    super('Idempotency-Key was already used with a different payload.');
-    this.name = 'IdempotencyConflictError';
+    super('Idempotency-Key was already used with a different payload.', 409, 'IDEMPOTENCY_CONFLICT');
   }
 }

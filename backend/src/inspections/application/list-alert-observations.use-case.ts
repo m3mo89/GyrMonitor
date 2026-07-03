@@ -1,4 +1,5 @@
-import { assertUuid, toObservationDto } from '../domain/observation';
+import { toObservationDto } from '../domain/observation';
+import { assertUuid } from '../../shared/validation/assertions';
 import type { AlertLookup, AlertObservationListDto, ObservationRepository } from './observation.types';
 import { AlertNotFoundError, InvalidObservationInputError } from './observation.errors';
 

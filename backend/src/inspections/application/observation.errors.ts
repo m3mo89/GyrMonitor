@@ -1,13 +1,13 @@
-export class InvalidObservationInputError extends Error {
+import { DomainError } from '../../shared/domain/domain-error';
+
+export class InvalidObservationInputError extends DomainError {
   constructor(message: string) {
-    super(message);
-    this.name = 'InvalidObservationInputError';
+    super(message, 400, 'VALIDATION_ERROR');
   }
 }
 
-export class AlertNotFoundError extends Error {
+export class AlertNotFoundError extends DomainError {
   constructor(alertId: string) {
-    super(`Alert not found: ${alertId}`);
-    this.name = 'AlertNotFoundError';
+    super(`Alert not found: ${alertId}`, 404, 'NOT_FOUND');
   }
 }

@@ -1,4 +1,4 @@
-import { assertIsoDateTime, assertUuid } from '../../activity-events/domain/activity-event';
+import { assertIsoDateTime, assertUuid } from '../../shared/validation/assertions';
 import { AlertStatuses, assertAlertStatus, canTransitionAlertStatus } from '../domain/alert';
 import { AlertNotFoundError, InvalidAlertInputError } from './alert.errors';
 import type { AlertRepository, UpdateAlertStatusCommand, UpdateAlertStatusResponseDto } from './alert.types';

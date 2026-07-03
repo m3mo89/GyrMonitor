@@ -5,6 +5,7 @@ import { Test } from '@nestjs/testing';
 import { Roles, type Role } from '../src/authentication/domain/role';
 import { JwtAuthenticationGuard } from '../src/authentication/http/authentication.guard';
 import { RoleAuthorizationGuard } from '../src/authentication/http/roles.guard';
+import { DomainErrorFilter } from '../src/shared/http/domain-error.filter';
 
 export type TestUser = {
   sub: string;
@@ -43,6 +44,7 @@ export async function createHttpTestApp(options: {
     .compile();
 
   const app = moduleRef.createNestApplication(new ExpressAdapter());
+  app.useGlobalFilters(new DomainErrorFilter());
   await app.init();
   return app;
 }

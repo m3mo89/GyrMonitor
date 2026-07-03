@@ -1,4 +1,4 @@
-import { assertUuid } from '../../activity-events/domain/activity-event';
+import { assertUuid } from '../../shared/validation/assertions';
 import { assertAlertSeverity, assertAlertStatus, toAlertListItemDto } from '../domain/alert';
 import type { AlertStatus } from '../domain/alert';
 import type { AlertSeverity } from '../../inactivity-analysis/domain/severity';
