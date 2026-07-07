@@ -7,6 +7,9 @@
     "backend",
     "frontend"
   ],
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.62.2"
+  },
   "scripts": {
     "build": "npm run build --workspace backend && npm run build --workspace frontend && node scripts/verify-foundation.mjs build",
     "lint": "npm run lint --workspace backend && npm run lint --workspace frontend && node scripts/verify-foundation.mjs lint",
