@@ -197,3 +197,4 @@ All rights reserved.
 GyrMonitor is being developed following a **Specification-Driven Development** workflow using **OpenSpec**, supported by a structured **Knowledge Base** and a modular **Clean Architecture**.
 
 The goal is to build a maintainable, scalable, and well-documented platform where every architectural decision is traceable from requirements to implementation.
+
