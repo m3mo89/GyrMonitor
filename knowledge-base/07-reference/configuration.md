@@ -12,7 +12,7 @@ This document defines recommended configuration keys. Final values should be set
 ## Backend Environment Variables
 
 | Variable | Purpose | Example |
-|---|---|---|
+| --- | --- | --- |
 | `NODE_ENV` | Runtime environment. | `development` |
 | `PORT` | Backend HTTP port. | `3000` |
 | `API_PREFIX` | API route prefix. | `/api/v1` |
@@ -26,7 +26,7 @@ This document defines recommended configuration keys. Final values should be set
 ## Frontend Environment Variables
 
 | Variable | Purpose | Example |
-|---|---|---|
+| --- | --- | --- |
 | `VITE_API_BASE_URL` | Backend API base URL. | `http://localhost:3000/api/v1` |
 | `VITE_APP_NAME` | Application display name. | `GyrMonitor` |
 | `VITE_ENABLE_MOCKS` | Enable mocked data for local UI development. | `false` |
@@ -34,7 +34,7 @@ This document defines recommended configuration keys. Final values should be set
 ## Mobile/Desktop Configuration
 
 | Setting | Purpose | Recommended Default |
-|---|---|---|
+| --- | --- | --- |
 | `ApiBaseUrl` | Backend API base URL. | Environment-specific. |
 | `ClientId` | Logical client identifier. | Generated per installation. |
 | `SyncIntervalSeconds` | Sync polling interval after connectivity returns. | `30` |

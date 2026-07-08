@@ -10,7 +10,7 @@ version: 0.8.0
 ## Document Types
 
 | Type | Purpose |
-|---|---|
+| --- | --- |
 | Product | Explains the product vision, scope and users. |
 | Domain | Explains business concepts without technology. |
 | Requirements | Defines what the system must do. |

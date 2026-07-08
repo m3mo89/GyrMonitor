@@ -24,7 +24,7 @@ The backend is the central application boundary for GyrMonitor. It exposes REST 
 ## Recommended Stack
 
 | Concern | Decision |
-|---|---|
+| --- | --- |
 | Runtime | Node.js |
 | Language | TypeScript |
 | Framework | NestJS |

@@ -48,7 +48,7 @@ The project is built around the following principles:
 # Technology Stack
 
 | Layer | Technology |
-|--------|------------|
+| -------- | ------------ |
 | Backend | NestJS |
 | Frontend | React + TypeScript |
 | Desktop | .NET MAUI |
@@ -81,7 +81,7 @@ The project is built around the following principles:
 # Documentation
 
 | Folder | Purpose |
-|----------|---------|
+| ---------- | --------- |
 | `docs/` | Original academic documents and project deliverables |
 | `knowledge-base/` | Product documentation and technical specifications (Single Source of Truth) |
 | `openspec/` | Proposed software changes managed with OpenSpec |
@@ -118,7 +118,7 @@ The documentation inside **knowledge-base/** is considered the **Single Source o
 # Project Status
 
 | Phase | Status |
-|--------|:------:|
+| -------- | :------: |
 | Knowledge Base | ✅ Frozen baseline |
 | Phase 1 — Foundation | 🚧 In Progress |
 | OpenSpec Proposals | ⏳ Pending |

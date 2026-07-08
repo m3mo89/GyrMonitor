@@ -17,7 +17,7 @@ The cattle API exposes cattle records and associated historical activity informa
 ## Related Requirements
 
 | ID | Requirement |
-|---|---|
+| --- | --- |
 | RF-01 | Register cattle. |
 | RF-02 | Consult cattle. |
 | RF-03 | Consult cattle history. |
@@ -29,7 +29,7 @@ The cattle API exposes cattle records and associated historical activity informa
 Lists cattle registered in the system.
 
 | Field | Value |
-|---|---|
+| --- | --- |
 | Method | `GET` |
 | Route | `/api/v1/cattle` |
 | Use Case | `GetCattleListUseCase` |
@@ -63,7 +63,7 @@ Lists cattle registered in the system.
 Returns details for a specific cattle record.
 
 | Field | Value |
-|---|---|
+| --- | --- |
 | Method | `GET` |
 | Route | `/api/v1/cattle/{id}` |
 | Use Case | `GetCattleByIdUseCase` |
@@ -74,7 +74,7 @@ Returns details for a specific cattle record.
 Returns historical activity events for a specific cattle record.
 
 | Field | Value |
-|---|---|
+| --- | --- |
 | Method | `GET` |
 | Route | `/api/v1/cattle/{id}/events` |
 | Use Case | `GetCattleHistoryUseCase` |

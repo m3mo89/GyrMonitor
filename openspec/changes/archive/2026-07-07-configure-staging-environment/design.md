@@ -9,6 +9,7 @@ Login also depends on a prepared MariaDB database because persisted users are lo
 ## Goals / Non-Goals
 
 **Goals:**
+
 - Configure development, staging, and production without source edits per deploy target.
 - Allow each environment's frontend origin to call only the matching backend API.
 - Make required Vercel and Railway environment variables and build commands explicit and documented.
@@ -16,6 +17,7 @@ Login also depends on a prepared MariaDB database because persisted users are lo
 - Improve diagnostics enough to distinguish invalid credentials from unreachable/misconfigured API calls.
 
 **Non-Goals:**
+
 - Replace JWT bearer authentication with cookies or refresh tokens.
 - Create production user-management flows.
 - Commit real staging or production secrets.

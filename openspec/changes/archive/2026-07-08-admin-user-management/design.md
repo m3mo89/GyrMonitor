@@ -5,6 +5,7 @@ Users today are provisioned by `backend/src/database/seeds.ts` (four hardcoded A
 ## Goals / Non-Goals
 
 **Goals:**
+
 - Let an ADMIN create a real user (name, email, role, initial password) through the API and a web page.
 - Let an ADMIN list all users with their role and status.
 - Let an ADMIN disable a user's login access and reactivate it later, without deleting the row.
@@ -12,6 +13,7 @@ Users today are provisioned by `backend/src/database/seeds.ts` (four hardcoded A
 - Make the login flow reject disabled users indistinguishably from invalid credentials.
 
 **Non-Goals:**
+
 - Self-service signup, password reset, or profile editing by non-admins — out of scope.
 - Role reassignment (changing an existing user's role) — the user explicitly excluded this from scope; a disabled+recreated user is the workaround if a role truly needs to change.
 - Hard delete of users — intentionally disallowed to preserve referential integrity of historical records.

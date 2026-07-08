@@ -24,42 +24,42 @@ The Cattle domain is responsible for:
 
 ## Entity Definition
 
-| Field | Type | Description |
-|---|---|---|
-| id | UUID | Unique cattle identifier. |
-| tagNumber | string | Human-readable identifier used in the field. |
-| breed | string | Breed. For this project, expected value is `Gyr`. |
-| sex | string | Animal sex. Suggested values: `MALE`, `FEMALE`. |
-| birthDate | date | Optional date of birth. |
-| status | string | Operational status. Suggested values: `ACTIVE`, `INACTIVE`, `UNDER_OBSERVATION`. |
-| createdAt | datetime | Date when the cattle record was created. |
+| Field     | Type     | Description                                                                      |
+| --------- | -------- | -------------------------------------------------------------------------------- |
+| id        | UUID     | Unique cattle identifier.                                                        |
+| tagNumber | string   | Human-readable identifier used in the field.                                     |
+| breed     | string   | Breed. For this project, expected value is `Gyr`.                                |
+| sex       | string   | Animal sex. Suggested values: `MALE`, `FEMALE`.                                  |
+| birthDate | date     | Optional date of birth.                                                          |
+| status    | string   | Operational status. Suggested values: `ACTIVE`, `INACTIVE`, `UNDER_OBSERVATION`. |
+| createdAt | datetime | Date when the cattle record was created.                                         |
 
 ## Business Rules
 
-| Rule ID | Rule |
-|---|---|
-| CATTLE-BR-001 | A cattle record must have a unique `tagNumber`. |
-| CATTLE-BR-002 | Only active cattle should be considered for alert generation in the MVP. |
+| Rule ID       | Rule                                                                                                 |
+| ------------- | ---------------------------------------------------------------------------------------------------- |
+| CATTLE-BR-001 | A cattle record must have a unique `tagNumber`.                                                      |
+| CATTLE-BR-002 | Only active cattle should be considered for alert generation in the MVP.                             |
 | CATTLE-BR-003 | Historical events must remain associated with the original cattle record even if its status changes. |
-| CATTLE-BR-004 | The breed field should default to `Gyr` for this MVP scope. |
+| CATTLE-BR-004 | The breed field should default to `Gyr` for this MVP scope.                                          |
 
 ## Related Requirements
 
-| Requirement | Description |
-|---|---|
-| RF-01 | Register cattle. |
-| RF-02 | Consult cattle. |
-| RF-03 | Consult cattle history. |
-| RF-17 | Display risk ranking. |
-| RN-03 | Centralize historical information. |
-| RN-08 | Maintain traceability between event, alert, observation, and user. |
+| Requirement | Description                                                        |
+| ----------- | ------------------------------------------------------------------ |
+| RF-01       | Register cattle.                                                   |
+| RF-02       | Consult cattle.                                                    |
+| RF-03       | Consult cattle history.                                            |
+| RF-17       | Display risk ranking.                                              |
+| RN-03       | Centralize historical information.                                 |
+| RN-08       | Maintain traceability between event, alert, observation, and user. |
 
 ## Related Use Cases
 
-| Use Case | Description |
-|---|---|
-| CU-01 | Register activity event for an existing cattle record. |
-| CU-06 | Consult dashboard metrics related to cattle. |
+| Use Case | Description                                            |
+| -------- | ------------------------------------------------------ |
+| CU-01    | Register activity event for an existing cattle record. |
+| CU-06    | Consult dashboard metrics related to cattle.           |
 
 ## Relationships
 
@@ -100,6 +100,6 @@ In the MVP, cattle records are primarily used as reference data. The system does
 
 ## Change History
 
-| Version | Date | Notes |
-|---|---:|---|
-| 0.1 | 2026-06-26 | Initial domain knowledge-base extraction from academic DOCX sources. |
+| Version |       Date | Notes                                                                |
+| ------- | ---------: | -------------------------------------------------------------------- |
+| 0.1     | 2026-06-26 | Initial domain knowledge-base extraction from academic DOCX sources. |

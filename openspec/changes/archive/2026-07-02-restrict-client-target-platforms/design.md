@@ -13,12 +13,14 @@ Both projects currently resolve to the same set: `android`, `ios`, `maccatalyst`
 ## Goals / Non-Goals
 
 **Goals:**
+
 - Desktop project (`GyrMonitor.Desktop.csproj`) only exposes desktop target frameworks: Mac Catalyst (non-Linux dev/build hosts) and Windows (on Windows hosts).
 - Mobile project (`GyrMonitor.Mobile.csproj`) only exposes mobile target frameworks: Android (always) and iOS (non-Linux dev/build hosts).
 - Platform-specific build steps (e.g. the Mac Catalyst native-library codesign `Target`) stay attached only to the project(s) that still target that platform.
 - Existing platform-specific code (e.g. `Platforms/Android`, `Platforms/iOS`, `Platforms/MacCatalyst`, `Platforms/Windows` folders) is left in place unless it's dead weight for a platform the project no longer targets, since `.NET MAUI` only compiles the `Platforms/<X>` folder matching an active TFM.
 
 **Non-Goals:**
+
 - No change to shared business logic in `shared/GyrMonitor.Client.Core`, `desktop/GyrMonitor.Desktop.Core`, or `mobile/GyrMonitor.Mobile.Core` — this is a target-framework/build-surface change only.
 - No change to app behavior, UI, authentication, sync, or any other spec-level runtime capability.
 - No introduction of a new shared "platform policy" abstraction — this is a straightforward `TargetFrameworks` edit, not a new build system.
@@ -29,17 +31,21 @@ Both projects currently resolve to the same set: `android`, `ios`, `maccatalyst`
 Both projects are small, single-purpose MAUI heads. A shared `.props` file or custom MSBuild condition would add indirection for two lines of XML that are unlikely to need to stay in sync (desktop and mobile platforms are permanently different by design). Keep the fix local and readable in each project file.
 
 Desktop `TargetFrameworks`:
+
 ```xml
 <TargetFrameworks Condition="!$([MSBuild]::IsOSPlatform('linux'))">net10.0-maccatalyst</TargetFrameworks>
 <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
 ```
+
 On Linux, desktop has no buildable TFM under this project (Mac Catalyst and Windows are both unavailable there) — same constraint the template already implied by gating those TFMs behind non-Linux/Windows conditions.
 
 Mobile `TargetFrameworks`:
+
 ```xml
 <TargetFrameworks>net10.0-android</TargetFrameworks>
 <TargetFrameworks Condition="!$([MSBuild]::IsOSPlatform('linux'))">$(TargetFrameworks);net10.0-ios</TargetFrameworks>
 ```
+
 Android remains buildable everywhere (including Linux CI runners), iOS added on non-Linux hosts — unchanged from today's mobile behavior, just with `maccatalyst` and `windows` removed.
 
 **Decision: Drop the Mac Catalyst codesign `Target` from `GyrMonitor.Mobile.csproj`, keep it in `GyrMonitor.Desktop.csproj`.**

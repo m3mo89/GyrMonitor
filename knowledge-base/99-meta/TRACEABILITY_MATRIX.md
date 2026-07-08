@@ -8,7 +8,7 @@ version: 1.1.0
 # Traceability Matrix
 
 | Requirement Area | Use Cases | Domain Modules | API Contracts | Roadmap Phase |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | Authentication and roles | Login, protected access | User Roles | `POST /auth/login` | Phase 2 |
 | Cattle management | List and consult cattle | Cattle | `GET /cattle`, `GET /cattle/{id}` | Phase 3 |
 | Field observations | Register observation | Observations, Inspections | `POST /alerts/{id}/observations` | Phase 4 |

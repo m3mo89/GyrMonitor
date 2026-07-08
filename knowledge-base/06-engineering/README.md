@@ -24,7 +24,7 @@ The engineering documentation is intentionally separated from domain and require
 ## Navigation
 
 | Area | Document |
-|---|---|
+| --- | --- |
 | Backend | [backend/overview.md](backend/overview.md) |
 | Frontend | [frontend/overview.md](frontend/overview.md) |
 | Database | [database/overview.md](database/overview.md) |

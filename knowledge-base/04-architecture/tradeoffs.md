@@ -18,7 +18,7 @@ This document records the main architectural tradeoffs behind the MVP.
 ## Tradeoff Matrix
 
 | Decision Area | Alternatives | Selected | Rationale |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Backend architecture | Microservices, traditional monolith, modular monolith | Modular monolith | Lower operational complexity with clear domain boundaries. |
 | Consistency model | Strong consistency, eventual consistency | Eventual consistency for offline clients | Intermittent connectivity requires local availability. |
 | API style | REST, GraphQL, gRPC, event-driven | REST | Simple, stable and compatible with all clients. |

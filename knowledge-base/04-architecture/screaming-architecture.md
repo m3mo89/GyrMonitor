@@ -54,7 +54,7 @@ src/
 ## Domain Modules
 
 | Module | Reason to Exist |
-|---|---|
+| --- | --- |
 | Cattle Monitoring | Manage and consult cattle records. |
 | Activity Events | Register activity and inactivity events. |
 | Risk Analysis | Calculate risk score and severity. |

@@ -8,7 +8,7 @@ version: 1.1.0
 # Module Catalog
 
 | Module | MVP Status | Primary Domain Doc | API Doc | Engineering Area |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | Authentication | Planned | `02-domain/domain-model.md` | `05-api/authentication.md` | `06-engineering/backend/` + `06-engineering/frontend/` |
 | Cattle Management | Planned | `02-domain/cattle.md` | `05-api/cattle.md` | Backend, Frontend, Database |
 | Observations | Planned | `02-domain/observations.md` | `05-api/observations.md` | Backend, Mobile, Desktop, Database |

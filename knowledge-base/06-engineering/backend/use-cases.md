@@ -5,7 +5,7 @@ Use cases represent application actions. Each use case should be small, testable
 ## Initial Use Case Catalog
 
 | Use Case | Module | Purpose |
-|---|---|---|
+| --- | --- | --- |
 | `LoginUseCase` | Authentication | Authenticate user and issue JWT |
 | `GetDashboardMetricsUseCase` | Dashboard | Return system metrics and risk ranking |
 | `GetCattleListUseCase` | Cattle | List cattle with status and risk summary |

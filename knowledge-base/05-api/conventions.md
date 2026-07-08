@@ -16,14 +16,14 @@ This document defines API conventions that must be followed by all GyrMonitor en
 ## Base URL
 
 | Environment | URL |
-|---|---|
+| --- | --- |
 | Local | `http://localhost:3000/api/v1` |
 | Production placeholder | `https://api.gyrmonitor.example.com/api/v1` |
 
 ## Common Headers
 
 | Header | Required | Description |
-|---|---:|---|
+| --- | ---: | --- |
 | `Authorization: Bearer <token>` | Yes, except public endpoints | JWT access token. |
 | `Content-Type: application/json` | Yes for requests with body | Request body format. |
 | `Accept: application/json` | Yes | Expected response format. |
@@ -33,7 +33,7 @@ This document defines API conventions that must be followed by all GyrMonitor en
 ## Naming Rules
 
 | Element | Convention | Example |
-|---|---|---|
+| --- | --- | --- |
 | Routes | plural resource names | `/events` |
 | JSON fields | camelCase | `inactiveMinutes` |
 | IDs | UUID | `2b7c0f3e-7d89-4a4b-9c0e-1d35f0b1f7a1` |

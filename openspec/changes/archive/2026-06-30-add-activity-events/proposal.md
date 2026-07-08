@@ -14,9 +14,11 @@ Phase 5 needs the structured activity-event ingestion path that feeds later risk
 ## Capabilities
 
 ### New Capabilities
+
 - `activity-events`: Event registration, idempotency, listing, and cattle-scoped event history for MVP activity and inactivity records.
 
 ### Modified Capabilities
+
 - `cattle-management`: Replace the cattle history placeholder with real activity-event history for `GET /api/v1/cattle/{id}/events`.
 
 ## Impact

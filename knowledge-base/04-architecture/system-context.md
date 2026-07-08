@@ -18,7 +18,7 @@ This document defines the boundary between GyrMonitor and external actors or sys
 ## Primary Actors
 
 | Actor | Description | Main Interactions |
-|---|---|---|
+| --- | --- | --- |
 | Administrator | User responsible for monitoring the global system state. | Dashboard, cattle records, alerts, metrics. |
 | Researcher | User interested in historical behavior and trends. | Trends, rankings, event history. |
 | Field Operator | User responsible for inspecting cattle and recording observations. | Mobile alerts, observations, alert attendance. |
@@ -59,7 +59,7 @@ GyrMonitor does not include in the MVP:
 ## External Integration Points
 
 | Integration | MVP Status | Future Role |
-|---|---|---|
+| --- | --- | --- |
 | Notification Service | Not implemented | Push/SMS/email alerts. |
 | Time-series Store | Not implemented | High-volume event analytics. |
 

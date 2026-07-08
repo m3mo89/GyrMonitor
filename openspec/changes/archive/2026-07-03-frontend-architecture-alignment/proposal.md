@@ -15,9 +15,11 @@ The web frontend (`frontend/`) was bootstrapped in a single "project foundation"
 ## Capabilities
 
 ### New Capabilities
+
 - `web-frontend-architecture`: Structural and architectural requirements for the `frontend/` web application — Screaming Architecture folder conventions, routing approach, shared cross-cutting code placement, data-fetching consistency (ADR-004), and rules preventing orphaned placeholder folders/stale documentation.
 
 ### Modified Capabilities
+
 (none — existing feature capabilities such as `dashboard`, `cattle-management`, `alerts`, `authentication` are not changing observable behavior; only internal implementation structure is affected, which is covered by the new `web-frontend-architecture` capability rather than by editing their specs)
 
 ## Impact

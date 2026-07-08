@@ -17,7 +17,7 @@ Offline Sync allows mobile and desktop clients to store operations locally and s
 ## Related Requirements
 
 | ID | Requirement |
-|---|---|
+| --- | --- |
 | RF-18 | Persist information locally. |
 | RF-19 | Maintain synchronization queue. |
 | RF-20 | Synchronize pending events. |
@@ -33,7 +33,7 @@ Offline Sync allows mobile and desktop clients to store operations locally and s
 Synchronizes locally captured events.
 
 | Field | Value |
-|---|---|
+| --- | --- |
 | Method | `POST` |
 | Route | `/api/v1/sync/events` |
 | Use Case | `SyncEventsUseCase` |
@@ -88,7 +88,7 @@ Synchronizes locally captured events.
 Synchronizes locally registered observations.
 
 | Field | Value |
-|---|---|
+| --- | --- |
 | Method | `POST` |
 | Route | `/api/v1/sync/observations` |
 | Use Case | `SyncObservationsUseCase` |
@@ -117,7 +117,7 @@ Synchronizes locally registered observations.
 Returns synchronization status for a client/device.
 
 | Field | Value |
-|---|---|
+| --- | --- |
 | Method | `GET` |
 | Route | `/api/v1/sync/status` |
 | Use Case | `GetSyncStatusUseCase` |
@@ -135,7 +135,7 @@ Returns synchronization status for a client/device.
 ## Failure Handling
 
 | Condition | Expected Behavior |
-|---|---|
+| --- | --- |
 | Duplicate event | Return duplicate result, do not create new event. |
 | Invalid cattleId | Mark item as failed. |
 | Invalid alertId | Mark observation as failed. |

@@ -8,7 +8,7 @@ version: 0.7.0
 # Developer Glossary
 
 | Term | Definition |
-|---|---|
+| --- | --- |
 | Activity Event | A recorded activity or inactivity event associated with a cattle entity. |
 | Alert | Operational warning generated when risk exceeds a threshold. |
 | Cattle | A Gyr bovine registered in the system. |

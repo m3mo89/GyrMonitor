@@ -5,7 +5,7 @@ Backend testing must focus on business correctness and API contract stability.
 ## Test Types
 
 | Type | Target |
-|---|---|
+| --- | --- |
 | Unit tests | Domain services, value objects, use cases |
 | Integration tests | Repositories, database mappings, controllers |
 | Contract tests | REST request/response compatibility |

@@ -39,31 +39,31 @@ flowchart TD
 
 ## Business Rules
 
-| Rule ID | Rule |
-|---|---|
-| INS-BR-001 | A field operator can inspect an alert. |
-| INS-BR-002 | An inspection can produce one or more observations. |
-| INS-BR-003 | An alert can be marked as `ATTENDED` after review. |
-| INS-BR-004 | The system should preserve who performed the action and when. |
+| Rule ID    | Rule                                                              |
+| ---------- | ----------------------------------------------------------------- |
+| INS-BR-001 | A field operator can inspect an alert.                            |
+| INS-BR-002 | An inspection can produce one or more observations.               |
+| INS-BR-003 | An alert can be marked as `ATTENDED` after review.                |
+| INS-BR-004 | The system should preserve who performed the action and when.     |
 | INS-BR-005 | Offline inspection actions must be queued and synchronized later. |
 
 ## Related Requirements
 
-| Requirement | Description |
-|---|---|
-| RU-05 | Field operator consults pending alerts from mobile. |
-| RU-06 | Field operator registers observations. |
-| RU-07 | Field operator marks alerts as attended. |
-| RU-08 | Field operator continues working offline. |
-| RF-12 | Modify alert status. |
-| RF-13 | Register observations. |
+| Requirement | Description                                         |
+| ----------- | --------------------------------------------------- |
+| RU-05       | Field operator consults pending alerts from mobile. |
+| RU-06       | Field operator registers observations.              |
+| RU-07       | Field operator marks alerts as attended.            |
+| RU-08       | Field operator continues working offline.           |
+| RF-12       | Modify alert status.                                |
+| RF-13       | Register observations.                              |
 
 ## Related Use Cases
 
-| Use Case | Description |
-|---|---|
-| CU-04 | Register observation. |
-| CU-05 | Synchronize field operations. |
+| Use Case | Description                   |
+| -------- | ----------------------------- |
+| CU-04    | Register observation.         |
+| CU-05    | Synchronize field operations. |
 
 ## Impact Analysis
 
@@ -95,6 +95,6 @@ For MVP purposes, inspections are lightweight. The system does not include a ful
 
 ## Change History
 
-| Version | Date | Notes |
-|---|---:|---|
-| 0.1 | 2026-06-26 | Initial domain knowledge-base extraction from academic DOCX sources. |
+| Version |       Date | Notes                                                                |
+| ------- | ---------: | -------------------------------------------------------------------- |
+| 0.1     | 2026-06-26 | Initial domain knowledge-base extraction from academic DOCX sources. |

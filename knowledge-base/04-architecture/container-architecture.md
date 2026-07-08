@@ -18,7 +18,7 @@ This document describes the deployable and runtime containers of GyrMonitor.
 ## Containers
 
 | Container | Technology | Responsibility |
-|---|---|---|
+| --- | --- | --- |
 | Web Dashboard | React + TypeScript | Dashboard, trends, cattle history, alert review. |
 | Mobile Client | .NET MAUI | Field alert consultation and offline observations. |
 | Desktop Client | .NET MAUI | Desktop access and event simulation for MVP. |

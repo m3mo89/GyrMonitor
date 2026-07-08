@@ -9,11 +9,13 @@ Note: `IsConnected` reflects OS-level network reachability (`NetworkAccess.Inter
 ## Goals / Non-Goals
 
 **Goals:**
+
 - Any screen shows a live-updating indicator when the device has no network access, without needing to navigate away and back.
 - The user gets a visible, unobtrusive confirmation when a sync run (automatic or manual) completes, including when it fails.
 - Keep the change confined to the desktop client and the shared `GyrMonitor.Client.Core` networking abstraction; no backend/API changes.
 
 **Non-Goals:**
+
 - Detecting "backend reachable" specifically (still OS-level network access only) — a genuinely new capability, out of scope here.
 - Retrying failed syncs on a timer/backoff schedule — connectivity-restore-triggered sync already exists and is unchanged in this regard.
 - Redesigning the Sync tab's own layout beyond removing the now-redundant local banner.
@@ -42,6 +44,7 @@ This is the one place that subscribes to `ConnectivityChanged` for the lifetime 
 ## Migration Plan
 
 Additive/behavioral, no data migration:
+
 1. Add `ConnectivityChanged` to `IConnectivityService` and implement it in `MauiConnectivityService` (backward compatible — `ConnectivityRestored` keeps firing as before).
 2. Add `ConnectivityStatusViewModel` and `OfflineBannerView`; wire into `AppShell.xaml`; remove the old Sync-tab-local banner/binding.
 3. Add `SyncCompleted` to `DesktopSyncService`; add `SyncNotificationView`; wire into `AppShell`.

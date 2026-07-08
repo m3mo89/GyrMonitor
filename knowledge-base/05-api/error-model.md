@@ -38,7 +38,7 @@ This document defines the standard error response and error code catalog for the
 ## Error Catalog
 
 | Code | HTTP | Description |
-|---|---:|---|
+| --- | ---: | --- |
 | `VALIDATION_ERROR` | 400 | Request contains invalid fields. |
 | `UNAUTHORIZED` | 401 | Token is missing, invalid or expired. |
 | `FORBIDDEN` | 403 | Authenticated user does not have permission. |

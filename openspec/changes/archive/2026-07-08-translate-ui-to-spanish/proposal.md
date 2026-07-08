@@ -24,9 +24,11 @@ The frontend, desktop, and mobile clients are inconsistent in language: the Reac
 ## Capabilities
 
 ### New Capabilities
+
 - `ui-localization`: Defines that all UI-facing text in the frontend, desktop, and mobile clients is sourced from a resource-based localization system (i18next JSON namespaces for frontend, `.resx` satellite resources for desktop/mobile), resolves to Spanish by default, keeps do-not-translate glossary terms as untranslated resource values, and is structured so a new language can be added by adding resource files without changing consuming component/XAML/ViewModel code.
 
 ### Modified Capabilities
+
 (none — this change does not alter behavior, data flow, or structural requirements of `web-frontend-architecture`, `desktop-client`, `desktop-ui-design-system`, or `mobile-client`; it changes how and where UI text is sourced, which is scoped entirely under the new `ui-localization` capability.)
 
 ## Impact

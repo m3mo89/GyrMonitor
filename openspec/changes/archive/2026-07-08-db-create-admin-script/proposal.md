@@ -11,6 +11,7 @@ The only way to create the first ADMIN account in a fresh environment (e.g. prod
 ## Capabilities
 
 ### Modified Capabilities
+
 - `backend-runtime`: the "Database operational scripts" requirement gains a scenario for discovering the create-admin script alongside migrate/seed/check.
 - `user-management`: gains a requirement for command-line admin bootstrap, covering the case where no authenticated ADMIN yet exists to use the API.
 

@@ -14,7 +14,7 @@ It does not replace the domain, requirements, architecture, API or engineering d
 ## Contents
 
 | Document | Purpose |
-|---|---|
+| --- | --- |
 | [QUICK_REFERENCE.md](./QUICK_REFERENCE.md) | One-page operational reference for endpoints, DTOs, roles and modules. |
 | [dto-catalog.md](./dto-catalog.md) | Canonical DTO names and fields. |
 | [error-codes.md](./error-codes.md) | Standard API error codes and expected handling. |

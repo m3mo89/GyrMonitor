@@ -13,9 +13,11 @@ An architecture review of the backend (Clean Architecture / Screaming Architectu
 ## Capabilities
 
 ### New Capabilities
+
 - `backend-architecture`: Internal, non-user-facing engineering requirements for the backend's module structure — a shared kernel for cross-cutting primitives, a single HTTP error-mapping mechanism, no circular dependencies between business-capability modules, and one consistent dependency-injection strategy. Modeled the same way `backend-test-suite` captures engineering requirements that aren't part of the public HTTP contract.
 
 ### Modified Capabilities
+
 (none — existing capability specs describe external HTTP behavior, which does not change; this proposal only changes internal code organization)
 
 ## Impact
