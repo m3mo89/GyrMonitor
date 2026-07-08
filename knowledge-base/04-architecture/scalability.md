@@ -30,7 +30,7 @@ This is intentionally simple and appropriate for the academic MVP.
 ## Evolution Path
 
 | Stage | Capability | Architecture Change |
-|---|---|---|
+| --- | --- | --- |
 | V1 MVP | 100 cattle, simulated/manual events | Modular monolith + MariaDB. |
 | V2 | Faster dashboard and more users | Cache dashboard metrics and add read optimization. |
 | V3 | Higher event frequency | Introduce message queue for event ingestion. |
@@ -40,7 +40,7 @@ This is intentionally simple and appropriate for the academic MVP.
 ## Scaling Bottlenecks
 
 | Bottleneck | Risk | Mitigation |
-|---|---|---|
+| --- | --- | --- |
 | Dashboard aggregation | Slow queries under large event volume. | Precomputed metrics, caching, read models. |
 | Event ingestion | High write rate from additional sources. | Queue-based ingestion. |
 | Sync batches | Large offline backlog after outages. | Batch size limits, retry policy, backoff. |

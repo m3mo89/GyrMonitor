@@ -16,7 +16,7 @@ This document maps requirements to domain modules, use cases, API contracts, dat
 ## Business Requirement Traceability
 
 | Business Requirement | Domain Modules | Use Cases | API | Notes |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | RN-01 Early identification | Activity Events, Risk Analysis, Alerts | UC-01, UC-02, UC-03 | `POST /events`, `POST /sync/events` | Core MVP capability. |
 | RN-02 Prioritize inspections | Risk Analysis, Alerts, Inspections, Dashboard | UC-02, UC-03, UC-04, UC-06 | `GET /alerts`, `GET /dashboard` | Drives operational decision-making. |
 | RN-03 Centralize history | Cattle, Events, Alerts, Observations | UC-01, UC-04, UC-06 | `GET /cattle/{id}/events` | Supports traceability and research. |
@@ -31,7 +31,7 @@ This document maps requirements to domain modules, use cases, API contracts, dat
 ## Functional Requirement Traceability
 
 | Functional Requirement | Domain | Use Case | API | Data Entity | UI Surface |
-|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- |
 | RF-01 Register cattle | Cattle | Future | Future `POST /cattle` | Cattle | Admin Cattle Form |
 | RF-02 Consult cattle | Cattle | UC-07 | `GET /cattle` | Cattle | Cattle List |
 | RF-03 Cattle history | Cattle, Events | UC-07 | `GET /cattle/{id}/events` | Cattle, ActivityEvent | Cattle Detail |
@@ -59,7 +59,7 @@ This document maps requirements to domain modules, use cases, API contracts, dat
 ## Quality Attribute Traceability
 
 | Quality Attribute | Architecture Concern | Validation Method |
-|---|---|---|
+| --- | --- | --- |
 | RNF-01 Clean Architecture | Layer boundaries | Dependency review and unit tests. |
 | RNF-02 Screaming Architecture | Module organization | Folder structure review. |
 | RNF-03 SOLID | Internal code quality | Code review and tests. |

@@ -20,9 +20,11 @@ No backend, data, or navigation-flow changes are included — this is a visual/U
 ## Capabilities
 
 ### New Capabilities
+
 - `desktop-ui-design-system`: Defines the desktop client's shared visual design system (color palette, typography, spacing scale, and reusable styles for cards, buttons, inputs, badges, and empty/loading states) that all desktop feature screens must use.
 
 ### Modified Capabilities
+
 - `desktop-client`: Screen-level scenarios for Dashboard, Cattle, Alerts, Sync, and Login gain a requirement that their visual presentation (metric cards, list rows, empty/loading states) uses the shared desktop UI design system rather than unstyled controls.
 
 ## Impact

@@ -25,35 +25,35 @@ Offline Synchronization is responsible for:
 
 ## Core Concepts
 
-| Concept | Description |
-|---|---|
-| Local Store | SQLite database used by mobile and desktop clients. |
-| SyncQueue | Local list of operations waiting to be synchronized. |
-| PendingEvent | Locally captured activity or inactivity event. |
-| PendingObservation | Locally captured observation. |
-| Idempotency-Key | Request key used to avoid duplicate processing. |
-| SyncLog | Backend record of synchronization attempts and outcomes. |
+| Concept            | Description                                              |
+| ------------------ | -------------------------------------------------------- |
+| Local Store        | SQLite database used by mobile and desktop clients.      |
+| SyncQueue          | Local list of operations waiting to be synchronized.     |
+| PendingEvent       | Locally captured activity or inactivity event.           |
+| PendingObservation | Locally captured observation.                            |
+| Idempotency-Key    | Request key used to avoid duplicate processing.          |
+| SyncLog            | Backend record of synchronization attempts and outcomes. |
 
 ## Local Entities
 
-| Entity | Purpose |
-|---|---|
-| PendingEvent | Stores events captured offline. |
-| PendingObservation | Stores observations captured offline. |
-| LocalAlert | Stores cached alert data needed in the field. |
-| SyncQueue | Tracks pending operations, retry count, and status. |
+| Entity             | Purpose                                             |
+| ------------------ | --------------------------------------------------- |
+| PendingEvent       | Stores events captured offline.                     |
+| PendingObservation | Stores observations captured offline.               |
+| LocalAlert         | Stores cached alert data needed in the field.       |
+| SyncQueue          | Tracks pending operations, retry count, and status. |
 
 ## Business Rules
 
-| Rule ID | Rule |
-|---|---|
+| Rule ID     | Rule                                                                |
+| ----------- | ------------------------------------------------------------------- |
 | SYNC-BR-001 | Offline operations must be stored locally before sync is attempted. |
-| SYNC-BR-002 | Every pending operation must have a sync status. |
-| SYNC-BR-003 | Synchronization must be retryable. |
-| SYNC-BR-004 | Backend sync endpoints must support idempotency. |
-| SYNC-BR-005 | Successful synchronization marks local queue items as synced. |
-| SYNC-BR-006 | Partial failures must preserve failed items for later retry. |
-| SYNC-BR-007 | Original `capturedAt` or `createdAt` values must be preserved. |
+| SYNC-BR-002 | Every pending operation must have a sync status.                    |
+| SYNC-BR-003 | Synchronization must be retryable.                                  |
+| SYNC-BR-004 | Backend sync endpoints must support idempotency.                    |
+| SYNC-BR-005 | Successful synchronization marks local queue items as synced.       |
+| SYNC-BR-006 | Partial failures must preserve failed items for later retry.        |
+| SYNC-BR-007 | Original `capturedAt` or `createdAt` values must be preserved.      |
 
 ## Synchronization Flow
 
@@ -76,24 +76,24 @@ sequenceDiagram
 
 ## Related Requirements
 
-| Requirement | Description |
-|---|---|
-| RF-18 | Persist information locally. |
-| RF-19 | Maintain sync queue. |
-| RF-20 | Synchronize pending events. |
-| RF-21 | Synchronize pending observations. |
-| RF-22 | Detect synchronization conflicts. |
-| RF-23 | Apply idempotency. |
-| RN-04 | Operate under intermittent connectivity. |
-| RN-05 | Synchronize offline captured information automatically. |
-| RN-06 | Avoid event duplication during retries. |
+| Requirement | Description                                             |
+| ----------- | ------------------------------------------------------- |
+| RF-18       | Persist information locally.                            |
+| RF-19       | Maintain sync queue.                                    |
+| RF-20       | Synchronize pending events.                             |
+| RF-21       | Synchronize pending observations.                       |
+| RF-22       | Detect synchronization conflicts.                       |
+| RF-23       | Apply idempotency.                                      |
+| RN-04       | Operate under intermittent connectivity.                |
+| RN-05       | Synchronize offline captured information automatically. |
+| RN-06       | Avoid event duplication during retries.                 |
 
 ## Related Use Cases
 
-| Use Case | Description |
-|---|---|
-| CU-05 | Synchronize events. |
-| CU-04 | Register observation offline or online. |
+| Use Case | Description                             |
+| -------- | --------------------------------------- |
+| CU-05    | Synchronize events.                     |
+| CU-04    | Register observation offline or online. |
 
 ## Impact Analysis
 
@@ -129,6 +129,6 @@ The MVP uses a store-and-forward model. It does not require real-time conflict r
 
 ## Change History
 
-| Version | Date | Notes |
-|---|---:|---|
-| 0.1 | 2026-06-26 | Initial domain knowledge-base extraction from academic DOCX sources. |
+| Version |       Date | Notes                                                                |
+| ------- | ---------: | -------------------------------------------------------------------- |
+| 0.1     | 2026-06-26 | Initial domain knowledge-base extraction from academic DOCX sources. |

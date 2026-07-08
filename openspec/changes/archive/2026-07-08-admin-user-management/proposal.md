@@ -13,9 +13,11 @@ Today the only way to provision a GyrMonitor user is the `db:seed` script, which
 ## Capabilities
 
 ### New Capabilities
+
 - `user-management`: ADMIN-only capability to create users, list users, disable/reactivate a user's access, and reset a user's password, via both API and a web UI.
 
 ### Modified Capabilities
+
 - `authentication`: the user identity model gains an account status field, and the login endpoint gains a requirement that disabled users are rejected with the existing standardized unauthorized response.
 
 ## Impact

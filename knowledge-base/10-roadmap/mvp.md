@@ -14,7 +14,7 @@ The MVP validates GyrMonitor as a software platform for monitoring cattle inacti
 ## In Scope
 
 | Area | Included |
-|---|---|
+| --- | --- |
 | Authentication | Login, JWT, roles and protected routes. |
 | Cattle Management | Register and consult cattle records. |
 | Activity Events | Register activity and inactivity events through manual, simulated or controlled sources. |
@@ -31,7 +31,7 @@ The MVP validates GyrMonitor as a software platform for monitoring cattle inacti
 ## Out of Scope
 
 | Area | Excluded from MVP |
-|---|---|
+| --- | --- |
 | Automated Detection | No model training, inference, automated detection or external sensing infrastructure. |
 | Hardware Deployment | No specialized hardware, external device fleet or field hardware deployment. |
 | IoT Sensors | No physical sensors or telemetry hardware. |

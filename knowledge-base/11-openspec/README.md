@@ -16,7 +16,7 @@ The project owner will create OpenSpec proposals and implementations manually to
 ## Included Documents
 
 | Document | Purpose |
-|---|---|
+| --- | --- |
 | [workflow.md](workflow.md) | Recommended OpenSpec flow for GyrMonitor. |
 | [proposal-checklist.md](proposal-checklist.md) | Checklist before approving a proposal. |
 | [implementation-checklist.md](implementation-checklist.md) | Checklist before closing implementation. |

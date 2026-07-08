@@ -18,7 +18,7 @@ This document captures system-level assumptions, constraints and engineering con
 ## MVP Capacity Assumptions
 
 | Assumption | Value |
-|---|---|
+| --- | --- |
 | Cattle records | 100 |
 | Events per cattle | 1 per minute |
 | Daily events | 144,000 |
@@ -28,7 +28,7 @@ This document captures system-level assumptions, constraints and engineering con
 ## System Characteristics
 
 | Characteristic | MVP Target |
-|---|---|
+| --- | --- |
 | Availability | Clients continue field-critical work offline. |
 | Consistency | Eventual consistency for offline clients. |
 | Performance | Dashboard typical response under 3 seconds. |
@@ -39,7 +39,7 @@ This document captures system-level assumptions, constraints and engineering con
 ## Latency Budget
 
 | Operation | Target |
-|---|---|
+| --- | --- |
 | Dashboard load | < 3 seconds typical case. |
 | Alert list | < 2 seconds typical case. |
 | Local offline save | Near immediate. |
@@ -65,7 +65,7 @@ flowchart LR
 ## Read and Write Patterns
 
 | Pattern | Description |
-|---|---|
+| --- | --- |
 | Event ingestion | Frequent writes from generator or simulator. |
 | Alert consultation | Repeated reads by field and dashboard users. |
 | Observation writing | Human-generated, lower frequency. |

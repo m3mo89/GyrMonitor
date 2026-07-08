@@ -11,6 +11,7 @@ This is a repo-local, internal-only change: no HTTP route, request/response shap
 ## Goals / Non-Goals
 
 **Goals:**
+
 - One shared kernel (`backend/src/shared/`) holding cross-cutting HTTP response types and generic validators, replacing duplicated code.
 - One mechanism for mapping domain errors to HTTP responses, replacing the 6 duplicated `toHttpError()` implementations.
 - No import cycle between business-capability modules.
@@ -18,6 +19,7 @@ This is a repo-local, internal-only change: no HTTP route, request/response shap
 - Zero behavior change: existing unit tests keep passing unmodified in assertions (they may be updated only for import paths), and manual HTTP verification shows identical status codes/response shapes before and after.
 
 **Non-Goals:**
+
 - Not migrating repositories off the manual singleton pattern *within* a module (e.g. `sharedCattleRepository` used only inside `cattle-monitoring`) — that's a separate, larger concern (see Open Questions).
 - Not changing the database schema, the HTTP contract, or adding new endpoints.
 - Not addressing `backend/src/shared`'s eventual role beyond what this change needs (e.g. no shared logging/telemetry module yet).

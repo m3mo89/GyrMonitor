@@ -35,7 +35,7 @@ Use `camelCase`.
 ## Backend Classes
 
 | Type | Convention | Example |
-|---|---|---|
+| --- | --- | --- |
 | Controller | `<Resource>Controller` | `AlertsController` |
 | Use Case | `<Action><Resource>UseCase` | `RegisterActivityEventUseCase` |
 | Repository Port | `I<Resource>Repository` | `IAlertRepository` |
@@ -48,7 +48,7 @@ Use `camelCase`.
 ## Frontend Naming
 
 | Type | Convention | Example |
-|---|---|---|
+| --- | --- | --- |
 | Feature folder | lowercase domain name | `alerts` |
 | Page component | `<Feature>Page` | `AlertsPage` |
 | UI component | PascalCase | `AlertSeverityBadge` |
@@ -60,7 +60,7 @@ Use `camelCase`.
 ## Database Naming
 
 | Element | Convention | Example |
-|---|---|---|
+| --- | --- | --- |
 | Table | snake_case plural | `activity_events` |
 | Column | snake_case | `inactive_minutes` |
 | Primary key | `id` | `id` |

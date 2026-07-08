@@ -24,7 +24,7 @@ The frontend web application is the primary interface for administrators and res
 ## Recommended Stack
 
 | Concern | Decision |
-|---|---|
+| --- | --- |
 | Framework | React |
 | Language | TypeScript |
 | Build tool | Vite |

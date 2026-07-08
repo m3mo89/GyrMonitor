@@ -10,7 +10,7 @@ version: 0.9.0
 This document tracks conscious tradeoffs accepted for the MVP.
 
 | ID | Debt | Reason | Priority | Future Resolution |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | TD-001 | Monolithic modular backend | Lower operational complexity for MVP. | Medium | Split services only if scale requires it. |
 | TD-002 | Simple JWT session model | Sufficient for academic MVP. | Medium | Add refresh tokens and stricter session policies later. |
 | TD-003 | No message queue | Event volume is simulated/controlled in MVP. | Low | Add queue if ingestion grows. |

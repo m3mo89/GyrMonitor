@@ -14,9 +14,11 @@ The MVP needs backend alert generation and lifecycle management so inactivity ev
 ## Capabilities
 
 ### New Capabilities
+
 - `alerts`: Alert generation, consultation, lifecycle status updates, persistence, and traceability as specified by the Alerts knowledge-base documents.
 
 ### Modified Capabilities
+
 - `activity-events`: Accepted inactivity events must invoke the alert/risk evaluation boundary and return alert integration fields when an alert is generated.
 
 ## Impact

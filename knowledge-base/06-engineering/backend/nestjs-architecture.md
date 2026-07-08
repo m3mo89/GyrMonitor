@@ -5,7 +5,7 @@ NestJS is used as the HTTP and dependency injection framework. It must not own t
 ## Layer Mapping
 
 | Clean Architecture Layer | NestJS Implementation |
-|---|---|
+| --- | --- |
 | Presentation | Controllers, request DTOs, guards, interceptors |
 | Application | Use cases, ports, application services |
 | Domain | Entities, value objects, domain services, business rules |

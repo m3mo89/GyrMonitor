@@ -8,7 +8,7 @@ version: 0.7.0
 # HTTP Status Reference
 
 | Status | Name | Used For |
-|---:|---|---|
+| ---: | --- | --- |
 | 200 | OK | Successful GET, PATCH and sync batch responses. |
 | 201 | Created | Successful POST creating a new event, alert-related observation or resource. |
 | 207 | Multi-Status | Partial success in synchronization batches. |

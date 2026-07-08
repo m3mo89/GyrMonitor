@@ -24,42 +24,42 @@ Observations are responsible for:
 
 ## Entity Definition
 
-| Field | Type | Description |
-|---|---|---|
-| id | UUID | Observation identifier. |
-| observationId | UUID | Client-provided idempotency identifier for offline operations. |
-| alertId | UUID | Related alert. |
-| userId | UUID | User who created the observation. |
-| comment | string | Field note. |
-| createdAt | datetime | Observation creation timestamp. |
-| clientId | string | Client identifier when created offline. |
+| Field         | Type     | Description                                                    |
+| ------------- | -------- | -------------------------------------------------------------- |
+| id            | UUID     | Observation identifier.                                        |
+| observationId | UUID     | Client-provided idempotency identifier for offline operations. |
+| alertId       | UUID     | Related alert.                                                 |
+| userId        | UUID     | User who created the observation.                              |
+| comment       | string   | Field note.                                                    |
+| createdAt     | datetime | Observation creation timestamp.                                |
+| clientId      | string   | Client identifier when created offline.                        |
 
 ## Business Rules
 
-| Rule ID | Rule |
-|---|---|
-| OBS-BR-001 | An observation must be linked to an existing alert. |
-| OBS-BR-002 | An observation must contain a non-empty comment. |
-| OBS-BR-003 | The system must record who created the observation. |
+| Rule ID    | Rule                                                                  |
+| ---------- | --------------------------------------------------------------------- |
+| OBS-BR-001 | An observation must be linked to an existing alert.                   |
+| OBS-BR-002 | An observation must contain a non-empty comment.                      |
+| OBS-BR-003 | The system must record who created the observation.                   |
 | OBS-BR-004 | Offline observations must preserve their original creation timestamp. |
-| OBS-BR-005 | Duplicate observation IDs must not create duplicate backend records. |
+| OBS-BR-005 | Duplicate observation IDs must not create duplicate backend records.  |
 
 ## Related Requirements
 
-| Requirement | Description |
-|---|---|
-| RF-13 | Register observations. |
-| RF-14 | Consult observations. |
-| RF-21 | Synchronize pending observations. |
-| RF-23 | Apply idempotency. |
-| RN-08 | Maintain traceability between event, alert, observation, and user. |
+| Requirement | Description                                                        |
+| ----------- | ------------------------------------------------------------------ |
+| RF-13       | Register observations.                                             |
+| RF-14       | Consult observations.                                              |
+| RF-21       | Synchronize pending observations.                                  |
+| RF-23       | Apply idempotency.                                                 |
+| RN-08       | Maintain traceability between event, alert, observation, and user. |
 
 ## Related Use Cases
 
-| Use Case | Description |
-|---|---|
-| CU-04 | Register observation. |
-| CU-05 | Synchronize pending records. |
+| Use Case | Description                  |
+| -------- | ---------------------------- |
+| CU-04    | Register observation.        |
+| CU-05    | Synchronize pending records. |
 
 ## Observation Flow
 
@@ -108,6 +108,6 @@ The MVP supports textual observations only. Attachments, images, structured insp
 
 ## Change History
 
-| Version | Date | Notes |
-|---|---:|---|
-| 0.1 | 2026-06-26 | Initial domain knowledge-base extraction from academic DOCX sources. |
+| Version |       Date | Notes                                                                |
+| ------- | ---------: | -------------------------------------------------------------------- |
+| 0.1     | 2026-06-26 | Initial domain knowledge-base extraction from academic DOCX sources. |

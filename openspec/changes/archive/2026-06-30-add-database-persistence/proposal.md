@@ -13,9 +13,11 @@ The backend currently exposes implemented domain behavior through in-memory/loca
 ## Capabilities
 
 ### New Capabilities
+
 - `database-persistence`: MariaDB migration, configuration, repository, and seed-data capability shared by implemented backend modules.
 
 ### Modified Capabilities
+
 - `backend-runtime`: Backend runtime gains required database configuration and migration/smoke verification behavior.
 - `authentication`: User identities used for login are loaded from MariaDB while preserving password secrecy and role rules.
 - `cattle-management`: Cattle list, detail, seed data, and cattle event history use persisted MariaDB records.

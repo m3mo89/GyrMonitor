@@ -7,6 +7,7 @@ The current backend already has cattle, authentication, activity events, observa
 ## Goals / Non-Goals
 
 **Goals:**
+
 - Implement the Alerts module using the established Clean Architecture layout documented in `knowledge-base/06-engineering/backend/clean-architecture-layout.md`.
 - Generate alerts from eligible inactivity events when backend risk-threshold evaluation determines attention is required.
 - Persist alerts in MariaDB with relationships to cattle and source activity events, consistent with `knowledge-base/06-engineering/database/migrations.md`.
@@ -15,6 +16,7 @@ The current backend already has cattle, authentication, activity events, observa
 - Add automated tests around alert generation, authorization, filtering, detail lookup, status transitions, persistence, and event traceability.
 
 **Non-Goals:**
+
 - Notification delivery, escalation, alert assignment, SLA tracking, or deduplication windows.
 - Dashboard risk rankings or alert aggregate metrics beyond preserving data needed by future dashboard work.
 - Mobile/offline alert synchronization.

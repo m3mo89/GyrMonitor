@@ -33,7 +33,7 @@ flowchart TD
 ## Layer Responsibilities
 
 | Layer | Responsibility | Examples |
-|---|---|---|
+| --- | --- | --- |
 | Domain | Business concepts and invariants. | Cattle, ActivityEvent, Alert, RiskScore. |
 | Application | Use cases and ports. | RegisterActivityEventUseCase, SyncEventsUseCase. |
 | Presentation | HTTP controllers and DTO mapping. | EventsController, AlertsController. |
@@ -51,7 +51,7 @@ Dependencies point inward toward the domain.
 ## Use Case Examples
 
 | Use Case | Domain Concepts | Infrastructure Dependencies |
-|---|---|---|
+| --- | --- | --- |
 | RegisterActivityEventUseCase | ActivityEvent, RiskScore, Alert | ActivityEventRepository, AlertRepository. |
 | AttendAlertUseCase | Alert, AlertStatus | AlertRepository. |
 | AddAlertObservationUseCase | Observation, Alert | ObservationRepository, UserContext. |

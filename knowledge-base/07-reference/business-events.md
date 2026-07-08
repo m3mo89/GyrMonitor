@@ -32,7 +32,7 @@ sequenceDiagram
 ## Catalog
 
 | Business Event | Trigger | Produced By | Consumed By |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `ActivityEventRegistered` | Activity or inactivity event is accepted. | Inactivity Analysis | Risk Analysis, Dashboard |
 | `RiskScoreCalculated` | Risk score is computed. | Risk Analysis | Alert Engine, Dashboard |
 | `AlertGenerated` | Risk exceeds alert threshold. | Alerts | Field Operator UI, Dashboard |

@@ -5,7 +5,7 @@ Routing should reflect user workflows and protected areas.
 ## Suggested Routes
 
 | Route | Feature | Access |
-|---|---|---|
+| --- | --- | --- |
 | `/login` | Auth | Public |
 | `/dashboard` | Dashboard | ADMIN, RESEARCHER |
 | `/cattle` | Cattle | ADMIN, RESEARCHER |

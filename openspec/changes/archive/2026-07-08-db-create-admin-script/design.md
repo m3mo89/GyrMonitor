@@ -5,11 +5,13 @@ Every other database-provisioning operation in the backend is a maintained scrip
 ## Goals / Non-Goals
 
 **Goals:**
+
 - Let an operator create the first ADMIN account with one command, using the same validation, role assignment, and password hashing as the API path.
 - Make the script safe to re-run (fails loudly on duplicate email; never silently overwrites a user).
 - Fit the existing script conventions exactly (naming, `dist/` requires, exit-code behavior) so it needs no new operational knowledge.
 
 **Non-Goals:**
+
 - No interactive prompts — this is a scripted, env-var-driven tool for CI/console use, matching `db:seed`/`db:migrate`.
 - No support for creating non-ADMIN users via this script — that's already covered by the API/UI (`user-management` capability); this script exists only to solve the bootstrap chicken-and-egg problem.
 - No credential storage or rotation — the operator supplies `ADMIN_PASSWORD` at run time and is responsible for it, same as any other manually-provisioned credential today.

@@ -5,7 +5,7 @@ Backend modules are organized by business capability, not by technical layer alo
 ## Modules
 
 | Module | Responsibility |
-|---|---|
+| --- | --- |
 | `authentication` | Login, JWT validation, roles |
 | `cattle-monitoring` | Cattle registration, listing and history |
 | `activity-events` | Activity and inactivity event registration |

@@ -55,7 +55,7 @@ flowchart LR
 ## Core Design Decisions
 
 | Decision | Selected Option | Rationale |
-|---|---|---|
+| --- | --- | --- |
 | Backend style | Modular monolith | Lower MVP complexity with strong internal modularity. |
 | API style | REST | Simple and compatible with web, mobile, desktop and web, mobile and desktop clients. |
 | Data consistency | Eventual consistency for offline clients | Rural connectivity requires availability over immediate consistency. |

@@ -14,9 +14,11 @@ Phase 4 needs the inspection trail that lets field operators document what they 
 ## Capabilities
 
 ### New Capabilities
+
 - `observations`: Field observation registration and consultation for alert traceability.
 
 ### Modified Capabilities
+
 - None.
 
 ## Impact

@@ -68,7 +68,7 @@ Breaking changes must create a new version rather than silently changing existin
 ## API Consumers
 
 | Consumer | Purpose |
-|---|---|
+| --- | --- |
 | Web Dashboard | Read metrics, alerts, rankings and trends. |
 | Mobile App | Query and attend alerts, register observations, sync offline data. |
 | Desktop App | Dashboard, simulator, monitoring and offline-capable workflows. |

@@ -14,9 +14,11 @@ GyrMonitor needs one explicit environment model for local development, staging, 
 ## Capabilities
 
 ### New Capabilities
+
 - `deployment-environments`: Environment contract for development, staging, and production frontend/backend URLs, browser access rules, database preparation, and deployment verification.
 
 ### Modified Capabilities
+
 - `backend-runtime`: Backend runtime must support environment-configured CORS origins for local and deployed frontend clients.
 - `web-frontend-architecture`: Web frontend runtime configuration must document and validate the API base URL used by local, staging, and production builds.
 - `authentication`: Login must be verifiable in each environment with allowed browser origins and prepared persisted users.

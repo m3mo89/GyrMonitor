@@ -8,7 +8,7 @@ version: 1.1.0
 # Document Status
 
 | Section | Status | Notes |
-|---|---|---|
+| --- | --- | --- |
 | 00-introduction | Stable | Updated for MVP-only scope. |
 | 01-product | Stable | Describes MVP product only. |
 | 02-domain | Stable | Domain independent from producer implementation. |

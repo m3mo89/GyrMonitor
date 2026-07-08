@@ -24,52 +24,52 @@ Risk Analysis is responsible for:
 
 ## Main Concepts
 
-| Concept | Description |
-|---|---|
+| Concept   | Description                                                                        |
+| --------- | ---------------------------------------------------------------------------------- |
 | RiskScore | Numeric value used to rank cattle and decide whether an alert should be generated. |
-| Severity | Human-friendly classification of risk. Suggested values: `LOW`, `MEDIUM`, `HIGH`. |
-| Threshold | Configurable boundary used to determine severity and alert generation. |
+| Severity  | Human-friendly classification of risk. Suggested values: `LOW`, `MEDIUM`, `HIGH`.  |
+| Threshold | Configurable boundary used to determine severity and alert generation.             |
 
 ## Business Rules
 
-| Rule ID | Rule |
-|---|---|
-| RISK-BR-001 | Risk calculation applies to `INACTIVITY` events. |
-| RISK-BR-002 | The backend is the authoritative source for risk calculation. |
-| RISK-BR-003 | The frontend may display risk score but must not calculate critical risk rules. |
-| RISK-BR-004 | A high enough risk score must trigger alert evaluation. |
+| Rule ID     | Rule                                                                                  |
+| ----------- | ------------------------------------------------------------------------------------- |
+| RISK-BR-001 | Risk calculation applies to `INACTIVITY` events.                                      |
+| RISK-BR-002 | The backend is the authoritative source for risk calculation.                         |
+| RISK-BR-003 | The frontend may display risk score but must not calculate critical risk rules.       |
+| RISK-BR-004 | A high enough risk score must trigger alert evaluation.                               |
 | RISK-BR-005 | Severity must be derived consistently from the risk score or threshold configuration. |
 
 ## Suggested MVP Severity Model
 
 This table is a proposed implementation baseline and may be adjusted during validation.
 
-| Severity | Example Condition | Operational Meaning |
-|---|---|---|
-| LOW | Inactivity detected but below attention threshold. | Monitor only. |
-| MEDIUM | Inactivity suggests possible issue. | Review when available. |
-| HIGH | Prolonged inactivity exceeds critical threshold. | Prioritize inspection. |
+| Severity | Example Condition                                  | Operational Meaning    |
+| -------- | -------------------------------------------------- | ---------------------- |
+| LOW      | Inactivity detected but below attention threshold. | Monitor only.          |
+| MEDIUM   | Inactivity suggests possible issue.                | Review when available. |
+| HIGH     | Prolonged inactivity exceeds critical threshold.   | Prioritize inspection. |
 
 ## Related Requirements
 
-| Requirement | Description |
-|---|---|
-| RF-07 | Calculate risk index. |
-| RF-08 | Classify risk level. |
-| RF-10 | Generate alerts. |
-| RF-15 | Show general metrics. |
-| RF-17 | Show risk ranking. |
-| RN-01 | Identify prolonged inactivity early. |
-| RN-02 | Prioritize field inspections based on risk. |
-| RN-10 | Generate useful historical indicators. |
+| Requirement | Description                                 |
+| ----------- | ------------------------------------------- |
+| RF-07       | Calculate risk index.                       |
+| RF-08       | Classify risk level.                        |
+| RF-10       | Generate alerts.                            |
+| RF-15       | Show general metrics.                       |
+| RF-17       | Show risk ranking.                          |
+| RN-01       | Identify prolonged inactivity early.        |
+| RN-02       | Prioritize field inspections based on risk. |
+| RN-10       | Generate useful historical indicators.      |
 
 ## Related Use Cases
 
-| Use Case | Description |
-|---|---|
-| CU-02 | Calculate risk. |
-| CU-03 | Generate alert. |
-| CU-06 | Consult dashboard. |
+| Use Case | Description        |
+| -------- | ------------------ |
+| CU-02    | Calculate risk.    |
+| CU-03    | Generate alert.    |
+| CU-06    | Consult dashboard. |
 
 ## Risk Analysis Flow
 
@@ -123,6 +123,6 @@ The MVP should implement a simple, transparent, deterministic rule-based risk ca
 
 ## Change History
 
-| Version | Date | Notes |
-|---|---:|---|
-| 0.1 | 2026-06-26 | Initial domain knowledge-base extraction from academic DOCX sources. |
+| Version |       Date | Notes                                                                |
+| ------- | ---------: | -------------------------------------------------------------------- |
+| 0.1     | 2026-06-26 | Initial domain knowledge-base extraction from academic DOCX sources. |

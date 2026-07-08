@@ -14,7 +14,7 @@ ADRs document relevant architectural decisions, their context, alternatives, tra
 ## Decision Index
 
 | ADR | Decision | Area | Status |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | [ADR-001](ADR-001-rendering-csr.md) | Use Client Side Rendering for the Web Dashboard | Frontend | Accepted |
 | [ADR-002](ADR-002-react-typescript.md) | Use React + TypeScript with Vite | Frontend | Accepted |
 | [ADR-003](ADR-003-feature-organization.md) | Organize Frontend by Features and Screaming Architecture | Frontend | Accepted |

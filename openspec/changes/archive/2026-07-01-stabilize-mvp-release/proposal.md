@@ -15,10 +15,12 @@ The MVP currently has the main backend, desktop, and mobile flows in place, but 
 ## Capabilities
 
 ### New Capabilities
+
 - `maui-shared-client-core`: Shared MAUI client contracts and primitives reused by desktop and mobile without collapsing their distinct feature implementations.
 - `mvp-release-validation`: End-to-end release validation for the MVP client/backend/offline-sync flows.
 
 ### Modified Capabilities
+
 - `desktop-client`: Desktop event simulator must allow selecting cattle without manual UUID entry while still generating idempotent offline-first events.
 - `mobile-client`: Mobile observation capture and sync behavior must expose a verifiable offline-to-backend path for release validation.
 - `offline-sync`: Sync behavior must remain idempotent and traceable across desktop event sync and mobile observation sync after shared-client-core extraction.

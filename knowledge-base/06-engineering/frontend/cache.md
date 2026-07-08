@@ -12,7 +12,7 @@ The web frontend uses cache for responsive reading and resilience during tempora
 ## Suggested Query Policies
 
 | Data | Stale Policy |
-|---|---|
+| --- | --- |
 | Dashboard metrics | Short stale time |
 | Active alerts | Very short stale time |
 | Cattle list | Medium stale time |

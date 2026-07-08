@@ -22,7 +22,7 @@ GyrMonitor uses JWT-based authentication for protected API endpoints.
 ## Roles
 
 | Role | Permissions |
-|---|---|
+| --- | --- |
 | ADMIN | Manage cattle, dashboard, events, alerts and observations. |
 | FIELD_OPERATOR | Consult alerts, register observations, attend alerts and sync field data. |
 | RESEARCHER | Consult dashboard, trends and history. |
@@ -31,7 +31,7 @@ GyrMonitor uses JWT-based authentication for protected API endpoints.
 ## Endpoint Protection
 
 | Endpoint | Protection |
-|---|---|
+| --- | --- |
 | `POST /auth/login` | Public. |
 | `GET /health` | Public or protected depending on deployment. |
 | All other endpoints | JWT required. |
@@ -73,7 +73,7 @@ The frontend and clients must:
 ## Security Risks
 
 | Risk | Mitigation |
-|---|---|
+| --- | --- |
 | Expired or invalid token | 401 handling and re-authentication. |
 | Unauthorized role action | Backend role guards. |
 | Sensitive data exposure | Minimal logging and controlled DTOs. |

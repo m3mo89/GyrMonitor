@@ -14,9 +14,11 @@
 ## Capabilities
 
 ### New Capabilities
+
 - `risk-analysis`: Deterministic MVP risk evaluation (risk score calculation, severity classification, alert-threshold decision) for `INACTIVITY` activity events, owned as its own backend module and consumed by the alerts module.
 
 ### Modified Capabilities
+
 - `alerts`: Alert generation no longer performs risk calculation itself; it SHALL delegate risk-score/severity/threshold evaluation to the `risk-analysis` capability and consume its result when deciding whether to create an alert. Externally observable alert behavior (thresholds, severities, generated alerts) is unchanged.
 
 ## Impact

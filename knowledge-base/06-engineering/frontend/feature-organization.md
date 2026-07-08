@@ -5,7 +5,7 @@ The frontend follows feature-based organization aligned with Screaming Architect
 ## Features
 
 | Feature | Main Responsibility |
-|---|---|
+| --- | --- |
 | `auth` | Login, session, route guards |
 | `dashboard` | Metrics, risk ranking, trends |
 | `cattle` | Cattle list and detail history |

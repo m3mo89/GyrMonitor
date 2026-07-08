@@ -7,6 +7,7 @@ This change introduces a shared database-persistence capability and switches imp
 ## Goals / Non-Goals
 
 **Goals:**
+
 - Add versioned MariaDB schema migrations for implemented entities and supporting lookup tables.
 - Add database configuration, connection lifecycle, and scripts for migration, seed, and repository verification.
 - Implement MariaDB repositories behind existing use-case ports for users, cattle, activity events, alerts, and observations.
@@ -15,6 +16,7 @@ This change introduces a shared database-persistence capability and switches imp
 - Seed development/test data for MVP users, cattle, alerts, sample events, and sample observations without mixing seeds into schema migrations.
 
 **Non-Goals:**
+
 - Build the complete alert generation lifecycle, dashboard aggregation layer, offline sync tables, or sync log behavior.
 - Change endpoint URLs, DTO shapes, authentication strategy, or frontend workflows.
 - Add destructive data migrations or production deployment automation beyond local/test scripts and documented rollback.

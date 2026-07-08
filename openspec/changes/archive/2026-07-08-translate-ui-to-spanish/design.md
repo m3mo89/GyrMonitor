@@ -9,6 +9,7 @@ The user has asked not just for a translation pass but for real localization inf
 ## Goals / Non-Goals
 
 **Goals:**
+
 - Every UI-facing string in all three clients — not just the currently-English ones — is sourced from a resource system (i18next JSON namespaces for frontend, `.resx` satellite resources for desktop/mobile) rather than being a literal in component/XAML/ViewModel code.
 - The resource system resolves to Spanish by default in all three clients today.
 - Adding a new language later is achievable by adding resource files (JSON namespace files for frontend, a new `.xx.resx` satellite per resx base file for desktop/mobile) without touching consuming component, XAML, or ViewModel code.
@@ -16,6 +17,7 @@ The user has asked not just for a translation pass but for real localization inf
 - Existing ViewModel tests keep validating real behavior: they assert against the same resource values the UI renders, not duplicated literals that can drift.
 
 **Non-Goals:**
+
 - Building a runtime language switcher (in-app language picker, `Accept-Language` negotiation, persisted user language preference). The infrastructure supports adding languages; actually exposing a switch is a separate, later change.
 - Reconstructing a maintained English resource set for the frontend. The frontend's neutral/default locale becomes `es`; we are not back-translating the newly-Spanish-ified strings into a parallel `en` bundle. (Desktop/mobile get an English neutral `.resx` "for free" as a byproduct of the standard .NET satellite-resource pattern — see Decisions — but that's a pattern artifact, not a maintained second language.)
 - Translating or remapping backend-driven enum/status/role codes (`PENDING`, `HIGH`, `ADMIN`, `FIELD_OPERATOR`, etc.) bound directly from API responses. These are not routed through the localization system at all in this change.
@@ -32,6 +34,7 @@ This is the de facto standard React i18n stack, has no runtime dependency confli
 Each resx base file (e.g. `AppStrings.resx`) is paired with a small hand-written `public static class AppStrings` wrapper (a thin `ResourceManager.GetString(key, CultureInfo.CurrentUICulture)` accessor per key) rather than relying on Visual Studio's `PublicResXFileCodeGenerator` custom tool, since that tool doesn't run under plain `dotnet build` outside Visual Studio and this environment builds from the CLI. XAML then reads these public static string properties via MAUI's built-in `{x:Static}` markup extension (e.g. `Text="{x:Static strings:AppStrings.SignIn}"`) — no custom `IMarkupExtension<string>` needed. `x:Static` resolves once, at page-construction time, which is sufficient because `CultureInfo.CurrentUICulture` is fixed to `es` before any page is ever constructed (see culture-bootstrap decision below) and this change explicitly excludes runtime language switching (Non-Goals). A custom `TranslateExtension` would only earn its keep if the UI culture could change while pages are already alive; building one here would be unused complexity. `IStringLocalizer<T>` (`Microsoft.Extensions.Localization`) was rejected for the reason already noted: it's designed around ASP.NET Core's request-scoped culture resolution and adds a DI-wiring layer with no benefit in an app with one active UI culture per run.
 
 **Decision: Three resx pairs, split by sharing boundary — not one giant shared file.**
+
 - `shared/GyrMonitor.Client.Core/Resources/Strings/AppStrings.resx` (+ `AppStrings.es.resx`): strings genuinely identical in wording across both apps today — the four `LoginViewModel` auth errors ("Invalid email or password.", "Email and password are required.", "Unable to sign in. Please try again.", "Unable to reach the server. Please try again.") and the two sync-summary format strings shared by both apps' `SyncViewModel` ("Sync failed: {0}", "Synced {0}, duplicates {1}, failed {2}.").
 - `desktop/GyrMonitor.Desktop.Core/Resources/Strings/AppStrings.resx` (+ `.es.resx`): desktop-only strings (Dashboard metrics, EventSimulator, Cattle/Alerts page chrome, desktop-specific tab titles, the `AppShell` sync-notification-popup format strings which use different wording than `SyncViewModel`'s).
 - `mobile/GyrMonitor.Mobile.Core/Resources/Strings/AppStrings.resx` (+ `.es.resx`): mobile-only strings (Observation capture, mobile Alert detail formatting, mobile tab titles, and the field-operator-only restriction message — reused across three mobile ViewModels but, on inspection of the actual code, never present on desktop, so it belongs here rather than in the shared file as originally assumed).

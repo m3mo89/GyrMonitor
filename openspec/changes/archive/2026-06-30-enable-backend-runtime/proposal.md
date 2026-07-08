@@ -12,9 +12,11 @@ The backend currently contains Nest-oriented modules and HTTP controllers, but i
 ## Capabilities
 
 ### New Capabilities
+
 - `backend-runtime`: Runtime startup, HTTP availability, and local verification behavior for the Nest backend.
 
 ### Modified Capabilities
+
 - None.
 
 ## Impact
