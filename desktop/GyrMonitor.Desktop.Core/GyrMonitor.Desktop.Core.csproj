@@ -15,4 +15,10 @@
     <ProjectReference Include="..\..\shared\GyrMonitor.Client.Core\GyrMonitor.Client.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Strings\AppStrings.es.resx">
+      <DependentUpon>AppStrings.resx</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

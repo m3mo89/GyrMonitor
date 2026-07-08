@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GyrMonitor.Client.Core.Alerts;
 using GyrMonitor.Client.Core.Networking;
+using GyrMonitor.Desktop.Core.Resources.Strings;
 
 namespace GyrMonitor.Desktop.Core.Features.Alerts;
 
@@ -49,7 +50,7 @@ public sealed partial class AlertsViewModel : ObservableObject
         }
         catch (Exception)
         {
-            ErrorMessage = "Unable to reach the server.";
+            ErrorMessage = AppStrings.UnableToReachServer;
         }
         finally
         {

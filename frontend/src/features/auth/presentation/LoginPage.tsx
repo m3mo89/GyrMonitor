@@ -1,9 +1,11 @@
 import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import { useLogin } from '../application';
 
 export function LoginPage({ onAuthenticated }: { onAuthenticated: () => void }) {
+  const { t } = useTranslation('auth');
   const authenticate = useLogin();
   const navigate = useNavigate();
   const [email, setEmail] = useState('admin@gyrmonitor.local');
@@ -16,7 +18,7 @@ export function LoginPage({ onAuthenticated }: { onAuthenticated: () => void }) 
     setError(null);
 
     if (!email.trim() || !password) {
-      setError('Ingresa correo y contrasena.');
+      setError(t('login.validationError'));
       return;
     }
 
@@ -29,7 +31,7 @@ export function LoginPage({ onAuthenticated }: { onAuthenticated: () => void }) 
       onAuthenticated();
     } catch {
       setPassword('');
-      setError('No se pudo iniciar sesion con esas credenciales.');
+      setError(t('login.authError'));
     } finally {
       setIsSubmitting(false);
     }
@@ -38,12 +40,12 @@ export function LoginPage({ onAuthenticated }: { onAuthenticated: () => void }) 
   return (
     <main className="auth-screen">
       <section className="auth-card">
-        <p className="eyebrow">GyrMonitor</p>
-        <h1>Iniciar sesion</h1>
-        <p>Accede al monitoreo operativo de cattle, alertas y dashboard del MVP.</p>
-        <form className="form-stack" onSubmit={handleSubmit} aria-label="Iniciar sesion">
+        <p className="eyebrow">{t('login.eyebrow')}</p>
+        <h1>{t('login.title')}</h1>
+        <p>{t('login.subtitle')}</p>
+        <form className="form-stack" onSubmit={handleSubmit} aria-label={t('login.formAriaLabel')}>
           <label className="field">
-            Correo
+            {t('login.emailLabel')}
             <input
               autoComplete="username"
               name="email"
@@ -53,7 +55,7 @@ export function LoginPage({ onAuthenticated }: { onAuthenticated: () => void }) 
             />
           </label>
           <label className="field">
-            Contrasena
+            {t('login.passwordLabel')}
             <input
               autoComplete="current-password"
               name="password"
@@ -68,7 +70,7 @@ export function LoginPage({ onAuthenticated }: { onAuthenticated: () => void }) 
             </p>
           ) : null}
           <button className="button button--primary" disabled={isSubmitting} type="submit">
-            {isSubmitting ? 'Entrando...' : 'Entrar'}
+            {isSubmitting ? t('login.submitting') : t('login.submit')}
           </button>
         </form>
       </section>

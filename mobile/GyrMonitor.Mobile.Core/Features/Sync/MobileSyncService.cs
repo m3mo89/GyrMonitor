@@ -1,6 +1,7 @@
 using GyrMonitor.Client.Core.Sync;
 using GyrMonitor.Mobile.Core.Features.Observations;
 using GyrMonitor.Client.Core.Session;
+using GyrMonitor.Mobile.Core.Resources.Strings;
 using GyrMonitor.Mobile.Core.Shared.Authorization;
 
 namespace GyrMonitor.Mobile.Core.Features.Sync;
@@ -41,7 +42,7 @@ public sealed class MobileSyncService
         var session = await GetSupportedSessionAsync();
         if (session is null)
         {
-            return new MobileSyncSummary(0, 0, 0, "No supported mobile session is active.");
+            return new MobileSyncSummary(0, 0, 0, AppStrings.NoSupportedSessionActive);
         }
 
         var pendingQueueItems = (await _queue.GetPendingForUserAsync(session.UserId))

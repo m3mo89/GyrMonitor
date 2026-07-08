@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import { LoadingState, UiState } from '../../../shared/components/UiState';
 import { formatDateTime } from '../../../shared/utils/format-date-time';
 import { useAlertsList } from '../application';
@@ -8,40 +10,41 @@ type AlertsListPageProps = {
 };
 
 export function AlertsListPage({ onOpenAlert }: AlertsListPageProps) {
+  const { t } = useTranslation('alerts');
   const { data: result, isLoading, isError } = useAlertsList();
 
   if (isLoading) {
-    return <LoadingState title="Cargando alertas..." />;
+    return <LoadingState title={t('list.loading')} />;
   }
 
   if (isError) {
-    return <UiState title="No se pudieron cargar las alertas" description="No se pudo cargar el listado de alertas." tone="danger" />;
+    return <UiState title={t('list.errorTitle')} description={t('list.errorDescription')} tone="danger" />;
   }
 
   if (!result || result.data.length === 0) {
-    return <UiState title="Sin alertas" description="No hay alertas registradas para mostrar." />;
+    return <UiState title={t('list.emptyTitle')} description={t('list.emptyDescription')} />;
   }
 
   return (
     <div className="page-stack">
       <header className="page-header">
         <div>
-          <p className="eyebrow">Atencion operativa</p>
-          <h1>Alertas</h1>
-          <p>{result.pagination.total} alertas registradas con severidad, estado y trazabilidad.</p>
+          <p className="eyebrow">{t('list.eyebrow')}</p>
+          <h1>{t('list.title')}</h1>
+          <p>{t('list.subtitle', { count: result.pagination.total })}</p>
         </div>
       </header>
       <div className="data-table-wrap">
         <table className="data-table">
           <thead>
             <tr>
-              <th>Cattle</th>
-              <th>Severity</th>
-              <th>Status</th>
-              <th>Risk</th>
-              <th>Reason</th>
-              <th>Created</th>
-              <th>Detalle</th>
+              <th>{t('list.columnCattle')}</th>
+              <th>{t('list.columnSeverity')}</th>
+              <th>{t('list.columnStatus')}</th>
+              <th>{t('list.columnRisk')}</th>
+              <th>{t('list.columnReason')}</th>
+              <th>{t('list.columnCreated')}</th>
+              <th>{t('list.columnDetail')}</th>
             </tr>
           </thead>
           <tbody>
@@ -61,7 +64,7 @@ export function AlertsListPage({ onOpenAlert }: AlertsListPageProps) {
                 <td>{formatDateTime(alert.createdAt)}</td>
                 <td>
                   <button className="button" onClick={() => onOpenAlert(alert.id)} type="button">
-                    Ver
+                    {t('list.viewAction')}
                   </button>
                 </td>
               </tr>

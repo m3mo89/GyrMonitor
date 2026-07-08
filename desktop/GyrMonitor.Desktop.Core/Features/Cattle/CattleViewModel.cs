@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GyrMonitor.Client.Core.Networking;
+using GyrMonitor.Desktop.Core.Resources.Strings;
 
 namespace GyrMonitor.Desktop.Core.Features.Cattle;
 
@@ -48,7 +49,7 @@ public sealed partial class CattleViewModel : ObservableObject
         }
         catch (Exception)
         {
-            ErrorMessage = "Unable to reach the server.";
+            ErrorMessage = AppStrings.UnableToReachServer;
         }
         finally
         {

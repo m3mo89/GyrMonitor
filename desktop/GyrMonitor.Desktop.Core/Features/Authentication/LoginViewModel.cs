@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GyrMonitor.Client.Core.Authentication;
 using GyrMonitor.Client.Core.Networking;
+using GyrMonitor.Client.Core.Resources.Strings;
 using GyrMonitor.Client.Core.Session;
 
 namespace GyrMonitor.Desktop.Core.Features.Authentication;
@@ -59,14 +60,14 @@ public sealed partial class LoginViewModel : ObservableObject
         {
             ErrorMessage = ex.Code switch
             {
-                "UNAUTHORIZED" => "Invalid email or password.",
-                "VALIDATION_ERROR" => "Email and password are required.",
-                _ => "Unable to sign in. Please try again."
+                "UNAUTHORIZED" => AppStrings.InvalidCredentials,
+                "VALIDATION_ERROR" => AppStrings.EmailAndPasswordRequired,
+                _ => AppStrings.UnableToSignInRetry
             };
         }
         catch (Exception)
         {
-            ErrorMessage = "Unable to reach the server. Please try again.";
+            ErrorMessage = AppStrings.UnableToReachServerRetry;
         }
         finally
         {

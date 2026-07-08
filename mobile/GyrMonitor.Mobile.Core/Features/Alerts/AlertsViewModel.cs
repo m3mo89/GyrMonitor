@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using GyrMonitor.Client.Core.Alerts;
 using GyrMonitor.Client.Core.Networking;
 using GyrMonitor.Client.Core.Session;
+using GyrMonitor.Mobile.Core.Resources.Strings;
 using GyrMonitor.Mobile.Core.Shared.Authorization;
 
 namespace GyrMonitor.Mobile.Core.Features.Alerts;
@@ -53,7 +54,7 @@ public sealed partial class AlertsViewModel : ObservableObject
             if (session is null || !MobileRoleAccess.IsSupported(session.Role))
             {
                 ReplaceAlerts([]);
-                ErrorMessage = "This mobile workflow is available only for field operators.";
+                ErrorMessage = AppStrings.FieldOperatorOnly;
                 return;
             }
 
@@ -90,12 +91,12 @@ public sealed partial class AlertsViewModel : ObservableObject
         catch (ApiException)
         {
             await LoadFromCacheAsync(markStale: true);
-            ErrorMessage = "Unable to refresh alerts. Showing the last saved data.";
+            ErrorMessage = AppStrings.UnableToRefreshAlerts;
         }
         catch (Exception)
         {
             await LoadFromCacheAsync(markStale: true);
-            ErrorMessage = "Unable to reach the server. Showing the last saved data.";
+            ErrorMessage = AppStrings.UnableToReachServerShowingLastSaved;
         }
         finally
         {

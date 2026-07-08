@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:GyrMonitor.Client.Core.Resources.Strings;assembly=GyrMonitor.Client.Core"
+             xmlns:dstrings="clr-namespace:GyrMonitor.Desktop.Core.Resources.Strings;assembly=GyrMonitor.Desktop.Core"
              x:Class="GyrMonitor.Desktop.Features.Authentication.LoginPage"
-             Title="Sign in">
+             Title="{x:Static dstrings:AppStrings.SignIn}">
 
     <ScrollView>
         <Grid Padding="{StaticResource SpacingSection}" VerticalOptions="Center">
@@ -12,15 +14,15 @@
                     HorizontalOptions="Center">
                 <VerticalStackLayout Spacing="{StaticResource SpacingDefault}">
 
-                    <Label Text="GyrMonitor" Style="{StaticResource Headline}" />
-                    <Label Text="Administrator sign in" Style="{StaticResource SubHeadline}" />
+                    <Label Text="{x:Static strings:AppStrings.AppName}" Style="{StaticResource Headline}" />
+                    <Label Text="{x:Static dstrings:AppStrings.AdminSignInSubtitle}" Style="{StaticResource SubHeadline}" />
 
                     <VerticalStackLayout Spacing="{StaticResource SpacingCompact}">
-                        <Entry Placeholder="Email" Keyboard="Email" Text="{Binding Email}" />
-                        <Entry Placeholder="Password" IsPassword="True" Text="{Binding Password}" />
+                        <Entry Placeholder="{x:Static dstrings:AppStrings.EmailPlaceholder}" Keyboard="Email" Text="{Binding Email}" />
+                        <Entry Placeholder="{x:Static dstrings:AppStrings.PasswordPlaceholder}" IsPassword="True" Text="{Binding Password}" />
                     </VerticalStackLayout>
 
-                    <Button Text="Sign in"
+                    <Button Text="{x:Static dstrings:AppStrings.SignIn}"
                             Style="{StaticResource PrimaryButtonStyle}"
                             Command="{Binding LoginCommand}"
                             IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"

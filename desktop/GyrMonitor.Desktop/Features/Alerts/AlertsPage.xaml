@@ -3,8 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:alerts="clr-namespace:GyrMonitor.Desktop.Core.Features.Alerts;assembly=GyrMonitor.Desktop.Core"
              xmlns:controls="clr-namespace:GyrMonitor.Desktop.Shared.Controls"
+             xmlns:dstrings="clr-namespace:GyrMonitor.Desktop.Core.Resources.Strings;assembly=GyrMonitor.Desktop.Core"
              x:Class="GyrMonitor.Desktop.Features.Alerts.AlertsPage"
-             Title="Alerts">
+             Title="{x:Static dstrings:AppStrings.TabAlerts}">
 
     <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding LoadCommand}">
         <Grid Padding="{StaticResource SpacingDefault}" RowDefinitions="Auto,*" RowSpacing="{StaticResource SpacingCompact}">
@@ -16,8 +17,8 @@
 
             <controls:EmptyStateView Grid.Row="1"
                                       Glyph="&#128994;"
-                                      Title="No alerts"
-                                      Subtitle="New alerts will show up here as they are raised."
+                                      Title="{x:Static dstrings:AppStrings.NoAlertsTitle}"
+                                      Subtitle="{x:Static dstrings:AppStrings.NoAlertsSubtitle}"
                                       IsVisible="{Binding Alerts.Count, Converter={StaticResource IsZeroConverter}}" />
 
             <CollectionView Grid.Row="1"

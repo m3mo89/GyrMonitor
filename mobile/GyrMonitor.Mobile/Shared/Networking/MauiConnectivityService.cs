@@ -6,6 +6,8 @@ public sealed class MauiConnectivityService : IConnectivityService
 {
     public event EventHandler? ConnectivityRestored;
 
+    public event EventHandler<bool>? ConnectivityChanged;
+
     public MauiConnectivityService()
     {
         Connectivity.Current.ConnectivityChanged += OnConnectivityChanged;
@@ -15,7 +17,11 @@ public sealed class MauiConnectivityService : IConnectivityService
 
     private void OnConnectivityChanged(object? sender, ConnectivityChangedEventArgs e)
     {
-        if (e.NetworkAccess == NetworkAccess.Internet)
+        var isConnected = e.NetworkAccess == NetworkAccess.Internet;
+
+        ConnectivityChanged?.Invoke(this, isConnected);
+
+        if (isConnected)
         {
             ConnectivityRestored?.Invoke(this, EventArgs.Empty);
         }

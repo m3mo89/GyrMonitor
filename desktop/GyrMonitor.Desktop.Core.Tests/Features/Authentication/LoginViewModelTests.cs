@@ -1,6 +1,7 @@
 using GyrMonitor.Desktop.Core.Features.Authentication;
 using GyrMonitor.Client.Core.Authentication;
 using GyrMonitor.Client.Core.Networking;
+using GyrMonitor.Client.Core.Resources.Strings;
 using GyrMonitor.Client.Core.Session;
 using Moq;
 
@@ -54,7 +55,7 @@ public class LoginViewModelTests
 
         await viewModel.LoginCommand.ExecuteAsync(null);
 
-        Assert.Equal("Invalid email or password.", viewModel.ErrorMessage);
+        Assert.Equal(AppStrings.InvalidCredentials, viewModel.ErrorMessage);
         authSession.Verify(session => session.SaveAsync(It.IsAny<AuthSessionData>()), Times.Never);
     }
 
@@ -68,6 +69,6 @@ public class LoginViewModelTests
 
         await viewModel.LoginCommand.ExecuteAsync(null);
 
-        Assert.Equal("Unable to reach the server. Please try again.", viewModel.ErrorMessage);
+        Assert.Equal(AppStrings.UnableToReachServerRetry, viewModel.ErrorMessage);
     }
 }

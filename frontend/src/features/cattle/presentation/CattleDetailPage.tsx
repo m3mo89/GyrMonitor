@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import { LoadingState, UiState } from '../../../shared/components/UiState';
 import { formatDateTime } from '../../../shared/utils/format-date-time';
 import { useCattleDetail, useCattleHistory } from '../application';
@@ -8,24 +10,20 @@ type CattleDetailPageProps = {
 };
 
 export function CattleDetailPage({ cattleId, onBackToList }: CattleDetailPageProps) {
+  const { t } = useTranslation('cattle');
   const { data: cattle, isLoading: isCattleLoading, isError: isCattleError, error: cattleError } = useCattleDetail(cattleId);
   const { data: history, isLoading: isHistoryLoading, isError: isHistoryError } = useCattleHistory(cattleId);
 
   const isLoading = isCattleLoading || isHistoryLoading;
-  const error =
-    isCattleError || isHistoryError
-      ? isNotFound(cattleError)
-        ? 'No se encontro el cattle solicitado.'
-        : 'No se pudo cargar el detalle de cattle.'
-      : null;
+  const error = isCattleError || isHistoryError ? (isNotFound(cattleError) ? t('detail.notFound') : t('detail.genericError')) : null;
 
   if (isLoading) {
     return (
       <div className="page-stack">
         <button className="button" onClick={onBackToList} type="button">
-          Volver
+          {t('detail.back')}
         </button>
-        <LoadingState title="Cargando detalle..." />
+        <LoadingState title={t('detail.loading')} />
       </div>
     );
   }
@@ -34,9 +32,9 @@ export function CattleDetailPage({ cattleId, onBackToList }: CattleDetailPagePro
     return (
       <div className="page-stack">
         <button className="button" onClick={onBackToList} type="button">
-          Volver
+          {t('detail.back')}
         </button>
-        <UiState title="No se pudo cargar el detalle" description={error ?? 'No se encontro el cattle solicitado.'} tone="danger" />
+        <UiState title={t('detail.errorTitle')} description={error ?? t('detail.notFound')} tone="danger" />
       </div>
     );
   }
@@ -45,55 +43,55 @@ export function CattleDetailPage({ cattleId, onBackToList }: CattleDetailPagePro
     <div className="page-stack">
       <div className="button-row">
         <button className="button" onClick={onBackToList} type="button">
-          Volver
+          {t('detail.back')}
         </button>
       </div>
       <header className="page-header">
         <div>
-          <p className="eyebrow">Detalle cattle</p>
+          <p className="eyebrow">{t('detail.eyebrow')}</p>
           <h1>{cattle.tagNumber}</h1>
-          <p>Ficha resumida para consulta de estado, riesgo y trazabilidad.</p>
+          <p>{t('detail.subtitle')}</p>
         </div>
         <span className="status-badge">{cattle.status}</span>
       </header>
       <dl className="detail-grid">
         <div className="detail-item">
-          <dt>Breed</dt>
+          <dt>{t('detail.fieldBreed')}</dt>
           <dd>{cattle.breed}</dd>
         </div>
         <div className="detail-item">
-          <dt>Sex</dt>
+          <dt>{t('detail.fieldSex')}</dt>
           <dd>{cattle.sex}</dd>
         </div>
         <div className="detail-item">
-          <dt>Birth date</dt>
-          <dd>{cattle.birthDate ?? 'N/A'}</dd>
+          <dt>{t('detail.fieldBirthDate')}</dt>
+          <dd>{cattle.birthDate ?? t('detail.notAvailable')}</dd>
         </div>
         <div className="detail-item">
-          <dt>Risk</dt>
-          <dd>{cattle.lastRiskScore ?? 'N/A'}</dd>
+          <dt>{t('detail.fieldRisk')}</dt>
+          <dd>{cattle.lastRiskScore ?? t('detail.notAvailable')}</dd>
         </div>
       </dl>
-      <section className="panel" aria-label="Cattle history">
+      <section className="panel" aria-label={t('detail.historyAriaLabel')}>
         <div className="panel__header">
           <div>
-            <h2>History</h2>
-            <p>Eventos reales registrados para este cattle.</p>
+            <h2>{t('detail.historyTitle')}</h2>
+            <p>{t('detail.historySubtitle')}</p>
           </div>
-          <span className="status-badge">{history?.pagination.total ?? 0} eventos</span>
+          <span className="status-badge">{t('detail.historyCount', { count: history?.pagination.total ?? 0 })}</span>
         </div>
         {!history || history.events.length === 0 ? (
-          <UiState title="Sin eventos registrados" description="Cuando existan eventos de actividad o inactividad para este cattle, apareceran aqui." />
+          <UiState title={t('detail.historyEmptyTitle')} description={t('detail.historyEmptyDescription')} />
         ) : (
           <div className="data-table-wrap">
             <table className="data-table">
               <thead>
                 <tr>
-                  <th>Tipo</th>
-                  <th>Captured at</th>
-                  <th>Inactive</th>
-                  <th>Confidence</th>
-                  <th>Source</th>
+                  <th>{t('detail.columnType')}</th>
+                  <th>{t('detail.columnCapturedAt')}</th>
+                  <th>{t('detail.columnInactive')}</th>
+                  <th>{t('detail.columnConfidence')}</th>
+                  <th>{t('detail.columnSource')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -103,7 +101,7 @@ export function CattleDetailPage({ cattleId, onBackToList }: CattleDetailPagePro
                       <span className={event.eventType === 'INACTIVITY' ? 'status-badge status-badge--warning' : 'status-badge'}>{event.eventType}</span>
                     </td>
                     <td>{formatDateTime(event.capturedAt)}</td>
-                    <td>{event.inactiveMinutes ?? 'N/A'}</td>
+                    <td>{event.inactiveMinutes ?? t('detail.notAvailable')}</td>
                     <td>{Math.round(event.confidence * 100)}%</td>
                     <td>{event.source}</td>
                   </tr>

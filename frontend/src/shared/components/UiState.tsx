@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 
 type UiStateProps = {
   title: string;
@@ -19,13 +20,16 @@ export function UiState({ title, description, action, tone = 'neutral' }: UiStat
   );
 }
 
-export function LoadingState({ title = 'Cargando informacion...' }: { title?: string }) {
+export function LoadingState({ title }: { title?: string }) {
+  const { t } = useTranslation('common');
+  const resolvedTitle = title ?? t('loading.title');
+
   return (
     <section className="ui-state" aria-live="polite">
       <div className="spinner" aria-hidden="true" />
       <div>
-        <h2>{title}</h2>
-        <p>Estamos consultando los datos operativos mas recientes.</p>
+        <h2>{resolvedTitle}</h2>
+        <p>{t('loading.description')}</p>
       </div>
     </section>
   );
