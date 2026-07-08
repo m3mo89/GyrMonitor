@@ -15,4 +15,9 @@ public static class AppStrings
     public static string UnableToReachServerRetry => ResourceManager.GetString(nameof(UnableToReachServerRetry), CultureInfo.CurrentUICulture) ?? nameof(UnableToReachServerRetry);
     public static string SyncFailedFormat => ResourceManager.GetString(nameof(SyncFailedFormat), CultureInfo.CurrentUICulture) ?? nameof(SyncFailedFormat);
     public static string SyncSummaryFormat => ResourceManager.GetString(nameof(SyncSummaryFormat), CultureInfo.CurrentUICulture) ?? nameof(SyncSummaryFormat);
+    public static string EnvironmentLabel => ResourceManager.GetString(nameof(EnvironmentLabel), CultureInfo.CurrentUICulture) ?? nameof(EnvironmentLabel);
+    public static string EnvironmentLocal => ResourceManager.GetString(nameof(EnvironmentLocal), CultureInfo.CurrentUICulture) ?? nameof(EnvironmentLocal);
+    public static string EnvironmentStaging => ResourceManager.GetString(nameof(EnvironmentStaging), CultureInfo.CurrentUICulture) ?? nameof(EnvironmentStaging);
+    public static string EnvironmentProduction => ResourceManager.GetString(nameof(EnvironmentProduction), CultureInfo.CurrentUICulture) ?? nameof(EnvironmentProduction);
+    public static string Logout => ResourceManager.GetString(nameof(Logout), CultureInfo.CurrentUICulture) ?? nameof(Logout);
 }

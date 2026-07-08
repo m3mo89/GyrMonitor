@@ -1,4 +1,5 @@
 using GyrMonitor.Client.Core.Sync;
+using GyrMonitor.Client.Core.Sync.Domain;
 
 namespace GyrMonitor.Mobile.Core.Features.Sync;
 

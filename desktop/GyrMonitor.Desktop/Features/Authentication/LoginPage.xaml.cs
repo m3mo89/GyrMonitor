@@ -15,6 +15,12 @@ public partial class LoginPage : ContentPage
         _viewModel.LoginSucceeded += OnLoginSucceeded;
     }
 
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await _viewModel.InitializeEnvironmentCommand.ExecuteAsync(null);
+    }
+
     private async void OnLoginSucceeded(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync($"//{Routes.Dashboard}");

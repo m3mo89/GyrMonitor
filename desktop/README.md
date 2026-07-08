@@ -33,7 +33,14 @@ dotnet build desktop/GyrMonitor.Desktop/GyrMonitor.Desktop.csproj -f net10.0-mac
 
 ## Configuration
 
-The backend base URL is set in `MauiProgram.ApiBaseUrl` (defaults to `http://127.0.0.1:3000`, matching the backend's default bind address). Update it for testing against a non-local backend.
+The backend base URL is environment-selectable at runtime, not a value you edit and rebuild for:
+
+- **Debug builds** start on Local/Development (`http://127.0.0.1:3000`, matching the backend's default bind address) and show an environment picker on the login screen offering Local/Development, Staging, and Production. The selection is persisted (`SecureStorage`) across restarts.
+- **Release builds** always start on Production and never render the picker — there is no way to point a Release build anywhere else.
+- Once the current environment is Production (by selecting it in Debug, or by the Release default), the picker disappears in both cases — there is no in-app way back to Local/Staging from Production. Recovering requires clearing the app's persisted state (reinstall/clear app data).
+- A logout action is available from any authenticated page (top-right of the title bar); logging out clears the session and returns to the login screen, where the environment can be changed again (unless it's already Production).
+
+See `shared/GyrMonitor.Client.Core/Networking/ApiEnvironmentService.cs` and `ApiEnvironmentCatalog.cs` for the implementation, and `MauiProgram.cs` for the Local/Development default this head supplies.
 
 ### Local HTTP connectivity (gotcha)
 

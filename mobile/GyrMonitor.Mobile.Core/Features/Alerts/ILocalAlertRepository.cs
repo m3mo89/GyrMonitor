@@ -1,3 +1,5 @@
+using GyrMonitor.Mobile.Core.Features.Alerts.Domain;
+
 namespace GyrMonitor.Mobile.Core.Features.Alerts;
 
 public interface ILocalAlertRepository

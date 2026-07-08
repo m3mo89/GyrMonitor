@@ -67,6 +67,7 @@ Beyond the 9 MVP roadmap phases, these are now real, shipped concerns an AI agen
 - **Staging deployment**: a Railway/Vercel staging environment exists (`docs/release/deployment-environments.md`, `configure-staging-environment`).
 - **UI localization**: all human-authored UI text in frontend/desktop/mobile is resource-based and defaults to Spanish (ADR-016, `openspec/specs/ui-localization/spec.md`). Do not add literal UI strings to components, XAML, or ViewModels — add resource keys instead.
 - **Client target platforms**: desktop targets Mac Catalyst/Windows only; mobile targets Android/iOS only (`restrict-client-target-platforms`).
+- **Client environment selection**: desktop/mobile no longer hardcode the backend URL. Debug builds default to Local/Development and expose a login-screen picker (Local/Development, Staging, Production); Release builds always start on, and stay on, Production. The picker disappears once the current environment is Production, in either build configuration — there is no in-app way back (`configure-client-environments`, `shared/GyrMonitor.Client.Core/Networking/ApiEnvironmentService.cs`). Both clients also gained a logout action.
 
 ## OpenSpec Policy
 

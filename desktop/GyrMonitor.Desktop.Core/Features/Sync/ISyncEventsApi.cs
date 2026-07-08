@@ -1,3 +1,5 @@
+using GyrMonitor.Desktop.Core.Features.Sync.Infrastructure;
+
 namespace GyrMonitor.Desktop.Core.Features.Sync;
 
 public interface ISyncEventsApi

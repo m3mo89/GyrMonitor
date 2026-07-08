@@ -1,3 +1,5 @@
+using GyrMonitor.Mobile.Core.Features.Sync.Infrastructure;
+
 namespace GyrMonitor.Mobile.Core.Features.Sync;
 
 public interface ISyncObservationsApi

@@ -1,4 +1,4 @@
-using GyrMonitor.Mobile.Core.Features.Sync;
+using GyrMonitor.Mobile.Core.Features.Sync.Application;
 using GyrMonitor.Client.Core.Networking;
 using GyrMonitor.Client.Core.Session;
 using GyrMonitor.Mobile.Core.Shared.Authorization;
@@ -27,6 +27,9 @@ public partial class AppShell : Shell
 
         AuthenticationEvents.SessionExpired += OnSessionExpired;
         _connectivity.ConnectivityRestored += OnConnectivityRestored;
+        Navigated += OnShellNavigated;
+
+        UpdateShellChrome();
     }
 
     private void OnSessionExpired()
@@ -41,5 +44,22 @@ public partial class AppShell : Shell
         {
             _ = _syncService.SyncPendingObservationsAsync();
         }
+    }
+
+    private void OnShellNavigated(object? sender, ShellNavigatedEventArgs e)
+    {
+        UpdateShellChrome();
+    }
+
+    private void UpdateShellChrome()
+    {
+        PageTitleLabel.Text = CurrentPage?.Title;
+        LogoutButton.IsVisible = CurrentState?.Location?.OriginalString.Contains(Routes.Login, StringComparison.OrdinalIgnoreCase) != true;
+    }
+
+    private async void OnLogoutClicked(object? sender, EventArgs e)
+    {
+        await _authSession.ClearAsync();
+        await GoToAsync($"//{Routes.Login}");
     }
 }

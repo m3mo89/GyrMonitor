@@ -1,4 +1,4 @@
-using GyrMonitor.Desktop.Core.Features.Sync;
+using GyrMonitor.Desktop.Core.Features.Sync.Application;
 using GyrMonitor.Client.Core.Networking;
 using GyrMonitor.Client.Core.Session;
 using GyrMonitor.Desktop.Shared.Navigation;
@@ -11,20 +11,22 @@ public partial class AppShell : Shell
 {
     private readonly IConnectivityService _connectivity;
     private readonly DesktopSyncService _syncService;
+    private readonly IAuthSession _authSession;
 
-    public AppShell(IConnectivityService connectivity, DesktopSyncService syncService)
+    public AppShell(IConnectivityService connectivity, DesktopSyncService syncService, IAuthSession authSession)
     {
         InitializeComponent();
 
         _connectivity = connectivity;
         _syncService = syncService;
+        _authSession = authSession;
 
         AuthenticationEvents.SessionExpired += OnSessionExpired;
         _connectivity.ConnectivityRestored += OnConnectivityRestored;
         _syncService.SyncCompleted += OnSyncCompleted;
         Navigated += OnShellNavigated;
 
-        PageTitleLabel.Text = CurrentPage?.Title;
+        UpdateShellChrome();
     }
 
     private void OnSessionExpired()
@@ -39,7 +41,19 @@ public partial class AppShell : Shell
 
     private void OnShellNavigated(object? sender, ShellNavigatedEventArgs e)
     {
+        UpdateShellChrome();
+    }
+
+    private void UpdateShellChrome()
+    {
         PageTitleLabel.Text = CurrentPage?.Title;
+        LogoutButton.IsVisible = CurrentState?.Location?.OriginalString.Contains(Routes.Login, StringComparison.OrdinalIgnoreCase) != true;
+    }
+
+    private async void OnLogoutClicked(object? sender, EventArgs e)
+    {
+        await _authSession.ClearAsync();
+        await GoToAsync($"//{Routes.Login}");
     }
 
     private void OnSyncCompleted(object? sender, DesktopSyncSummary summary)

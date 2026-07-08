@@ -1,7 +1,7 @@
 ---
 title: Release Notes
 status: approved
-version: 1.3.0
+version: 1.3.1
 ---
 
 # GyrMonitor Docs v1.0
@@ -83,3 +83,14 @@ The backend, frontend, mobile, and desktop workspaces moved from foundation skel
 - `add-openapi-docs`, `dedupe-maui-client-core`, `desktop-connectivity-feedback`, `desktop-ui-polish`, `restrict-client-target-platforms`, `frontend-architecture-alignment`, `refactor-backend-architecture-cleanup`, `configure-staging-environment`, `admin-user-management`, `db-create-admin-script`, `frontend-clean-architecture-alignment`, `translate-ui-to-spanish`.
 
 Highlights: interactive OpenAPI docs; a shared `.NET MAUI` client core for desktop/mobile; desktop restricted to Mac Catalyst/Windows and mobile to Android/iOS; a staging deployment on Railway/Vercel; ADMIN-only user management with a `db:create-admin` bootstrap script; and Spanish UI localization across frontend (i18next), desktop, and mobile (`.resx`) — see ADR-016.
+
+## v1.3.1 - Desktop/Mobile Client Environment Selection and Logout
+
+`configure-client-environments` (archived 2026-07-08) gives the desktop and mobile clients the same Local/Development, Staging, Production environment story the frontend already had, but resolved at runtime instead of at build time:
+
+- A shared, testable `IApiEnvironmentService`/`ApiEnvironmentCatalog` in `GyrMonitor.Client.Core` replaces the old hardcoded `MauiProgram.ApiBaseUrl` constant.
+- Debug builds default to Local/Development and show an environment picker on the login screen (Local/Development, Staging, Production); Release builds always start on, and stay on, Production.
+- Once the current environment is Production — reached either way — the picker is no longer shown; there is no in-app path back to Local/Staging.
+- Both clients gained an explicit logout action (previously the only way back to the login screen was an automatic session-expiry redirect), which is what makes "return to login to change environments" an actual capability.
+
+See `docs/release/deployment-environments.md` and `knowledge-base/07-reference/configuration.md` for the updated environment matrix and configuration reference.

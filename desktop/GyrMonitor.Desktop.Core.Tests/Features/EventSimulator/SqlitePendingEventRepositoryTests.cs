@@ -1,6 +1,6 @@
-using GyrMonitor.Client.Core.Sync;
-using GyrMonitor.Desktop.Core.Features.EventSimulator;
-using GyrMonitor.Desktop.Core.Features.Sync;
+using GyrMonitor.Client.Core.Sync.Domain;
+using GyrMonitor.Desktop.Core.Features.EventSimulator.Domain;
+using GyrMonitor.Desktop.Core.Features.EventSimulator.Infrastructure;
 using GyrMonitor.Client.Core.Storage;
 
 namespace GyrMonitor.Desktop.Core.Tests.Features.EventSimulator;

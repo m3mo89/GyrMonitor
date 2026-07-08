@@ -1,6 +1,10 @@
 using GyrMonitor.Client.Core.Sync;
+using GyrMonitor.Client.Core.Sync.Domain;
 using GyrMonitor.Desktop.Core.Features.EventSimulator;
+using GyrMonitor.Desktop.Core.Features.EventSimulator.Domain;
 using GyrMonitor.Desktop.Core.Features.Sync;
+using GyrMonitor.Desktop.Core.Features.Sync.Application;
+using GyrMonitor.Desktop.Core.Features.Sync.Infrastructure;
 using Moq;
 
 namespace GyrMonitor.Desktop.Core.Tests.Features.Sync;

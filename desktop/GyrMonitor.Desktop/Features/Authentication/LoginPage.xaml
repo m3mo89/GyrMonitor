@@ -22,6 +22,15 @@
                         <Entry Placeholder="{x:Static dstrings:AppStrings.PasswordPlaceholder}" IsPassword="True" Text="{Binding Password}" />
                     </VerticalStackLayout>
 
+                    <VerticalStackLayout Spacing="{StaticResource SpacingCompact}"
+                                         IsVisible="{Binding IsEnvironmentPickerVisible}">
+                        <Label Text="{x:Static strings:AppStrings.EnvironmentLabel}" Style="{StaticResource CaptionLabelStyle}" />
+                        <Picker ItemsSource="{Binding AvailableEnvironmentOptions}"
+                                ItemDisplayBinding="{Binding Label}"
+                                SelectedItem="{Binding SelectedEnvironmentOption}"
+                                IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
+                    </VerticalStackLayout>
+
                     <Button Text="{x:Static dstrings:AppStrings.SignIn}"
                             Style="{StaticResource PrimaryButtonStyle}"
                             Command="{Binding LoginCommand}"
