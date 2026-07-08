@@ -35,6 +35,39 @@ npm run db:check --workspace backend
 
 `db:migrate` applies versioned SQL migrations and records applied versions in `schema_migrations`. `db:seed` loads repeatable non-production MVP records. `db:check` builds the backend, applies migrations twice to verify idempotency, seeds data, and exercises the MariaDB repositories for authentication, cattle/event persistence, alert generation/filtering, observation idempotency, and UTC timestamp preservation.
 
+## Staging on Railway
+
+Railway staging should run the compiled backend with these environment values:
+
+- `API_PREFIX=/api/v1`
+- `BACKEND_HOST=0.0.0.0` when Railway requires binding outside localhost
+- `CORS_ALLOWED_ORIGINS=https://gyr-monitor-staging.vercel.app`
+- MariaDB configuration through `DATABASE_URL` or the explicit `DB_*` variables
+- `JWT_SECRET` set to a staging secret, not the example value
+- `SWAGGER_ENABLED=false` unless staging API docs are intentionally exposed
+
+Prepare the staging database before validating login:
+
+```sh
+npm run db:migrate --workspace backend
+npm run db:seed --workspace backend
+```
+
+The seed command creates deterministic non-production users such as `admin@gyrmonitor.local` / `local-admin-password`. For a stricter staging environment, provision an equivalent staging admin user instead of using seed credentials.
+
+## Production on Railway
+
+Railway production should run with these environment values:
+
+- `API_PREFIX=/api/v1`
+- `BACKEND_HOST=0.0.0.0` when Railway requires non-local binding
+- `CORS_ALLOWED_ORIGINS=https://gyr-monitor.vercel.app`
+- MariaDB configuration through `DATABASE_URL` or the explicit `DB_*` variables
+- `JWT_SECRET` set to a production secret, not the example value
+- `SWAGGER_ENABLED=false` unless production API docs are intentionally exposed
+
+Run migrations before validating production login. Production users must be provisioned explicitly; do not rely on deterministic seed credentials for production.
+
 ## API Documentation
 
 The backend serves interactive OpenAPI (Swagger) documentation at `/api/docs`, and the raw OpenAPI document at `/api/docs-json`, generated from the live controllers. These paths are independent of `API_PREFIX`, so they stay stable if the API version prefix changes.
@@ -67,4 +100,10 @@ npm run format:check --workspace backend
 npm run test --workspace backend
 ```
 
-The development command starts the Nest runtime locally. The smoke command builds the backend, starts the compiled HTTP server on a test port, and verifies the public availability endpoint plus protected alert-route authentication at `/api/v1`. Set `SMOKE_WITH_DATABASE=true` to also run migrations/seeds and verify login, inactivity alert generation, alert listing, and alert detail traceability through HTTP.
+The development command starts the Nest runtime locally. The smoke command builds the backend, starts the compiled HTTP server on a test port, and verifies the public availability endpoint plus protected alert-route authentication at `/api/v1`. Set `SMOKE_WITH_DATABASE=true` to also run migrations/seeds and verify login, invalid-login `UNAUTHORIZED` behavior, inactivity alert generation, alert listing, and alert detail traceability through HTTP.
+
+To verify CORS for a deployed frontend origin during smoke checks, set `SMOKE_CORS_ORIGIN`, for example:
+
+```sh
+SMOKE_CORS_ORIGIN=https://gyr-monitor-staging.vercel.app npm run smoke:http --workspace backend
+```

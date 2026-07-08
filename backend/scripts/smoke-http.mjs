@@ -8,6 +8,7 @@ const host = process.env.BACKEND_HOST ?? '127.0.0.1';
 const apiPrefix = process.env.API_PREFIX ?? '/api/v1';
 const url = `http://${host}:${port}${apiPrefix}`;
 const deepDatabaseSmoke = process.env.SMOKE_WITH_DATABASE === 'true';
+const smokeCorsOrigin = process.env.SMOKE_CORS_ORIGIN;
 const timeoutMs = 10_000;
 const intervalMs = 250;
 
@@ -20,6 +21,7 @@ const child = spawn(process.execPath, ['dist/main.js'], {
     BACKEND_PORT: port,
     BACKEND_HOST: host,
     API_PREFIX: apiPrefix,
+    CORS_ALLOWED_ORIGINS: process.env.CORS_ALLOWED_ORIGINS ?? smokeCorsOrigin,
     NODE_ENV: 'test'
   },
   stdio: ['ignore', 'pipe', 'pipe']
@@ -45,8 +47,12 @@ try {
 
   const response = await waitForAvailability();
   await assertAvailabilityResponse(response);
+  if (smokeCorsOrigin) {
+    await assertCorsPreflight(smokeCorsOrigin);
+  }
   if (deepDatabaseSmoke) {
     await assertAlertWorkflow();
+    await assertInvalidLogin();
   } else {
     await assertProtectedAlertRoutes();
   }
@@ -111,6 +117,26 @@ async function assertProtectedAlertRoutes() {
   }
 }
 
+async function assertCorsPreflight(origin) {
+  const response = await fetch(`${url}/auth/login`, {
+    method: 'OPTIONS',
+    headers: {
+      origin,
+      'access-control-request-method': 'POST',
+      'access-control-request-headers': 'content-type'
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error(`Expected CORS preflight for ${origin} to succeed, got ${response.status}.`);
+  }
+
+  const allowedOrigin = response.headers.get('access-control-allow-origin');
+  if (allowedOrigin !== origin) {
+    throw new Error(`Expected CORS allow-origin ${origin}, got ${allowedOrigin ?? '<missing>'}.`);
+  }
+}
+
 async function assertAlertWorkflow() {
   const adminToken = await login('admin@gyrmonitor.local', 'local-admin-password');
   const systemToken = await login('system@gyrmonitor.local', 'local-system-password');
@@ -146,6 +172,17 @@ async function assertAlertWorkflow() {
   const detailResponse = await requestJson(`${url}/alerts/${alertId}`, { token: adminToken });
   if (detailResponse.status !== 200 || detailResponse.body?.data?.eventId !== eventId) {
     throw new Error(`Expected generated alert detail to preserve event traceability: ${JSON.stringify(detailResponse.body)}`);
+  }
+}
+
+async function assertInvalidLogin() {
+  const response = await requestJson(`${url}/auth/login`, {
+    method: 'POST',
+    body: { email: 'admin@gyrmonitor.local', password: 'definitely-wrong' }
+  });
+
+  if (response.status !== 401 || response.body?.error?.code !== 'UNAUTHORIZED') {
+    throw new Error(`Expected invalid login to return UNAUTHORIZED: ${JSON.stringify(response.body)}`);
   }
 }
 
