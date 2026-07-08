@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:alerts="clr-namespace:GyrMonitor.Mobile.Core.Features.Alerts;assembly=GyrMonitor.Mobile.Core"
+             xmlns:alerts="clr-namespace:GyrMonitor.Mobile.Core.Features.Alerts.Domain;assembly=GyrMonitor.Mobile.Core"
              xmlns:mstrings="clr-namespace:GyrMonitor.Mobile.Core.Resources.Strings;assembly=GyrMonitor.Mobile.Core"
              x:Class="GyrMonitor.Mobile.Features.Alerts.AlertsPage"
              Title="{x:Static mstrings:AppStrings.TabAlerts}">

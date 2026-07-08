@@ -1,4 +1,4 @@
-using GyrMonitor.Desktop.Core.Features.Sync;
+using GyrMonitor.Desktop.Core.Features.Sync.Presentation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GyrMonitor.Desktop.Shared.Controls;

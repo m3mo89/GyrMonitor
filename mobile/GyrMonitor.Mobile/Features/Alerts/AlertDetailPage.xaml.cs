@@ -1,4 +1,4 @@
-using GyrMonitor.Mobile.Core.Features.Alerts;
+using GyrMonitor.Mobile.Core.Features.Alerts.Presentation;
 using GyrMonitor.Mobile.Shared.Navigation;
 
 namespace GyrMonitor.Mobile.Features.Alerts;

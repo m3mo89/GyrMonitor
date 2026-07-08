@@ -3,13 +3,20 @@ using GyrMonitor.Desktop.Core.Features.Authentication;
 using GyrMonitor.Desktop.Core.Features.Cattle;
 using GyrMonitor.Desktop.Core.Features.Dashboard;
 using GyrMonitor.Desktop.Core.Features.EventSimulator;
+using GyrMonitor.Desktop.Core.Features.EventSimulator.Application;
+using GyrMonitor.Desktop.Core.Features.EventSimulator.Infrastructure;
+using GyrMonitor.Desktop.Core.Features.EventSimulator.Presentation;
 using GyrMonitor.Desktop.Core.Features.Sync;
+using GyrMonitor.Desktop.Core.Features.Sync.Application;
+using GyrMonitor.Desktop.Core.Features.Sync.Infrastructure;
+using GyrMonitor.Desktop.Core.Features.Sync.Presentation;
 using GyrMonitor.Client.Core.Alerts;
 using GyrMonitor.Client.Core.Authentication;
 using GyrMonitor.Client.Core.Networking;
 using GyrMonitor.Client.Core.Session;
 using GyrMonitor.Client.Core.Storage;
 using GyrMonitor.Client.Core.Sync;
+using GyrMonitor.Client.Core.Sync.Infrastructure;
 using GyrMonitor.Desktop.Features.Alerts;
 using GyrMonitor.Desktop.Features.Authentication;
 using GyrMonitor.Desktop.Features.Cattle;
@@ -93,6 +100,7 @@ public static class MauiProgram
             new SqliteConnectionProvider(Path.Combine(FileSystem.AppDataDirectory, "gyrmonitor-desktop.db3")));
         services.AddSingleton<IPendingEventRepository, SqlitePendingEventRepository>();
         services.AddSingleton<ISyncQueueRepository, SqliteSyncQueueRepository>();
+        services.AddTransient<EventSimulatorService>();
 
         services.AddSingleton(sp => new DesktopSyncService(
             sp.GetRequiredService<ISyncQueueRepository>(),

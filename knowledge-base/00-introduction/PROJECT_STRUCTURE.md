@@ -1,10 +1,10 @@
 ---
 title: Project Structure
 module: project
-version: 1.1.0
+version: 1.2.0
 status: approved
 owner: GyrMonitor Team
-last_updated: 2026-06-26
+last_updated: 2026-07-08
 ---
 
 # Project Structure
@@ -350,6 +350,76 @@ frontend/src/
 └── main.tsx
 ```
 
+## Mobile Project Structure
+
+Recommended mobile structure (`.NET MAUI`, two projects — see ADR-017):
+
+```text
+mobile/
+├── GyrMonitor.Mobile.Core/        # MAUI-neutral ViewModels and feature logic
+│   └── Features/
+│       ├── Authentication/         # flat: single API call + session write
+│       ├── Alerts/
+│       │   ├── Domain/
+│       │   ├── Application/
+│       │   ├── Infrastructure/
+│       │   └── Presentation/
+│       ├── Observations/
+│       │   ├── Domain/
+│       │   ├── Application/
+│       │   ├── Infrastructure/
+│       │   └── Presentation/
+│       └── Sync/
+│           ├── Application/
+│           ├── Infrastructure/
+│           └── Presentation/
+└── GyrMonitor.Mobile/              # Android/iOS head: XAML pages, Shell, platform code
+    └── Features/
+```
+
+A feature gets `Domain/Application/Infrastructure/Presentation` subfolders only above a complexity threshold (local validation, more than one composed dependency, or a multi-step workflow); simple single-call features stay flat. See `knowledge-base/04-architecture/clean-architecture.md` and ADR-017.
+
+## Desktop Project Structure
+
+Recommended desktop structure (`.NET MAUI`, mirrors mobile — see ADR-017):
+
+```text
+desktop/
+├── GyrMonitor.Desktop.Core/        # MAUI-neutral ViewModels and feature logic
+│   └── Features/
+│       ├── Authentication/          # flat
+│       ├── Dashboard/                # flat
+│       ├── Cattle/                   # flat
+│       ├── Alerts/                   # flat
+│       ├── EventSimulator/
+│       │   ├── Domain/
+│       │   ├── Application/
+│       │   ├── Infrastructure/
+│       │   └── Presentation/
+│       └── Sync/
+│           ├── Application/
+│           ├── Infrastructure/
+│           └── Presentation/
+└── GyrMonitor.Desktop/              # Mac Catalyst/Windows head: XAML pages, Shell, platform code
+    └── Features/
+```
+
+## Shared Client Core Structure
+
+Both mobile and desktop reference `shared/GyrMonitor.Client.Core` for MAUI-neutral primitives:
+
+```text
+shared/GyrMonitor.Client.Core/
+├── Authentication/     # flat: DTO + IAuthApi + AuthApiClient
+├── Alerts/              # flat: DTO + IAlertsApi + AlertsApiClient
+├── Networking/
+├── Session/
+├── Storage/
+└── Sync/
+    ├── Domain/          # SyncQueueItem, SyncStatuses, SyncIdempotency
+    └── Infrastructure/   # SqliteSyncQueueRepository (base class both clients extend)
+```
+
 ## OpenSpec Placement
 
 OpenSpec lives at the repository root. The `knowledge-base/11-openspec/` folder is guidance only.
@@ -367,6 +437,7 @@ OpenSpec changes should be created manually per feature.
 
 | Version | Date | Description |
 | --- | --- | --- |
+| 1.2.0 | 2026-07-08 | Added Mobile/Desktop/Shared Client Core Project Structure sections reflecting the Clean Architecture layering from ADR-017. |
 | 1.1.0 | 2026-06-29 | Aligned with current repository and Knowledge Base structure. |
 | 0.1.0 | 2026-06-26 | Initial project structure guide. |
 

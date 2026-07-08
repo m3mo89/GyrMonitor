@@ -1,6 +1,10 @@
 using GyrMonitor.Client.Core.Sync;
+using GyrMonitor.Client.Core.Sync.Domain;
 using GyrMonitor.Desktop.Core.Features.Cattle;
 using GyrMonitor.Desktop.Core.Features.EventSimulator;
+using GyrMonitor.Desktop.Core.Features.EventSimulator.Application;
+using GyrMonitor.Desktop.Core.Features.EventSimulator.Domain;
+using GyrMonitor.Desktop.Core.Features.EventSimulator.Presentation;
 using Moq;
 
 namespace GyrMonitor.Desktop.Core.Tests.Features.EventSimulator;
@@ -20,7 +24,7 @@ public class EventSimulatorViewModelTests
         syncQueue.Setup(r => r.AddAsync(It.IsAny<SyncQueueItem>())).Callback<SyncQueueItem>(q => savedQueueItem = q).Returns(Task.CompletedTask);
 
         var cattleApi = CattleApiWith(new CattleSummaryDto { Id = "cattle-1", TagNumber = "GYR-001", Status = "ACTIVE" });
-        var viewModel = new EventSimulatorViewModel(events.Object, syncQueue.Object, cattleApi.Object)
+        var viewModel = new EventSimulatorViewModel(new EventSimulatorService(events.Object, syncQueue.Object, cattleApi.Object))
         {
             IsInactivity = true,
             InactiveMinutes = 90,
@@ -51,7 +55,7 @@ public class EventSimulatorViewModelTests
         var events = new Mock<IPendingEventRepository>();
         var syncQueue = new Mock<ISyncQueueRepository>();
 
-        var viewModel = new EventSimulatorViewModel(events.Object, syncQueue.Object, CattleApiWith().Object);
+        var viewModel = new EventSimulatorViewModel(new EventSimulatorService(events.Object, syncQueue.Object, CattleApiWith().Object));
 
         await viewModel.GenerateCommand.ExecuteAsync(null);
 
@@ -66,7 +70,7 @@ public class EventSimulatorViewModelTests
         var syncQueue = new Mock<ISyncQueueRepository>();
 
         var cattleApi = CattleApiWith(new CattleSummaryDto { Id = "cattle-1", TagNumber = "GYR-001", Status = "ACTIVE" });
-        var viewModel = new EventSimulatorViewModel(events.Object, syncQueue.Object, cattleApi.Object) { Confidence = 1.5 };
+        var viewModel = new EventSimulatorViewModel(new EventSimulatorService(events.Object, syncQueue.Object, cattleApi.Object)) { Confidence = 1.5 };
         await viewModel.LoadCattleCommand.ExecuteAsync(null);
 
         await viewModel.GenerateCommand.ExecuteAsync(null);
@@ -77,10 +81,10 @@ public class EventSimulatorViewModelTests
     [Fact]
     public async Task LoadCattleAsync_LoadsSelectableCattleOptions()
     {
-        var viewModel = new EventSimulatorViewModel(
+        var viewModel = new EventSimulatorViewModel(new EventSimulatorService(
             new Mock<IPendingEventRepository>().Object,
             new Mock<ISyncQueueRepository>().Object,
-            CattleApiWith(new CattleSummaryDto { Id = "cattle-1", TagNumber = "GYR-001", Status = "ACTIVE" }).Object);
+            CattleApiWith(new CattleSummaryDto { Id = "cattle-1", TagNumber = "GYR-001", Status = "ACTIVE" }).Object));
 
         await viewModel.LoadCattleCommand.ExecuteAsync(null);
 

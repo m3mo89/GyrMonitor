@@ -1,3 +1,5 @@
+using GyrMonitor.Mobile.Core.Features.Observations.Domain;
+
 namespace GyrMonitor.Mobile.Core.Features.Observations;
 
 public interface IPendingObservationRepository

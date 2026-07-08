@@ -1,3 +1,5 @@
+using GyrMonitor.Desktop.Core.Features.EventSimulator.Domain;
+
 namespace GyrMonitor.Desktop.Core.Features.EventSimulator;
 
 public interface IPendingEventRepository

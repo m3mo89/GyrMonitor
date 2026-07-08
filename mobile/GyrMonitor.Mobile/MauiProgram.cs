@@ -1,7 +1,16 @@
 using GyrMonitor.Mobile.Core.Features.Alerts;
+using GyrMonitor.Mobile.Core.Features.Alerts.Application;
+using GyrMonitor.Mobile.Core.Features.Alerts.Infrastructure;
+using GyrMonitor.Mobile.Core.Features.Alerts.Presentation;
 using GyrMonitor.Mobile.Core.Features.Authentication;
 using GyrMonitor.Mobile.Core.Features.Observations;
+using GyrMonitor.Mobile.Core.Features.Observations.Application;
+using GyrMonitor.Mobile.Core.Features.Observations.Infrastructure;
+using GyrMonitor.Mobile.Core.Features.Observations.Presentation;
 using GyrMonitor.Mobile.Core.Features.Sync;
+using GyrMonitor.Mobile.Core.Features.Sync.Application;
+using GyrMonitor.Mobile.Core.Features.Sync.Infrastructure;
+using GyrMonitor.Mobile.Core.Features.Sync.Presentation;
 using GyrMonitor.Client.Core.Alerts;
 using GyrMonitor.Client.Core.Authentication;
 using GyrMonitor.Client.Core.Networking;
@@ -97,6 +106,14 @@ public static class MauiProgram
             sp.GetRequiredService<ISyncObservationsApi>(),
             sp.GetRequiredService<IAuthSession>(),
             MobileClientId));
+
+        services.AddTransient(sp => new ObservationCaptureService(
+            sp.GetRequiredService<IPendingObservationRepository>(),
+            sp.GetRequiredService<IMobileSyncQueueRepository>(),
+            sp.GetRequiredService<IAuthSession>(),
+            MobileClientId));
+
+        services.AddTransient<AlertsService>();
     }
 
     private static void RegisterViewModels(IServiceCollection services)
@@ -105,11 +122,7 @@ public static class MauiProgram
         services.AddTransient<AlertsViewModel>();
         services.AddTransient<AlertDetailViewModel>();
         services.AddTransient<SyncViewModel>();
-        services.AddTransient(sp => new ObservationCaptureViewModel(
-            sp.GetRequiredService<IPendingObservationRepository>(),
-            sp.GetRequiredService<IMobileSyncQueueRepository>(),
-            sp.GetRequiredService<IAuthSession>(),
-            MobileClientId));
+        services.AddTransient<ObservationCaptureViewModel>();
     }
 
     private static void RegisterPages(IServiceCollection services)

@@ -1,4 +1,7 @@
 using GyrMonitor.Mobile.Core.Features.Alerts;
+using GyrMonitor.Mobile.Core.Features.Alerts.Application;
+using GyrMonitor.Mobile.Core.Features.Alerts.Domain;
+using GyrMonitor.Mobile.Core.Features.Alerts.Presentation;
 using GyrMonitor.Client.Core.Alerts;
 using GyrMonitor.Client.Core.Networking;
 using GyrMonitor.Client.Core.Session;
@@ -8,6 +11,16 @@ namespace GyrMonitor.Mobile.Core.Tests.Features.Alerts;
 
 public class AlertsViewModelTests
 {
+    private static AlertsViewModel CreateViewModel(
+        Mock<IAlertsApi> alertsApi,
+        Mock<ILocalAlertRepository> localAlerts,
+        Mock<IConnectivityService> connectivity,
+        IAuthSession authSession)
+    {
+        var service = new AlertsService(alertsApi.Object, localAlerts.Object, connectivity.Object, authSession);
+        return new AlertsViewModel(service, connectivity.Object);
+    }
+
     private static AlertSummaryDto SampleAlert() => new()
     {
         Id = "alert-1",
@@ -32,7 +45,7 @@ public class AlertsViewModelTests
         var connectivity = new Mock<IConnectivityService>();
         connectivity.SetupGet(c => c.IsConnected).Returns(true);
 
-        var viewModel = new AlertsViewModel(alertsApi.Object, localAlerts.Object, connectivity.Object, SupportedSession());
+        var viewModel = CreateViewModel(alertsApi, localAlerts, connectivity, SupportedSession());
 
         await viewModel.LoadCommand.ExecuteAsync(null);
 
@@ -54,7 +67,7 @@ public class AlertsViewModelTests
         var connectivity = new Mock<IConnectivityService>();
         connectivity.SetupGet(c => c.IsConnected).Returns(false);
 
-        var viewModel = new AlertsViewModel(alertsApi.Object, localAlerts.Object, connectivity.Object, SupportedSession());
+        var viewModel = CreateViewModel(alertsApi, localAlerts, connectivity, SupportedSession());
 
         await viewModel.LoadCommand.ExecuteAsync(null);
 
@@ -77,7 +90,7 @@ public class AlertsViewModelTests
         var connectivity = new Mock<IConnectivityService>();
         connectivity.SetupGet(c => c.IsConnected).Returns(true);
 
-        var viewModel = new AlertsViewModel(alertsApi.Object, localAlerts.Object, connectivity.Object, SupportedSession());
+        var viewModel = CreateViewModel(alertsApi, localAlerts, connectivity, SupportedSession());
 
         await viewModel.LoadCommand.ExecuteAsync(null);
 
@@ -96,7 +109,7 @@ public class AlertsViewModelTests
 
         var authSession = new Mock<IAuthSession>();
         authSession.Setup(session => session.GetAsync()).ReturnsAsync(new AuthSessionData("token", "user-2", "Researcher", "researcher@example.com", "RESEARCHER"));
-        var viewModel = new AlertsViewModel(alertsApi.Object, localAlerts.Object, connectivity.Object, authSession.Object);
+        var viewModel = CreateViewModel(alertsApi, localAlerts, connectivity, authSession.Object);
 
         await viewModel.LoadCommand.ExecuteAsync(null);
 

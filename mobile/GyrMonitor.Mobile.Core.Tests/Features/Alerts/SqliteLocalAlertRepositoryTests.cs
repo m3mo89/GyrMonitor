@@ -1,4 +1,5 @@
-using GyrMonitor.Mobile.Core.Features.Alerts;
+using GyrMonitor.Mobile.Core.Features.Alerts.Domain;
+using GyrMonitor.Mobile.Core.Features.Alerts.Infrastructure;
 using GyrMonitor.Client.Core.Storage;
 
 namespace GyrMonitor.Mobile.Core.Tests.Features.Alerts;

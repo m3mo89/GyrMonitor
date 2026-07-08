@@ -1,4 +1,4 @@
-using GyrMonitor.Desktop.Core.Features.Sync;
+using GyrMonitor.Desktop.Core.Features.Sync.Presentation;
 
 namespace GyrMonitor.Desktop.Core.Tests.Features.Sync;
 

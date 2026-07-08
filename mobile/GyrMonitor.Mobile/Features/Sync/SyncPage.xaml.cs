@@ -1,4 +1,4 @@
-using GyrMonitor.Mobile.Core.Features.Sync;
+using GyrMonitor.Mobile.Core.Features.Sync.Presentation;
 using GyrMonitor.Client.Core.Session;
 using GyrMonitor.Mobile.Core.Shared.Authorization;
 using GyrMonitor.Mobile.Shared.Navigation;
