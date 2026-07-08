@@ -172,6 +172,55 @@ Implement Authentication
 
 ---
 
+# Staging Deployment Checklist
+
+For the complete development, staging, and production matrix, see `docs/release/deployment-environments.md`.
+
+Expected staging URLs:
+
+- Frontend: `https://gyr-monitor-staging.vercel.app`
+- Backend API: `https://gyrmonitor-staging.up.railway.app/api/v1`
+
+Expected production URLs:
+
+- Frontend: `https://gyr-monitor.vercel.app`
+- Backend API: `https://gyrmonitor-production.up.railway.app/api/v1`
+
+Railway backend variables:
+
+- `API_PREFIX=/api/v1`
+- `BACKEND_HOST=0.0.0.0` when required by Railway
+- `CORS_ALLOWED_ORIGINS=https://gyr-monitor-staging.vercel.app`
+- `DATABASE_URL` or `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`
+- `JWT_SECRET` with a staging secret value
+
+Vercel frontend variables:
+
+- `VITE_API_BASE_URL=https://gyrmonitor-staging.up.railway.app/api/v1`
+- `VITE_APP_NAME=GyrMonitor`
+- `VITE_ENABLE_MOCKS=false`
+- `VITE_AUTH_SESSION_STORAGE=localStorage`
+
+For branch-based builds, configure the Vercel staging branch to run:
+
+```sh
+npm run build:staging --workspace frontend
+```
+
+Configure the Vercel production branch to run:
+
+```sh
+npm run build:production --workspace frontend
+```
+
+The generic frontend build also infers staging from `VERCEL_GIT_COMMIT_REF=staging` and production from `VERCEL_ENV=production`, but explicit branch build commands are easier to audit.
+
+Local development keeps using `npm run dev --workspace frontend` or the default local `.env.example` values. After changing Vercel `VITE_*` variables, redeploy the frontend because Vite embeds them at build time. Before testing login, run Railway database migrations and seed deterministic non-production users or provision an equivalent staging user. If staging login fails, check API reachability first, then CORS allow-origin headers, then database seed/provisioning, then credentials.
+
+Rollback for this config-only deployment is to restore the previous Railway/Vercel environment values and redeploy the affected service. No database rollback is expected unless staging seed/provisioning was changed separately.
+
+---
+
 # Contributing
 
 Before contributing, please read:
@@ -197,4 +246,3 @@ All rights reserved.
 GyrMonitor is being developed following a **Specification-Driven Development** workflow using **OpenSpec**, supported by a structured **Knowledge Base** and a modular **Clean Architecture**.
 
 The goal is to build a maintainable, scalable, and well-documented platform where every architectural decision is traceable from requirements to implementation.
-

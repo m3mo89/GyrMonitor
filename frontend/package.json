@@ -5,7 +5,10 @@
   "description": "React and TypeScript frontend foundation for GyrMonitor.",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "build": "tsc -p tsconfig.json && vite build",
+    "build": "node scripts/build-env.mjs",
+    "build:local": "node scripts/build-env.mjs development",
+    "build:staging": "node scripts/build-env.mjs staging",
+    "build:production": "node scripts/build-env.mjs production",
     "lint": "node scripts/check-foundation.mjs lint",
     "format:check": "node scripts/check-foundation.mjs format",
     "test": "vitest run"

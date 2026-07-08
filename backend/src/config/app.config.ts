@@ -3,6 +3,7 @@ export type BackendConfig = {
   port: number;
   host: string;
   apiPrefix: string;
+  corsAllowedOrigins: string[];
   databaseUrl: string;
   database: DatabaseConfig;
   jwtSecret: string;
@@ -38,6 +39,21 @@ function readBoolean(value: string | undefined, fallback: boolean): boolean {
   }
 
   return value.toLowerCase() === 'true';
+}
+
+export const localDevelopmentCorsOrigins = ['http://127.0.0.1:5173', 'http://localhost:5173'];
+
+export function readCorsAllowedOrigins(value: string | undefined): string[] {
+  if (!value) {
+    return localDevelopmentCorsOrigins;
+  }
+
+  const origins = value
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
+  return origins.length > 0 ? origins : localDevelopmentCorsOrigins;
 }
 
 function readDatabaseConfig(): DatabaseConfig {
@@ -78,6 +94,7 @@ export const appConfig: BackendConfig = {
   port: readNumber(process.env.BACKEND_PORT ?? process.env.PORT, 3000),
   host: process.env.BACKEND_HOST ?? process.env.HOST ?? '127.0.0.1',
   apiPrefix: process.env.API_PREFIX ?? '/api/v1',
+  corsAllowedOrigins: readCorsAllowedOrigins(process.env.CORS_ALLOWED_ORIGINS ?? process.env.FRONTEND_ORIGINS),
   databaseUrl: process.env.DATABASE_URL ?? 'mysql://gyrmonitor:change-me@localhost:3306/gyrmonitor',
   database: readDatabaseConfig(),
   jwtSecret: process.env.JWT_SECRET ?? 'change-me',

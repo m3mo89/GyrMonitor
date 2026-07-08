@@ -2,6 +2,7 @@ import { createContext, useContext, useMemo, useState, type ReactNode } from 're
 import { useNavigate } from 'react-router-dom';
 
 import { ApiClient } from '../../shared/services/api-client';
+import { resolveApiBaseUrl, warnIfApiBaseUrlLooksMisconfigured } from '../../shared/config/api-config';
 import { browserSessionStore } from './session-store';
 import type { SessionState } from './auth.types';
 
@@ -19,6 +20,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSessionState] = useState<SessionState | null>(() => browserSessionStore.getSession());
 
   const value = useMemo<AuthContextValue>(() => {
+    warnIfApiBaseUrlLooksMisconfigured(import.meta.env, globalThis.location?.origin);
+
     const clearSession = () => {
       browserSessionStore.clearSession();
       setSessionState(null);
@@ -28,7 +31,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return {
       session,
       apiClient: new ApiClient({
-        baseUrl: import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:3000/api/v1',
+        baseUrl: resolveApiBaseUrl(import.meta.env),
         getAccessToken: () => browserSessionStore.getSession()?.accessToken ?? null,
         onUnauthorized: clearSession
       }),
