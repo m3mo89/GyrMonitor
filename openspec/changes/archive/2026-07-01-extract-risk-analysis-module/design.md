@@ -7,12 +7,14 @@ This change only moves the existing, already-tested risk logic to its documented
 ## Goals / Non-Goals
 
 **Goals:**
+
 - Implement `backend/src/inactivity-analysis` following the Clean Architecture layout used by other backend modules (`domain/`, `application/`, `infrastructure/`).
 - Preserve the exact current MVP risk policy (`alertThreshold: 60`, `highSeverityThreshold: 80`, `mediumSeverityThreshold: 60`) and its deterministic behavior.
 - Give `alerts` a narrow port to consume risk evaluation, so it no longer owns the calculation.
 - Keep all existing alert generation tests (`alert.use-cases.spec.ts`, `alerts.e2e-spec.ts`) passing without changes to their assertions.
 
 **Non-Goals:**
+
 - No new risk rules, configurable thresholds, or ML-based scoring (still explicitly future work per `knowledge-base/02-domain/risk-analysis.md`).
 - No changes to the `/api/v1/alerts` contract, DTOs, or persisted schema.
 - No dashboard risk-ranking feature — this change only prepares the module boundary that future dashboard work could depend on, per `knowledge-base/02-domain/module-dependency-map.md`.

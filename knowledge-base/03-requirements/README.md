@@ -18,7 +18,7 @@ The goal is not to reproduce the academic requirements tables verbatim. The goal
 ## Folder Contents
 
 | Document | Purpose |
-|---|---|
+| --- | --- |
 | [business-requirements.md](business-requirements.md) | Business outcomes and product motivations. |
 | [user-requirements.md](user-requirements.md) | User needs by actor. |
 | [functional-requirements.md](functional-requirements.md) | System capabilities expected from the MVP. |

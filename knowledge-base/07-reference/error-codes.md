@@ -12,7 +12,7 @@ Errors must use a stable machine-readable code and a user-safe message.
 ## Catalog
 
 | Code | HTTP | Meaning | Typical Resolution |
-|---|---:|---|---|
+| --- | ---: | --- | --- |
 | `VALIDATION_ERROR` | 400 | Request fields are missing or invalid. | Fix input DTO and retry. |
 | `UNAUTHORIZED` | 401 | Token missing, invalid or expired. | Re-authenticate. |
 | `FORBIDDEN` | 403 | Authenticated user lacks permission. | Check role and authorization policy. |

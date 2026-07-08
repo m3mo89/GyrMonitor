@@ -15,6 +15,7 @@ No changes to the sync wire protocol, idempotency behavior, or backend endpoints
 ## Capabilities
 
 ### Modified Capabilities
+
 - `desktop-client`: Adds requirements for an app-wide, live-updating offline indicator and for surfacing background sync completion/failure to the user, replacing the current Sync-tab-only, non-reactive offline banner.
 
 ## Impact

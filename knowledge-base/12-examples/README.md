@@ -12,7 +12,7 @@ This section contains practical examples for testing and understanding GyrMonito
 ## Planned Examples
 
 | File | Purpose |
-|---|---|
+| --- | --- |
 | [http-requests.md](http-requests.md) | REST request examples. |
 | [sample-payloads.md](sample-payloads.md) | JSON payload examples. |
 | [seed-data.md](seed-data.md) | Suggested MVP seed data. |

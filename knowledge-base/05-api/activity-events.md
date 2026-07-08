@@ -17,7 +17,7 @@ Activity events represent observed activity or inactivity for cattle. They are t
 ## Related Requirements
 
 | ID | Requirement |
-|---|---|
+| --- | --- |
 | RF-04 | Register activity events. |
 | RF-05 | Register inactivity events. |
 | RF-06 | Consult event history. |
@@ -31,7 +31,7 @@ Activity events represent observed activity or inactivity for cattle. They are t
 Registers an activity or inactivity event. This endpoint may trigger risk calculation and alert generation.
 
 | Field | Value |
-|---|---|
+| --- | --- |
 | Method | `POST` |
 | Route | `/api/v1/events` |
 | Use Case | `RegisterActivityEventUseCase` |
@@ -73,7 +73,7 @@ Registers an activity or inactivity event. This endpoint may trigger risk calcul
 Returns events using optional filters.
 
 | Field | Value |
-|---|---|
+| --- | --- |
 | Method | `GET` |
 | Route | `/api/v1/events` |
 | Use Case | `GetActivityEventsUseCase` |
@@ -82,7 +82,7 @@ Returns events using optional filters.
 ### Common Query Parameters
 
 | Parameter | Type | Description |
-|---|---|---|
+| --- | --- | --- |
 | `cattleId` | UUID | Filter by cattle. |
 | `eventType` | `ACTIVITY` \| `INACTIVITY` | Filter by event type. |
 | `from` | ISO Date | Start date. |

@@ -13,6 +13,7 @@ The backend currently relies on smoke scripts and build checks, but lacks automa
 ## Capabilities
 
 ### New Capabilities
+
 - `backend-test-suite`: Automated backend unit and e2e tests for use cases and controllers.
 
 ### Modified Capabilities

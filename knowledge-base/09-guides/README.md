@@ -14,7 +14,7 @@ Guides are procedural. They explain how to perform work consistently.
 ## Guides
 
 | Guide | Purpose |
-|---|---|
+| --- | --- |
 | [Developer Guide](developer-guide.md) | Daily development workflow and conventions. |
 | [Documentation Guide](documentation-guide.md) | How to write and maintain docs. |
 | [AI-Assisted Development](ai-assisted-development.md) | How to use AI tools safely with this knowledge base. |

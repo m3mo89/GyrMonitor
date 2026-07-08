@@ -17,7 +17,7 @@ The dashboard API exposes aggregated operational indicators for administrators a
 ## Related Requirements
 
 | ID | Requirement |
-|---|---|
+| --- | --- |
 | RF-15 | Show general metrics. |
 | RF-16 | Show historical trends. |
 | RF-17 | Show risk ranking. |
@@ -29,7 +29,7 @@ The dashboard API exposes aggregated operational indicators for administrators a
 Returns global dashboard metrics.
 
 | Field | Value |
-|---|---|
+| --- | --- |
 | Method | `GET` |
 | Route | `/api/v1/dashboard` |
 | Use Case | `GetDashboardMetricsUseCase` |
@@ -38,7 +38,7 @@ Returns global dashboard metrics.
 ### Query Parameters
 
 | Parameter | Type | Required | Description |
-|---|---|---:|---|
+| --- | --- | ---: | --- |
 | `from` | ISO Date | No | Start date for the period. |
 | `to` | ISO Date | No | End date for the period. |
 | `corralId` | UUID | No | Future filter by corral. |

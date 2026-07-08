@@ -28,7 +28,7 @@ GyrMonitor uses a **Store and Forward** pattern.
 ## Sync Queue
 
 | Field | Description |
-|---|---|
+| --- | --- |
 | id | Queue item identifier. |
 | entityType | Type of entity to synchronize. |
 | entityId | Local or domain entity identifier. |
@@ -50,7 +50,7 @@ The backend must ensure that:
 ## Sync Endpoints
 
 | Endpoint | Purpose |
-|---|---|
+| --- | --- |
 | `POST /sync/events` | Synchronize offline activity events. |
 | `POST /sync/observations` | Synchronize offline observations. |
 | `GET /sync/status` | Consult synchronization status. |

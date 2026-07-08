@@ -3,6 +3,7 @@
 The web frontend (`frontend/`) is a React 18 + TypeScript + Vite SPA structured as `app/` (composition root, layouts, providers, router), `features/*` (auth, cattle, dashboard, alerts, events, metrics), and `shared/*` (components, hooks, services, types, utils). It was scaffolded in one "project foundation" commit that pre-created every folder with a `README.md` stub, per `knowledge-base/04-architecture/screaming-architecture.md`. Subsequent feature commits filled in `auth`, `cattle`, `dashboard`, `alerts` but left `app/router`, `features/events`, `features/metrics`, `shared/hooks`, `shared/types`, and `shared/utils` empty, and never updated stale README text in folders that were later implemented.
 
 Concrete symptoms confirmed by audit:
+
 - `react-router-dom@^7` is an installed, unused dependency; `App.tsx` hand-rolls path matching, `pushState`/`popstate` handling, and inline role checks (`hasAnyRole(...)`) instead of using `app/router/` or the existing `ProtectedRoute` component consistently.
 - `ADR-004` mandates TanStack Query for remote server state, but only `useDashboardMetrics` follows it — `CattleListPage`, `CattleDetailPage`, `AlertsListPage`, `AlertDetailPage` each hand-roll an near-identical `useEffect`/`useState` fetch/loading/error pattern.
 - `ApiEnvelope<T>` is redefined in `alerts.api.ts`, `cattle.api.ts`, `dashboard.api.ts`, `auth.api.ts` instead of living once in `shared/types`.
@@ -14,6 +15,7 @@ Constraints: MVP-stage codebase, small team, no dedicated frontend architecture 
 ## Goals / Non-Goals
 
 **Goals:**
+
 - Replace hand-rolled routing/auth-branching in `App.tsx` with declarative routing via `react-router-dom`, using `ProtectedRoute` uniformly for role gating.
 - Bring all remote-data-fetching call sites in line with ADR-004 by introducing a shared TanStack Query hook convention and migrating the four non-compliant pages to it.
 - Consolidate `ApiEnvelope<T>` and `formatDateTime` (and any other cross-feature duplicate found during implementation) into `shared/types` and `shared/utils` respectively, removing the per-feature duplicates.
@@ -21,6 +23,7 @@ Constraints: MVP-stage codebase, small team, no dedicated frontend architecture 
 - Resolve the ambiguity between `features/metrics` and `features/dashboard` (decide: keep both with distinct scope, merge, or defer `metrics` explicitly).
 
 **Non-Goals:**
+
 - No new user-facing features. `features/events` and `features/metrics` UI implementation is out of scope — only their placeholder status/documentation is addressed.
 - No change to backend APIs, mobile, or desktop clients.
 - No adoption of the deeper per-feature layering (`components/hooks/pages/services/types/utils` subfolders) described in `frontend-feature-guide.md` — at current MVP scale the flat feature-folder structure is retained; this design does not mandate restructuring existing feature internals beyond what's needed for the fixes above.

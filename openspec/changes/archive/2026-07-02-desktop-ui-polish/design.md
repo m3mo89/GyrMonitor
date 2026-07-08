@@ -5,12 +5,14 @@
 ## Goals / Non-Goals
 
 **Goals:**
+
 - Establish one shared visual language (palette, spacing scale, typography, reusable styles) in `Resources/Styles/` that every desktop page draws from.
 - Bring each existing screen up to that visual language without changing its behavior, bindings, or navigation.
 - Support both light and dark OS themes, since MAUI desktop targets (Windows, macOS) both respect system theme.
 - Keep changes confined to XAML/resource-dictionary styling and the minimal code-behind/converters needed for it (e.g., a severity-to-brush converter). No ViewModel or backend changes.
 
 **Non-Goals:**
+
 - No new features, screens, or navigation changes.
 - No animation/motion system — static visual polish only.
 - No custom control templates requiring platform-specific renderers beyond standard MAUI styling.
@@ -43,6 +45,7 @@ Alternative considered: embed a full icon font (e.g. FontAwesome via NuGet). Rej
 ## Migration Plan
 
 Purely additive/visual — no data migration. Rollout is a normal code change:
+
 1. Land palette/spacing/style resource changes first (non-breaking, additive keys).
 2. Migrate one page at a time (Login → Dashboard → Alerts → Cattle → Sync → EventSimulator) to the new styles, verifying each in the running app before moving to the next.
 3. Add tab icons last, once icon assets are in place.

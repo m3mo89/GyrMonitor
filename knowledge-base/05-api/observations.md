@@ -17,7 +17,7 @@ Observations document field inspections performed in response to alerts.
 ## Related Requirements
 
 | ID | Requirement |
-|---|---|
+| --- | --- |
 | RF-13 | Register observations. |
 | RF-14 | Consult observations. |
 | RN-08 | Maintain traceability between event, alert, observation and user. |
@@ -28,7 +28,7 @@ Observations document field inspections performed in response to alerts.
 Registers an observation associated with an alert.
 
 | Field | Value |
-|---|---|
+| --- | --- |
 | Method | `POST` |
 | Route | `/api/v1/alerts/{id}/observations` |
 | Use Case | `AddAlertObservationUseCase` |

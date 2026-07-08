@@ -24,7 +24,7 @@ flowchart LR
 ## Main Modules
 
 | Module | Purpose | Primary Documents |
-|---|---|---|
+| --- | --- | --- |
 | Authentication | User and system access control. | `05-api/authentication.md`, `06-engineering/backend/overview.md` |
 | Cattle | Gyr cattle registry and identity. | `02-domain/cattle.md`, `05-api/cattle.md` |
 | Activity Events | Activity/inactivity event intake. | `02-domain/activity-events.md`, `05-api/activity-events.md` |
@@ -37,7 +37,7 @@ flowchart LR
 ## Main Endpoints
 
 | Capability | Method | Endpoint | Notes |
-|---|---:|---|---|
+| --- | ---: | --- | --- |
 | Login | POST | `/api/v1/auth/login` | Public. Returns JWT. |
 | Dashboard | GET | `/api/v1/dashboard` | ADMIN, RESEARCHER. |
 | List cattle | GET | `/api/v1/cattle` | ADMIN, RESEARCHER. |
@@ -54,7 +54,7 @@ flowchart LR
 ## Canonical Roles
 
 | Role | Description |
-|---|---|
+| --- | --- |
 | `ADMIN` | Full operational access for administration. |
 | `FIELD_OPERATOR` | Field alert review, observations and sync. |
 | `RESEARCHER` | Dashboard, trends and historical analysis. |

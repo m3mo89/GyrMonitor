@@ -16,7 +16,7 @@ This folder documents how GyrMonitor MVP is structured as a software system. It 
 ## Folder Contents
 
 | Document | Purpose |
-|---|---|
+| --- | --- |
 | [overview.md](overview.md) | High-level architecture and design principles. |
 | [system-context.md](system-context.md) | External actors and system boundaries. |
 | [container-architecture.md](container-architecture.md) | Web, mobile, desktop, backend and database containers. |

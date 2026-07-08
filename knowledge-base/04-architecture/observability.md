@@ -26,7 +26,7 @@ This document defines how GyrMonitor should expose operational visibility for de
 ## What to Observe
 
 | Area | Signals |
-|---|---|
+| --- | --- |
 | API | Request ID, endpoint, status code, latency, error code. |
 | Sync | Client ID, entity type, processed count, duplicates, failures. |
 | Events | Event registration result, risk score, alert generated flag. |
@@ -62,7 +62,7 @@ The backend should maintain sync logs for:
 ## Logging Levels
 
 | Level | Usage |
-|---|---|
+| --- | --- |
 | DEBUG | Local development details. |
 | INFO | Successful important operations. |
 | WARN | Retryable failures or stale data. |

@@ -17,7 +17,7 @@ Alerts identify cattle requiring attention due to prolonged inactivity or elevat
 ## Related Requirements
 
 | ID | Requirement |
-|---|---|
+| --- | --- |
 | RF-10 | Generate alerts. |
 | RF-11 | Consult alerts. |
 | RF-12 | Modify alert status. |
@@ -31,7 +31,7 @@ Alerts identify cattle requiring attention due to prolonged inactivity or elevat
 Returns alerts filtered by status, severity or cattle.
 
 | Field | Value |
-|---|---|
+| --- | --- |
 | Method | `GET` |
 | Route | `/api/v1/alerts` |
 | Use Case | `GetAlertsUseCase` |
@@ -40,7 +40,7 @@ Returns alerts filtered by status, severity or cattle.
 ### Query Parameters
 
 | Parameter | Type | Description |
-|---|---|---|
+| --- | --- | --- |
 | `status` | `PENDING` \| `IN_PROGRESS` \| `ATTENDED` | Alert status. |
 | `severity` | `LOW` \| `MEDIUM` \| `HIGH` | Alert severity. |
 | `cattleId` | UUID | Filter by cattle. |
@@ -72,7 +72,7 @@ Returns alerts filtered by status, severity or cattle.
 Returns alert details.
 
 | Field | Value |
-|---|---|
+| --- | --- |
 | Method | `GET` |
 | Route | `/api/v1/alerts/{id}` |
 | Use Case | `GetAlertDetailUseCase` |
@@ -83,7 +83,7 @@ Returns alert details.
 Updates alert status.
 
 | Field | Value |
-|---|---|
+| --- | --- |
 | Method | `PATCH` |
 | Route | `/api/v1/alerts/{id}/status` |
 | Use Case | `AttendAlertUseCase` |

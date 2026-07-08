@@ -17,7 +17,7 @@ Authentication allows users and system clients to access protected GyrMonitor re
 ## Related Requirements
 
 | ID | Requirement |
-|---|---|
+| --- | --- |
 | RNF-04 | Authentication using JWT. |
 | RNF-05 | Communication through secure channels. |
 | RU-01 | Administrator can consult the dashboard. |
@@ -26,7 +26,7 @@ Authentication allows users and system clients to access protected GyrMonitor re
 ## Roles
 
 | Role | Main Permissions |
-|---|---|
+| --- | --- |
 | `ADMIN` | Manage users, cattle, dashboard, events, alerts and observations. |
 | `FIELD_OPERATOR` | View alerts, register observations, attend alerts and synchronize offline records. |
 | `RESEARCHER` | View dashboard, trends and historical information. |
@@ -37,7 +37,7 @@ Authentication allows users and system clients to access protected GyrMonitor re
 Authenticates a user and returns a JWT access token.
 
 | Field | Value |
-|---|---|
+| --- | --- |
 | Method | `POST` |
 | Route | `/api/v1/auth/login` |
 | Use Case | `LoginUseCase` |

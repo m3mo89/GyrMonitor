@@ -7,7 +7,7 @@ This repository transforms the academic DOCX documentation into modular Markdown
 ## Documentation Map
 
 | Section | Purpose |
-|---|---|
+| --- | --- |
 | [00-introduction](./00-introduction/) | Project overview, AI context, style guide and contribution rules. |
 | [01-product](./01-product/) | Product vision, scope, objectives, stakeholders and success metrics. |
 | [02-domain](./02-domain/) | Domain model and business concepts. |

@@ -11,6 +11,7 @@ Mobile authentication stores `UserId` and `Role`, but local offline records curr
 ## Goals / Non-Goals
 
 **Goals:**
+
 - Extract MAUI-neutral shared client primitives into a shared core project referenced by both desktop and mobile core projects.
 - Preserve separate desktop and mobile feature implementations where workflow and entity shape differ.
 - Make the mobile observation destination explicit and testable from local SQLite capture through backend observation persistence.
@@ -20,6 +21,7 @@ Mobile authentication stores `UserId` and `Role`, but local offline records curr
 - Add release smoke validation that proves the MVP flow works across backend, desktop, and mobile.
 
 **Non-Goals:**
+
 - Merge desktop and mobile into a single MAUI app.
 - Share XAML pages, Shell routes, platform-specific services, or app startup code.
 - Replace the existing backend sync endpoints or change their public contracts.

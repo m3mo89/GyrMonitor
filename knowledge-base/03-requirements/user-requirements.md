@@ -16,7 +16,7 @@ This document defines user-facing needs by actor. These requirements describe wh
 ## Actors
 
 | Actor | Description |
-|---|---|
+| --- | --- |
 | Administrator | Oversees system state, cattle, alerts, metrics and operational monitoring. |
 | Field Operator | Reviews pending alerts, attends cattle in the field and records observations. |
 | Researcher | Reviews historical trends and risk indicators for analysis. |

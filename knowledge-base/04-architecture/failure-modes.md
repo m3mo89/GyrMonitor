@@ -18,7 +18,7 @@ This document identifies expected failure scenarios and mitigation strategies.
 ## Failure Mode Register
 
 | ID | Failure Mode | Impact | Mitigation |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | FM-001 | No internet connectivity | Field data cannot reach backend immediately. | SQLite + Sync Queue. |
 | FM-002 | Duplicate sync request | Duplicate events or observations. | Idempotency-Key + eventId/observationId. |
 | FM-003 | Backend unavailable | Clients cannot sync or load fresh data. | Local queue, retries, clear user state. |

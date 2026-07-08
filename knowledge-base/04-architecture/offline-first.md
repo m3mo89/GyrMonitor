@@ -59,7 +59,7 @@ sequenceDiagram
 ## Offline Data States
 
 | State | Meaning |
-|---|---|
+| --- | --- |
 | PENDING | Stored locally and waiting for sync. |
 | SYNCING | Currently being sent to backend. |
 | SYNCED | Accepted by backend. |

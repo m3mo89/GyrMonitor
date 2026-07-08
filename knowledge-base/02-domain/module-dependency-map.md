@@ -45,28 +45,28 @@ flowchart LR
 
 ## Dependency Table
 
-| Module | Depends On | Used By |
-|---|---|---|
-| Authentication | User, Role | All protected modules. |
-| Cattle Monitoring | None | Activity Events, Alerts, Dashboard. |
-| Activity Events | Cattle Monitoring, Authentication | Risk Analysis, Dashboard, Offline Sync. |
-| Risk Analysis | Activity Events | Alerts, Dashboard. |
-| Alerts | Cattle, Activity Events, Risk Analysis | Inspections, Observations, Dashboard, Mobile. |
-| Inspections | Alerts, Authentication | Observations, Dashboard. |
-| Observations | Alerts, User | Dashboard, Offline Sync. |
-| Offline Sync | Events, Observations, Alerts cache | Mobile, Desktop, Backend sync endpoints. |
-| Dashboard | Cattle, Events, Alerts, Observations, Sync status | Web frontend, Researchers, Administrators. |
+| Module            | Depends On                                        | Used By                                       |
+| ----------------- | ------------------------------------------------- | --------------------------------------------- |
+| Authentication    | User, Role                                        | All protected modules.                        |
+| Cattle Monitoring | None                                              | Activity Events, Alerts, Dashboard.           |
+| Activity Events   | Cattle Monitoring, Authentication                 | Risk Analysis, Dashboard, Offline Sync.       |
+| Risk Analysis     | Activity Events                                   | Alerts, Dashboard.                            |
+| Alerts            | Cattle, Activity Events, Risk Analysis            | Inspections, Observations, Dashboard, Mobile. |
+| Inspections       | Alerts, Authentication                            | Observations, Dashboard.                      |
+| Observations      | Alerts, User                                      | Dashboard, Offline Sync.                      |
+| Offline Sync      | Events, Observations, Alerts cache                | Mobile, Desktop, Backend sync endpoints.      |
+| Dashboard         | Cattle, Events, Alerts, Observations, Sync status | Web frontend, Researchers, Administrators.    |
 
 ## Change Impact Guidance
 
-| Change Area | Review These Documents |
-|---|---|
-| Event payload changes | `activity-events.md`, `risk-analysis.md`, `offline-sync.md`, API contracts. |
-| Risk calculation changes | `risk-analysis.md`, `alerts.md`, dashboard metrics. |
-| Alert status changes | `alerts.md`, `inspections.md`, mobile workflows, API contracts. |
-| Observation changes | `observations.md`, `offline-sync.md`, alert detail views. |
-| Offline sync behavior changes | `offline-sync.md`, `activity-events.md`, `observations.md`, error model. |
-| Cattle fields change | `cattle.md`, event registration, dashboard, database model. |
+| Change Area                   | Review These Documents                                                      |
+| ----------------------------- | --------------------------------------------------------------------------- |
+| Event payload changes         | `activity-events.md`, `risk-analysis.md`, `offline-sync.md`, API contracts. |
+| Risk calculation changes      | `risk-analysis.md`, `alerts.md`, dashboard metrics.                         |
+| Alert status changes          | `alerts.md`, `inspections.md`, mobile workflows, API contracts.             |
+| Observation changes           | `observations.md`, `offline-sync.md`, alert detail views.                   |
+| Offline sync behavior changes | `offline-sync.md`, `activity-events.md`, `observations.md`, error model.    |
+| Cattle fields change          | `cattle.md`, event registration, dashboard, database model.                 |
 
 ## OpenSpec Usage
 
@@ -98,6 +98,6 @@ Likely impacted implementation areas:
 
 ## Change History
 
-| Version | Date | Notes |
-|---|---:|---|
-| 0.1 | 2026-06-26 | Initial domain knowledge-base extraction from academic DOCX sources. |
+| Version |       Date | Notes                                                                |
+| ------- | ---------: | -------------------------------------------------------------------- |
+| 0.1     | 2026-06-26 | Initial domain knowledge-base extraction from academic DOCX sources. |

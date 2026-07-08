@@ -26,7 +26,7 @@ Authorization: Bearer <token>
 Role-based authorization must be enforced before use case execution.
 
 | Module | Roles |
-|---|---|
+| --- | --- |
 | Authentication | Public login. |
 | Dashboard | `ADMIN`, `RESEARCHER` |
 | Cattle | `ADMIN`, `RESEARCHER` |

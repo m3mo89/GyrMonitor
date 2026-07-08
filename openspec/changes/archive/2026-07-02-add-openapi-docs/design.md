@@ -5,11 +5,13 @@ The backend ([backend/src/main.ts](backend/src/main.ts)) is a NestJS app on `@ne
 ## Goals / Non-Goals
 
 **Goals:**
+
 - Make all existing HTTP endpoints discoverable via a browsable UI and a machine-readable OpenAPI JSON document.
 - Reflect real auth requirements (JWT bearer) in the generated docs so protected routes are marked correctly.
 - Keep the change additive: no existing route, request, or response shape changes.
 
 **Non-Goals:**
+
 - Full DTO-by-DTO annotation coverage in this change's first pass is not required for every field; tasks.md sequences core annotation (tags, operations, auth) now and leaves exhaustive `@ApiProperty` coverage as incremental follow-up if desired.
 - Not introducing API versioning or contract testing — only documentation generation.
 - Not changing the empty `backend/src/shared` placeholder or other empty scaffold directories (separate concern, unrelated to this change).

@@ -14,12 +14,14 @@ Everything else that shares a filename between the two clients (`AlertsViewModel
 ## Goals / Non-Goals
 
 **Goals:**
+
 - Move the authentication API contract and the alerts read contract into `shared/GyrMonitor.Client.Core`, since they are true duplicates with no platform-specific variation.
 - Extract the common sync-queue repository behavior into a shared base that mobile extends for its user-scoped queries, removing the duplicated subset without forcing desktop to gain methods it doesn't need.
 - Create `shared/GyrMonitor.Client.Core.Tests` and move/de-duplicate tests for code that now lives only in the shared core.
 - Preserve all current runtime behavior, DI wiring outcomes, and API contracts exactly — this is a pure move/de-duplication, not a behavior change.
 
 **Non-Goals:**
+
 - No changes to `LoginViewModel`, `AlertsViewModel`, or `SyncViewModel` behavior — only their dependencies' namespaces change where those dependencies move.
 - No new abstraction for `DesktopSyncService`/`MobileSyncService` (already correctly kept separate per `stabilize-mvp-release`) or for entity-specific DTOs (`PendingEvent`, `PendingObservation`, `LocalAlert`).
 - No merging of the desktop and mobile apps, no shared XAML/Shell/UI code — unchanged from the existing `maui-shared-client-core` spec's non-goals.

@@ -20,21 +20,21 @@ The API is the integration boundary between client applications and backend use 
 
 ## Documentation Map
 
-| Document | Purpose |
-|---|---|
-| `overview.md` | High-level API architecture and contract principles. |
-| `conventions.md` | Versioning, naming, headers, response envelopes and pagination conventions. |
-| `authentication.md` | Login, JWT, roles and protected resources. |
-| `dashboard.md` | Dashboard metrics endpoint. |
-| `cattle.md` | Cattle listing and cattle history contracts. |
-| `activity-events.md` | Activity/inactivity event registration and query contracts. |
-| `alerts.md` | Alert query, detail and status update contracts. |
-| `observations.md` | Inspection observation contracts. |
-| `offline-sync.md` | Store-and-forward synchronization contracts. |
-| `error-model.md` | Standard error model and error code catalog. |
-| `dto-catalog.md` | Central DTO catalog used by API consumers. |
-| `security.md` | API security rules, authentication and authorization expectations. |
-| `http-examples.md` | Copy-ready HTTP examples for local testing. |
+| Document             | Purpose                                                                     |
+| -------------------- | --------------------------------------------------------------------------- |
+| `overview.md`        | High-level API architecture and contract principles.                        |
+| `conventions.md`     | Versioning, naming, headers, response envelopes and pagination conventions. |
+| `authentication.md`  | Login, JWT, roles and protected resources.                                  |
+| `dashboard.md`       | Dashboard metrics endpoint.                                                 |
+| `cattle.md`          | Cattle listing and cattle history contracts.                                |
+| `activity-events.md` | Activity/inactivity event registration and query contracts.                 |
+| `alerts.md`          | Alert query, detail and status update contracts.                            |
+| `observations.md`    | Inspection observation contracts.                                           |
+| `offline-sync.md`    | Store-and-forward synchronization contracts.                                |
+| `error-model.md`     | Standard error model and error code catalog.                                |
+| `dto-catalog.md`     | Central DTO catalog used by API consumers.                                  |
+| `security.md`        | API security rules, authentication and authorization expectations.          |
+| `http-examples.md`   | Copy-ready HTTP examples for local testing.                                 |
 
 ## API Modules
 
@@ -74,13 +74,13 @@ flowchart LR
 
 ## Base URL
 
-| Environment | Base URL |
-|---|---|
-| Local | `http://localhost:3000/api/v1` |
+| Environment            | Base URL                                    |
+| ---------------------- | ------------------------------------------- |
+| Local                  | `http://localhost:3000/api/v1`              |
 | Production placeholder | `https://api.gyrmonitor.example.com/api/v1` |
 
 ## Change History
 
-| Version | Change |
-|---|---|
-| 0.5.0 | Created modular API and contract documentation. |
+| Version | Change                                          |
+| ------- | ----------------------------------------------- |
+| 0.5.0   | Created modular API and contract documentation. |

@@ -13,9 +13,11 @@ The backend currently exposes 8 controllers (auth, cattle, dashboard, alerts, ob
 ## Capabilities
 
 ### New Capabilities
+
 - `api-documentation`: Serving interactive OpenAPI (Swagger) documentation and a machine-readable OpenAPI JSON document describing all backend HTTP endpoints.
 
 ### Modified Capabilities
+
 (none — existing capability specs describe endpoint behavior, not documentation; no requirement text changes)
 
 ## Impact

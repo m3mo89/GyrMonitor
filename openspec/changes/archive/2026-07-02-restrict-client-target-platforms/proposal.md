@@ -12,9 +12,11 @@ The desktop and mobile `.NET MAUI` projects both currently declare the exact sam
 ## Capabilities
 
 ### New Capabilities
+
 (none)
 
 ### Modified Capabilities
+
 - `desktop-client`: the "Desktop project foundation" requirement now also constrains the project to desktop-only target platforms (Windows, Mac Catalyst) and excludes Android/iOS.
 - `mobile-client`: the "Mobile project foundation" requirement now also constrains the project to mobile-only target platforms (Android, iOS) and excludes Mac Catalyst/Windows.
 
