@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GyrMonitor.Client.Core.Authentication;
@@ -13,6 +14,7 @@ public sealed partial class LoginViewModel : ObservableObject
 {
     private readonly IAuthApi _authApi;
     private readonly IAuthSession _authSession;
+    private readonly IApiEnvironmentService _environmentService;
 
     public event EventHandler? LoginSucceeded;
 
@@ -28,10 +30,58 @@ public sealed partial class LoginViewModel : ObservableObject
     [ObservableProperty]
     private bool isBusy;
 
-    public LoginViewModel(IAuthApi authApi, IAuthSession authSession)
+    public ObservableCollection<ApiEnvironmentOption> AvailableEnvironmentOptions { get; } = new();
+
+    [ObservableProperty]
+    private ApiEnvironmentOption? selectedEnvironmentOption;
+
+    [ObservableProperty]
+    private bool isEnvironmentPickerVisible;
+
+    public LoginViewModel(IAuthApi authApi, IAuthSession authSession, IApiEnvironmentService environmentService)
     {
         _authApi = authApi;
         _authSession = authSession;
+        _environmentService = environmentService;
+
+        // Populated once and never rebuilt: the set of environments never changes, only which one is
+        // selected. Clearing/re-adding this collection while the Picker is processing a selection
+        // (see OnSelectedEnvironmentOptionChanged below) crashes the native Picker on Android/iOS.
+        foreach (var environment in _environmentService.AvailableEnvironments)
+        {
+            AvailableEnvironmentOptions.Add(new ApiEnvironmentOption(environment, ApiEnvironmentDisplay.GetLabel(environment)));
+        }
+
+        SyncSelectedEnvironment();
+    }
+
+    [RelayCommand]
+    private async Task InitializeEnvironmentAsync()
+    {
+        await _environmentService.InitializeAsync();
+        SyncSelectedEnvironment();
+    }
+
+    partial void OnSelectedEnvironmentOptionChanged(ApiEnvironmentOption? value)
+    {
+        if (value is null || value.Value == _environmentService.CurrentEnvironment)
+        {
+            return;
+        }
+
+        _ = ChangeEnvironmentAsync(value.Value);
+    }
+
+    private async Task ChangeEnvironmentAsync(ApiEnvironment environment)
+    {
+        await _environmentService.SetEnvironmentAsync(environment);
+        SyncSelectedEnvironment();
+    }
+
+    private void SyncSelectedEnvironment()
+    {
+        SelectedEnvironmentOption = AvailableEnvironmentOptions.FirstOrDefault(option => option.Value == _environmentService.CurrentEnvironment);
+        IsEnvironmentPickerVisible = _environmentService.CurrentEnvironment != ApiEnvironment.Production;
     }
 
     [RelayCommand]

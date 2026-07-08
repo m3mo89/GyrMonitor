@@ -11,14 +11,16 @@
     xmlns:sync="clr-namespace:GyrMonitor.Desktop.Features.Sync"
     xmlns:controls="clr-namespace:GyrMonitor.Desktop.Shared.Controls"
     xmlns:dstrings="clr-namespace:GyrMonitor.Desktop.Core.Resources.Strings;assembly=GyrMonitor.Desktop.Core"
+    xmlns:strings="clr-namespace:GyrMonitor.Client.Core.Resources.Strings;assembly=GyrMonitor.Client.Core"
     Title="{x:Static dstrings:AppStrings.AppTitle}"
     FlyoutBehavior="Disabled">
 
     <Shell.TitleView>
-        <Grid>
-            <Label x:Name="PageTitleLabel" Style="{StaticResource SectionHeaderStyle}" VerticalOptions="Center" />
-            <controls:OfflineBannerView VerticalOptions="Fill" />
-            <controls:SyncNotificationView x:Name="SyncNotification" VerticalOptions="Fill" />
+        <Grid ColumnDefinitions="*,Auto">
+            <Label x:Name="PageTitleLabel" Grid.Column="0" Style="{StaticResource SectionHeaderStyle}" VerticalOptions="Center" />
+            <controls:OfflineBannerView Grid.Column="0" Grid.ColumnSpan="2" VerticalOptions="Fill" />
+            <controls:SyncNotificationView x:Name="SyncNotification" Grid.Column="0" Grid.ColumnSpan="2" VerticalOptions="Fill" />
+            <Button x:Name="LogoutButton" Grid.Column="1" Text="{x:Static strings:AppStrings.Logout}" Clicked="OnLogoutClicked" VerticalOptions="Center" />
         </Grid>
     </Shell.TitleView>
 

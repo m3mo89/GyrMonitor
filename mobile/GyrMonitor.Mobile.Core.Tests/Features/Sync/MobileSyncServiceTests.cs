@@ -1,7 +1,11 @@
 using GyrMonitor.Client.Core.Sync;
+using GyrMonitor.Client.Core.Sync.Domain;
 using GyrMonitor.Client.Core.Session;
 using GyrMonitor.Mobile.Core.Features.Observations;
+using GyrMonitor.Mobile.Core.Features.Observations.Domain;
 using GyrMonitor.Mobile.Core.Features.Sync;
+using GyrMonitor.Mobile.Core.Features.Sync.Application;
+using GyrMonitor.Mobile.Core.Features.Sync.Infrastructure;
 using Moq;
 
 namespace GyrMonitor.Mobile.Core.Tests.Features.Sync;

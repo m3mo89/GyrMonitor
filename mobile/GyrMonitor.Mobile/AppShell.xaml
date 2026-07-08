@@ -11,6 +11,13 @@
     Title="{x:Static strings:AppStrings.AppName}"
     FlyoutBehavior="Disabled">
 
+    <Shell.TitleView>
+        <Grid ColumnDefinitions="*,Auto">
+            <Label x:Name="PageTitleLabel" Grid.Column="0" VerticalOptions="Center" />
+            <Button x:Name="LogoutButton" Grid.Column="1" Text="{x:Static strings:AppStrings.Logout}" Clicked="OnLogoutClicked" VerticalOptions="Center" />
+        </Grid>
+    </Shell.TitleView>
+
     <ShellContent
         Title="{x:Static mstrings:AppStrings.SignIn}"
         ContentTemplate="{DataTemplate auth:LoginPage}"

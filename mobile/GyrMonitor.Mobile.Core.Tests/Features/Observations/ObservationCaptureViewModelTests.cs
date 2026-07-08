@@ -1,6 +1,10 @@
 using GyrMonitor.Client.Core.Sync;
+using GyrMonitor.Client.Core.Sync.Domain;
 using GyrMonitor.Client.Core.Session;
 using GyrMonitor.Mobile.Core.Features.Observations;
+using GyrMonitor.Mobile.Core.Features.Observations.Application;
+using GyrMonitor.Mobile.Core.Features.Observations.Domain;
+using GyrMonitor.Mobile.Core.Features.Observations.Presentation;
 using GyrMonitor.Mobile.Core.Features.Sync;
 using Moq;
 
@@ -20,7 +24,7 @@ public class ObservationCaptureViewModelTests
         var syncQueue = new Mock<IMobileSyncQueueRepository>();
         syncQueue.Setup(repo => repo.AddAsync(It.IsAny<SyncQueueItem>())).Callback<SyncQueueItem>(q => savedQueueItem = q).Returns(Task.CompletedTask);
 
-        var viewModel = new ObservationCaptureViewModel(observations.Object, syncQueue.Object, SupportedSession(), "MOBILE-001")
+        var viewModel = new ObservationCaptureViewModel(new ObservationCaptureService(observations.Object, syncQueue.Object, SupportedSession(), "MOBILE-001"))
         {
             AlertId = "alert-1",
             Comment = "Checked in field"
@@ -53,7 +57,7 @@ public class ObservationCaptureViewModelTests
         var observations = new Mock<IPendingObservationRepository>();
         var syncQueue = new Mock<IMobileSyncQueueRepository>();
 
-        var viewModel = new ObservationCaptureViewModel(observations.Object, syncQueue.Object, SupportedSession(), "MOBILE-001")
+        var viewModel = new ObservationCaptureViewModel(new ObservationCaptureService(observations.Object, syncQueue.Object, SupportedSession(), "MOBILE-001"))
         {
             AlertId = "alert-1",
             Comment = "   "
@@ -72,7 +76,7 @@ public class ObservationCaptureViewModelTests
         var observations = new Mock<IPendingObservationRepository>();
         var syncQueue = new Mock<IMobileSyncQueueRepository>();
 
-        var viewModel = new ObservationCaptureViewModel(observations.Object, syncQueue.Object, SupportedSession(), "MOBILE-001") { Comment = "Checked" };
+        var viewModel = new ObservationCaptureViewModel(new ObservationCaptureService(observations.Object, syncQueue.Object, SupportedSession(), "MOBILE-001")) { Comment = "Checked" };
 
         await viewModel.SaveCommand.ExecuteAsync(null);
 

@@ -1,4 +1,4 @@
-using GyrMonitor.Desktop.Core.Features.EventSimulator;
+using GyrMonitor.Desktop.Core.Features.EventSimulator.Presentation;
 
 namespace GyrMonitor.Desktop.Features.EventSimulator;
 

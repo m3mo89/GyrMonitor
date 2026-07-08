@@ -12,7 +12,8 @@ The mobile client is used by field operators to review alerts, register observat
 
 ## Responsibilities
 
-- Login and session handling.
+- Login and session handling, with a runtime environment picker (Local/Development, Staging, Production) on Debug builds; Release builds always target Production.
+- Logout from any authenticated screen, clearing the session and returning to login.
 - Display pending and active alerts.
 - Show alert detail.
 - Register observations.
@@ -23,3 +24,7 @@ The mobile client is used by field operators to review alerts, register observat
 ## Scope Boundary
 
 The mobile client does not calculate authoritative risk scores. It may show cached risk and severity values provided by the backend.
+
+## Architecture
+
+See `maui-architecture.md` in this folder for the feature-based MVVM structure and the Clean Architecture layering applied inside features above a complexity threshold (ADR-017).

@@ -1,3 +1,5 @@
+using GyrMonitor.Client.Core.Sync.Domain;
+
 namespace GyrMonitor.Client.Core.Sync;
 
 public interface ISyncQueueRepository

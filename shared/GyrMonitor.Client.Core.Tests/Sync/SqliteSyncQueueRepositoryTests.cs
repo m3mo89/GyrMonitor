@@ -1,5 +1,6 @@
 using GyrMonitor.Client.Core.Storage;
-using GyrMonitor.Client.Core.Sync;
+using GyrMonitor.Client.Core.Sync.Domain;
+using GyrMonitor.Client.Core.Sync.Infrastructure;
 
 namespace GyrMonitor.Client.Core.Tests.Sync;
 

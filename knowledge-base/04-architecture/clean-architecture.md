@@ -94,3 +94,17 @@ features/<feature>/
 ```
 
 `auth`, `user-management`, `dashboard`, `cattle`, and `alerts` are fully layered; `events` and `metrics` are placeholder/deferred (cattle detail shows read-only event history instead of a dedicated events UI). Route adapters live in `app/router` and import presentation entry points from feature barrels, keeping the dependency direction the same as the backend: presentation depends on application, application depends on domain, infrastructure implements ports consumed by application.
+
+## Mobile/Desktop Clean Architecture Layering
+
+The `.NET MAUI` clients apply the same layer model per feature, adapted to MVVM (documented in detail in `06-engineering/mobile/maui-architecture.md`, `06-engineering/desktop/maui-desktop.md`, and `openspec/specs/maui-client-architecture/spec.md`):
+
+```text
+Features/<feature>/           (inside GyrMonitor.Mobile.Core or GyrMonitor.Desktop.Core)
+  Domain/          Client-local entities and validation used for offline persistence. No MAUI, CommunityToolkit.Mvvm, or HttpClient types; may carry sqlite-net-pcl [Table]/[PrimaryKey] mapping attributes as persistence shape, but no SQLite connection/query types.
+  Application/       Orchestrator/use-case classes the ViewModel calls; depend on Domain and abstract ports (I*Repository, I*Api).
+  Infrastructure/     SQLite repositories, API clients, DTOs, and mapping; implement the ports Application depends on.
+  Presentation/       The ViewModel (Core project) plus the XAML page/code-behind in the UI head project (GyrMonitor.Mobile/GyrMonitor.Desktop).
+```
+
+`desktop/EventSimulator`, `mobile/Observations`, `mobile/Sync`, `desktop/Sync`, `mobile/Alerts`, and the shared `Sync` primitives in `shared/GyrMonitor.Client.Core` are layered; `desktop/Cattle`, `desktop/Dashboard`, `desktop/Alerts`, and `Authentication` (mobile/desktop) stay intentionally flat as single-call, read-only, or single-orchestration-step features. Dependencies point the same direction as the backend and frontend: Presentation depends on Application, Application depends on Domain and ports, Infrastructure implements those ports. See `08-decisions/ADR-017-maui-client-clean-architecture.md` for the context, alternatives considered, and the accepted trade-offs (more files per user action, more indirect test setup, no user-facing payoff at the time of adoption).

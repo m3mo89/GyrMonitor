@@ -35,11 +35,13 @@ This document defines recommended configuration keys. Final values should be set
 
 | Setting | Purpose | Recommended Default |
 | --- | --- | --- |
-| `ApiBaseUrl` | Backend API base URL. | Environment-specific. |
+| `ApiBaseUrl` (`ApiOptions.BaseUrl`) | Backend API base URL. Runtime-selectable (Local/Development, Staging, Production) via `IApiEnvironmentService`, not a fixed value — see below. | Debug: Local/Development. Release: Production. |
 | `ClientId` | Logical client identifier. | Generated per installation. |
 | `SyncIntervalSeconds` | Sync polling interval after connectivity returns. | `30` |
 | `MaxRetryCount` | Maximum sync retries before marking failed. | `5` |
 | `LocalDatabaseName` | SQLite file name. | `gyrmonitor.db` |
+
+`ApiBaseUrl` is not a single fixed setting: Debug builds default to Local/Development and expose an environment picker on the login screen (Local/Development, Staging, Production); Release builds always start on, and stay on, Production. In both build configurations, once the current environment is Production the picker is no longer shown — there is no in-app way back to Local/Staging. See `docs/release/deployment-environments.md` for the full desktop/mobile environment matrix.
 
 ## Configuration Principles
 

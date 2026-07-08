@@ -1,6 +1,11 @@
 using GyrMonitor.Client.Core.Sync;
+using GyrMonitor.Client.Core.Sync.Domain;
 using GyrMonitor.Client.Core.Session;
+using GyrMonitor.Mobile.Core.Features.Observations.Domain;
 using GyrMonitor.Mobile.Core.Features.Sync;
+using GyrMonitor.Mobile.Core.Features.Sync.Application;
+using GyrMonitor.Mobile.Core.Features.Sync.Infrastructure;
+using GyrMonitor.Mobile.Core.Features.Sync.Presentation;
 using Moq;
 
 namespace GyrMonitor.Mobile.Core.Tests.Features.Sync;
@@ -39,7 +44,7 @@ public class SyncViewModelTests
         var queue = new InMemorySyncQueueRepository();
         var observations = new InMemoryPendingObservationRepository();
 
-        var observation = new Core.Features.Observations.PendingObservation
+        var observation = new PendingObservation
         {
             LocalId = "local-obs-1",
             ObservationId = "22222222-2222-4222-8222-222222222222",

@@ -1,7 +1,10 @@
 using GyrMonitor.Client.Core.Sync;
+using GyrMonitor.Client.Core.Sync.Domain;
 using GyrMonitor.Mobile.Core.Features.Observations;
+using GyrMonitor.Mobile.Core.Features.Observations.Domain;
+using GyrMonitor.Mobile.Core.Features.Observations.Infrastructure;
 using GyrMonitor.Client.Core.Storage;
-using SqliteSyncQueueRepository = GyrMonitor.Mobile.Core.Features.Sync.SqliteSyncQueueRepository;
+using SqliteSyncQueueRepository = GyrMonitor.Mobile.Core.Features.Sync.Infrastructure.SqliteSyncQueueRepository;
 
 namespace GyrMonitor.Mobile.Core.Tests.Features.Sync;
 
