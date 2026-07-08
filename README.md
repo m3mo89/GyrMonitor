@@ -2,7 +2,7 @@
 
 > **Offline-first livestock monitoring platform** designed to support cattle management through event registration, observations, alerts, dashboards, and synchronization in environments with intermittent connectivity.
 
-![Status](https://img.shields.io/badge/status-MVP%20Development-blue)
+![Status](https://img.shields.io/badge/status-MVP%20Implemented-success)
 ![Architecture](https://img.shields.io/badge/architecture-Clean%20Architecture-success)
 ![Development](https://img.shields.io/badge/process-OpenSpec-orange)
 
@@ -23,12 +23,15 @@ The current repository focuses exclusively on the **MVP**.
 # MVP Features
 
 - Authentication
+- User Management (ADMIN)
 - Cattle Management
 - Observations
 - Activity Events
 - Alerts
 - Dashboard
 - Offline Synchronization
+- Desktop and Mobile Clients (.NET MAUI)
+- Spanish UI Localization
 
 ---
 
@@ -66,10 +69,13 @@ The project is built around the following principles:
 ├── docs/                  # Academic documentation and project deliverables
 ├── knowledge-base/        # Product Knowledge Base (Single Source of Truth)
 ├── openspec/              # OpenSpec proposals, designs and tasks
-├── backend/               # Backend application (coming soon)
-├── frontend/              # Frontend application (coming soon)
-├── mobile/                # Mobile application (coming soon)
-├── desktop/               # Desktop application (coming soon)
+├── backend/               # Backend application (implemented, NestJS)
+├── frontend/              # Frontend application (implemented, React + TypeScript)
+├── mobile/                # Mobile application (implemented, .NET MAUI - Android/iOS)
+├── desktop/               # Desktop application (implemented, .NET MAUI - Mac Catalyst/Windows)
+├── database/              # MariaDB and SQLite schema, migrations, and seeds
+├── shared/                # Shared .NET MAUI client core (desktop + mobile)
+├── scripts/               # Repository-level maintenance scripts
 ├── .agents/               # AI agents
 ├── .claude/               # Claude commands and skills
 ├── .codex/                # Codex skills
@@ -119,10 +125,15 @@ The documentation inside **knowledge-base/** is considered the **Single Source o
 
 | Phase | Status |
 | -------- | :------: |
-| Knowledge Base | ✅ Frozen baseline |
-| Phase 1 — Foundation | 🚧 In Progress |
-| OpenSpec Proposals | ⏳ Pending |
-| MVP Development | ⏳ Pending |
+| Foundation | ✅ Implemented |
+| MVP Domains (Auth, Cattle, Observations, Events, Alerts, Dashboard, Offline Sync) | ✅ Implemented |
+| Desktop and Mobile Clients | ✅ Implemented |
+| Staging Deployment | ✅ Configured |
+| Admin User Management | ✅ Implemented |
+| Spanish UI Localization | ✅ Implemented |
+| Knowledge Base | ✅ Reconciled with implementation |
+
+See `openspec/changes/archive/` for the full history of implemented OpenSpec changes.
 
 ---
 
@@ -158,17 +169,17 @@ These capabilities belong to future research projects and are not part of this r
 
 # Getting Started
 
-The project is currently in the foundation stage.
-
-The next milestone is:
+The MVP is implemented across backend, frontend, mobile, and desktop. Each new capability still follows the same OpenSpec lifecycle:
 
 ```text
-Create the project foundation
+Knowledge Base update
         ↓
-Create the first OpenSpec proposal
+New OpenSpec proposal
         ↓
-Implement Authentication
+Implementation
 ```
+
+See each workspace's `README.md` (`backend/`, `frontend/`, `mobile/`, `desktop/`) for local setup and run commands.
 
 ---
 

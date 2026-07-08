@@ -51,6 +51,7 @@ Build a maintainable, offline-capable software platform that can:
 ## Main Domains
 
 - Authentication.
+- User Management (ADMIN-only account administration).
 - Cattle Management.
 - Activity Events.
 - Risk Analysis.
@@ -58,6 +59,14 @@ Build a maintainable, offline-capable software platform that can:
 - Observations.
 - Dashboard.
 - Offline Synchronization.
+
+## Live Post-MVP Concerns
+
+Beyond the 9 MVP roadmap phases, these are now real, shipped concerns an AI agent should be aware of when touching related code:
+
+- **Staging deployment**: a Railway/Vercel staging environment exists (`docs/release/deployment-environments.md`, `configure-staging-environment`).
+- **UI localization**: all human-authored UI text in frontend/desktop/mobile is resource-based and defaults to Spanish (ADR-016, `openspec/specs/ui-localization/spec.md`). Do not add literal UI strings to components, XAML, or ViewModels — add resource keys instead.
+- **Client target platforms**: desktop targets Mac Catalyst/Windows only; mobile targets Android/iOS only (`restrict-client-target-platforms`).
 
 ## OpenSpec Policy
 

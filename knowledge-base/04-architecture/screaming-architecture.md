@@ -26,6 +26,7 @@ A new developer should see the project and immediately understand that it is abo
 ```text
 src/
   authentication/
+  user-management/
   cattle-monitoring/
   activity-events/
   risk-analysis/
@@ -43,18 +44,22 @@ src/
   app/
   features/
     auth/
+    user-management/
     dashboard/
     cattle/
-    events/
+    events/       # placeholder, not yet implemented
     alerts/
-    metrics/
+    metrics/      # placeholder, not yet implemented
   shared/
 ```
+
+Each implemented feature (`auth`, `user-management`, `dashboard`, `cattle`, `alerts`) follows Clean Architecture layering internally — see `04-architecture/clean-architecture.md`.
 
 ## Domain Modules
 
 | Module | Reason to Exist |
 | --- | --- |
+| User Management | ADMIN-only account administration (create, list, disable/reactivate, reset password). |
 | Cattle Monitoring | Manage and consult cattle records. |
 | Activity Events | Register activity and inactivity events. |
 | Risk Analysis | Calculate risk score and severity. |

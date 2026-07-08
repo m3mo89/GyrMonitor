@@ -10,7 +10,16 @@ Source guidance:
 - `knowledge-base/04-architecture/security-architecture.md`
 - `knowledge-base/07-reference/roles-and-permissions.md`
 
-The current backend includes the Phase 2 authentication foundation: local/test users, password hashing, JWT login, reusable authentication guard, and reusable role guard. Domain modules beyond authentication remain future work.
+The backend implements the full MVP domain set on top of the authentication foundation (local/test users, password hashing, JWT login, reusable authentication guard, reusable role guard):
+
+- `authentication` — login, JWT issuance, guards, roles
+- `user-management` — ADMIN-only user create/list/disable/reactivate/reset-password (`/users`)
+- `cattle-monitoring` — cattle registration and activity events
+- `inspections` — observations linked to alerts (`alerts/:alertId/observations`)
+- `inactivity-analysis` / `activity-events` — risk scoring inputs from activity/inactivity data
+- `alerts` — alert generation, listing, detail lookup, status lifecycle
+- `dashboard` — aggregated metrics (`GET /dashboard`)
+- `offline-sync` — batched, idempotent sync endpoints for mobile/desktop clients
 
 ## Local Database
 
@@ -66,7 +75,13 @@ Railway production should run with these environment values:
 - `JWT_SECRET` set to a production secret, not the example value
 - `SWAGGER_ENABLED=false` unless production API docs are intentionally exposed
 
-Run migrations before validating production login. Production users must be provisioned explicitly; do not rely on deterministic seed credentials for production.
+Run migrations before validating production login. Production users must be provisioned explicitly; do not rely on deterministic seed credentials for production. Bootstrap the first ADMIN user with:
+
+```sh
+ADMIN_EMAIL=admin@example.com ADMIN_PASSWORD=<strong-password> npm run db:create-admin --workspace backend
+```
+
+This runs `scripts/create-admin.mjs`, which creates a single ADMIN user using the same validation, role assignment, and password hashing as the `/users` create-user endpoint, and exits non-zero without writing anything if the credentials are missing, the email already exists, or the password is too weak. Once at least one ADMIN exists, use the `/users` endpoints (or the frontend user-management page) to provision additional users.
 
 ## API Documentation
 

@@ -47,6 +47,33 @@ Avoid generic names such as `CreateDto`, `Response`, `DataDto` or `Payload`.
 | `email` | string |
 | `role`  | Role   |
 
+## User Management
+
+### UserSummaryDto
+
+| Field    | Type       | Notes                                |
+| -------- | ---------- | ------------------------------------- |
+| `id`     | UUID       | Server identifier.                    |
+| `name`   | string     |                                        |
+| `email`  | string     |                                        |
+| `role`   | Role       | `ADMIN`, `FIELD_OPERATOR`, `RESEARCHER`, `SYSTEM_GENERATOR`. |
+| `status` | UserStatus | `ACTIVE` or `DISABLED`.               |
+
+### CreateUserRequestDto
+
+| Field      | Type   | Required | Notes                                |
+| ---------- | ------ | -------: | ------------------------------------- |
+| `name`     | string |      Yes |                                        |
+| `email`    | string |      Yes | Must be unique.                       |
+| `role`     | string |      Yes | Must be an approved `Role` value.     |
+| `password` | string |      Yes | Plain password in request only. Never persist. |
+
+### ResetPasswordRequestDto
+
+| Field         | Type   | Required | Notes                                     |
+| ------------- | ------ | -------: | ------------------------------------------ |
+| `newPassword` | string |      Yes | Must satisfy the minimum password length enforced by user creation. |
+
 ## Cattle
 
 ### CattleListItemDto

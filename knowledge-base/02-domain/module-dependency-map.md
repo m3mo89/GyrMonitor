@@ -17,6 +17,7 @@ This document maps the dependencies between GyrMonitor modules from a domain per
 ```mermaid
 flowchart LR
     AUTH[Authentication]
+    USERS[User Management]
     CATTLE[Cattle Monitoring]
     EVENTS[Activity Events]
     RISK[Risk Analysis]
@@ -26,6 +27,7 @@ flowchart LR
     SYNC[Offline Sync]
     DASH[Dashboard]
 
+    AUTH --> USERS
     AUTH --> CATTLE
     AUTH --> EVENTS
     AUTH --> ALERTS
@@ -48,6 +50,7 @@ flowchart LR
 | Module            | Depends On                                        | Used By                                       |
 | ----------------- | ------------------------------------------------- | --------------------------------------------- |
 | Authentication    | User, Role                                        | All protected modules.                        |
+| User Management   | Authentication (Role, UserStatus)                 | Admin bootstrap script, frontend admin page.  |
 | Cattle Monitoring | None                                              | Activity Events, Alerts, Dashboard.           |
 | Activity Events   | Cattle Monitoring, Authentication                 | Risk Analysis, Dashboard, Offline Sync.       |
 | Risk Analysis     | Activity Events                                   | Alerts, Dashboard.                            |

@@ -38,3 +38,7 @@ add-authentication
 ```
 
 Each proposal should be created manually and reviewed before implementation.
+
+## Post-MVP Phases
+
+All 9 phases above are implemented. 12 further changes have been archived since `stabilize-mvp-release`: OpenAPI docs, MAUI client-core dedupe, desktop connectivity/UI polish, client target-platform restriction, frontend/backend architecture alignment, staging environment configuration, admin user management, the `db:create-admin` bootstrap script, frontend Clean Architecture alignment, and Spanish UI localization. See `knowledge-base/00-introduction/ROADMAP.md` for the full post-MVP order and `openspec/changes/archive/` for source detail.
