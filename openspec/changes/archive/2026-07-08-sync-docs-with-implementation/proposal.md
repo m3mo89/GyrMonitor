@@ -19,9 +19,11 @@ This is a documentation-only change: no application behavior, API, or schema cha
 ## Capabilities
 
 ### New Capabilities
+
 - `documentation-governance`: requirements for keeping `knowledge-base/`, root READMEs, and module READMEs synchronized with implemented OpenSpec changes, including who/when documentation updates happen relative to a change being archived.
 
 ### Modified Capabilities
+
 (none — no existing spec's requirements/behavior changes; this change only corrects narrative documentation to match capabilities that are already accurately captured in `openspec/specs/user-management`, `openspec/specs/ui-localization`, `openspec/specs/mobile-client`, etc.)
 
 ## Impact

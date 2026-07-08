@@ -26,7 +26,7 @@ The API is the integration boundary between client applications and backend use 
 | `conventions.md`     | Versioning, naming, headers, response envelopes and pagination conventions. |
 | `authentication.md`  | Login, JWT, roles and protected resources.                                  |
 | `dashboard.md`       | Dashboard metrics endpoint.                                                 |
-| `user-management.md` | ADMIN-only user create/list/disable/reactivate/reset-password contracts.   |
+| `user-management.md` | ADMIN-only user create/list/disable/reactivate/reset-password contracts.    |
 | `cattle.md`          | Cattle listing and cattle history contracts.                                |
 | `activity-events.md` | Activity/inactivity event registration and query contracts.                 |
 | `alerts.md`          | Alert query, detail and status update contracts.                            |
