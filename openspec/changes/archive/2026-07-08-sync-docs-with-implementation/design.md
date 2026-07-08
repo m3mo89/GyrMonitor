@@ -7,12 +7,14 @@ The three academic `.docx` deliverables in `docs/` (DOC-01 Requerimientos y Arqu
 ## Goals / Non-Goals
 
 **Goals:**
+
 - Bring `knowledge-base/`, root `README.md`/`FOUNDATION.md`, and the handful of stale module `README.md` files back in line with what `openspec/specs/*` and the actual code already show is implemented.
 - Close the specific gaps identified by the audit: missing `user-management` API/domain docs, missing i18n and frontend Clean Architecture documentation, incorrect mobile build target, incomplete `PROJECT_STRUCTURE.md`, and a roadmap/release-notes trail that stops at `stabilize-mvp-release`.
 - Add a minimal, checkable rule (via the new `documentation-governance` capability) for when knowledge-base updates must happen relative to an OpenSpec change being archived.
 - Produce a V3 revision of DOC-01/02/03 that reflects the same reconciled state as the knowledge-base updates above (new `user-management` domain/contracts, frontend i18n, updated architecture), without discarding the V2 files.
 
 **Non-Goals:**
+
 - No changes to `openspec/specs/*` capability content itself — those are already accurate and are treated as the reference/ground truth for this pass.
 - No re-architecture of the knowledge-base folder structure (00-13 layout stays as-is).
 - No tooling/CI enforcement of documentation freshness in this change — the governance spec states the process rule; automated enforcement (e.g., a CI check diffing archived changes against KB edits) is left as a follow-up if the manual process proves insufficient.
