@@ -2,7 +2,7 @@
 title: Frontend Feature Guide
 section: 09-guides
 status: approved
-version: 0.8.0
+version: 0.9.0
 ---
 
 # Frontend Feature Guide
@@ -13,21 +13,25 @@ Frontend features should be organized by business capability and consume the API
 
 ## Recommended Structure
 
+Complex features use Clean Architecture layers inside the business capability folder:
+
 ```text
 src/features/<feature>/
-├── components/
-├── hooks/
-├── pages/
-├── services/
-├── types/
-└── utils/
+├── domain/
+├── application/
+├── infrastructure/
+└── presentation/
 ```
+
+Use this layout when a feature has mutations, client-side business validation, multiple pages, route-level orchestration, browser/storage adapters, or feature-specific calculations. Very small read-only features may stay flat temporarily, but new behavior should promote them to the layered shape.
 
 ## Rules
 
 - UI components should not implement business rules.
+- Presentation code consumes feature application hooks/use-cases and domain types; it must not import API adapters directly.
+- Domain code must not import React, router APIs, TanStack Query, browser storage or HTTP clients.
 - Remote state should use TanStack Query.
-- API calls should live in feature services or shared API clients.
+- API calls should live in feature infrastructure adapters or shared API clients.
 - Form validation improves UX but backend validation is authoritative.
 - Error, loading and empty states must be explicit.
 

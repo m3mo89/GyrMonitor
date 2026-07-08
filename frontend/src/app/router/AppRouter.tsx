@@ -1,16 +1,11 @@
 import { Navigate, Outlet, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { AppShell } from '../layouts/AppShell';
-import { AlertDetailPage } from '../../features/alerts/AlertDetailPage';
-import { AlertsListPage } from '../../features/alerts/AlertsListPage';
-import { useAuth } from '../../features/auth/AuthProvider';
-import { ProtectedRoute } from '../../features/auth/ProtectedRoute';
-import { SystemGeneratorMessage } from '../../features/auth/SystemGeneratorMessage';
-import { Roles } from '../../features/auth/auth.types';
-import { CattleDetailPage } from '../../features/cattle/CattleDetailPage';
-import { CattleListPage } from '../../features/cattle/CattleListPage';
-import { DashboardPage } from '../../features/dashboard/DashboardPage';
-import { UserListPage } from '../../features/user-management/UserListPage';
+import { AlertDetailPage, AlertsListPage } from '../../features/alerts';
+import { ProtectedRoute, Roles, SystemGeneratorMessage, useAuth } from '../../features/auth';
+import { CattleDetailPage, CattleListPage } from '../../features/cattle';
+import { DashboardPage } from '../../features/dashboard';
+import { UserListPage } from '../../features/user-management';
 import { UiState } from '../../shared/components/UiState';
 
 const OPERATIONAL_ROLES = [Roles.ADMIN, Roles.RESEARCHER, Roles.FIELD_OPERATOR, Roles.SYSTEM_GENERATOR];

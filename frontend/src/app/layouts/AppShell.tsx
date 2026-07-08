@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 
-import { Roles } from '../../features/auth/auth.types';
-import { useAuth } from '../../features/auth/AuthProvider';
+import { Roles, useAuth } from '../../features/auth';
 
 type NavItem = {
   path: string;

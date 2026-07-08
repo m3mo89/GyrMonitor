@@ -3,9 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { AuthProvider } from './AuthProvider';
-import { ProtectedRoute } from './ProtectedRoute';
-import { Roles } from './auth.types';
+import { AuthProvider, ProtectedRoute, Roles } from './';
 
 const storageKey = 'gyrmonitor.auth.session';
 

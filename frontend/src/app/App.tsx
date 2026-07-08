@@ -3,7 +3,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 
 import { AppQueryProvider } from './providers/QueryProvider';
 import { AppRouter } from './router/AppRouter';
-import { AuthProvider } from '../features/auth/AuthProvider';
+import { AuthProvider } from '../features/auth';
 
 export function App() {
   return (

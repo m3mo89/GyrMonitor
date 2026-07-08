@@ -2,10 +2,10 @@ import '@testing-library/jest-dom/vitest';
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { DashboardPage } from './DashboardPage';
-import { useDashboardMetrics } from './useDashboardMetrics';
+import { useDashboardMetrics } from './application';
+import { DashboardPage } from './presentation';
 
-vi.mock('./useDashboardMetrics', () => ({
+vi.mock('./application', () => ({
   useDashboardMetrics: vi.fn()
 }));
 

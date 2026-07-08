@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { App } from './App';
-import { Roles } from '../features/auth/auth.types';
+import { Roles } from '../features/auth';
 
 const storageKey = 'gyrmonitor.auth.session';
 
