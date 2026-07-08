@@ -1,6 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
 
 import { Roles } from '../../authentication/domain/role';
+import { UserStatuses } from '../domain/user';
+import type { UserStatus } from '../domain/user';
 import type { PasswordHasher, TokenService, UserRepository } from './authentication.types';
 import { InvalidCredentialsError, ValidationError } from './authentication.errors';
 import { LoginUseCase } from './login.use-case';
@@ -11,12 +13,20 @@ describe('LoginUseCase', () => {
     name: 'Admin User',
     email: 'admin@gyr.test',
     role: Roles.ADMIN,
+    status: UserStatuses.ACTIVE,
     passwordHash: 'hashed-password'
   };
 
-  function setup(options: { passwordMatches?: boolean; userExists?: boolean } = {}) {
+  function setup(options: { passwordMatches?: boolean; userExists?: boolean; status?: UserStatus } = {}) {
     const users: UserRepository = {
-      findByEmail: vi.fn(async () => (options.userExists === false ? null : user))
+      findByEmail: vi.fn(async () =>
+        options.userExists === false ? null : { ...user, status: options.status ?? user.status }
+      ),
+      findById: vi.fn(),
+      create: vi.fn(),
+      findAll: vi.fn(),
+      updateStatus: vi.fn(),
+      updatePasswordHash: vi.fn()
     };
     const passwordHasher: PasswordHasher = {
       hash: vi.fn(),
@@ -73,5 +83,11 @@ describe('LoginUseCase', () => {
     await expect(setup({ userExists: false }).useCase.execute({ email: user.email, password: 'secret' })).rejects.toBeInstanceOf(
       InvalidCredentialsError
     );
+  });
+
+  it('rejects a disabled user with the same error as invalid credentials', async () => {
+    await expect(
+      setup({ status: UserStatuses.DISABLED }).useCase.execute({ email: user.email, password: 'secret' })
+    ).rejects.toBeInstanceOf(InvalidCredentialsError);
   });
 });

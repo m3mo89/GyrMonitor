@@ -1,6 +1,6 @@
 import { InvalidCredentialsError, ValidationError } from './authentication.errors';
 import type { LoginRequestDto, LoginResponseDto, PasswordHasher, TokenService, UserRepository } from './authentication.types';
-import { toAuthenticatedUserDto } from '../domain/user';
+import { toAuthenticatedUserDto, UserStatuses } from '../domain/user';
 
 export class LoginUseCase {
   private readonly users: UserRepository;
@@ -28,7 +28,7 @@ export class LoginUseCase {
     const user = await this.users.findByEmail(email);
     const passwordMatches = user ? await this.passwordHasher.verify(password, user.passwordHash) : false;
 
-    if (!user || !passwordMatches) {
+    if (!user || !passwordMatches || user.status === UserStatuses.DISABLED) {
       throw new InvalidCredentialsError();
     }
 
