@@ -2,11 +2,11 @@ import '@testing-library/jest-dom/vitest';
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { Roles } from '../auth/auth.types';
-import { UserListPage } from './UserListPage';
-import { useCreateUser, useDisableUser, useReactivateUser, useResetUserPassword, useUsers } from './useUsers';
+import { Roles } from '../auth';
+import { useCreateUser, useDisableUser, useReactivateUser, useResetUserPassword, useUsers } from './application';
+import { UserListPage } from './presentation';
 
-vi.mock('./useUsers', () => ({
+vi.mock('./application', () => ({
   useUsers: vi.fn(),
   useCreateUser: vi.fn(),
   useDisableUser: vi.fn(),
