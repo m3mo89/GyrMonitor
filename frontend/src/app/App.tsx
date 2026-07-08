@@ -1,4 +1,5 @@
 import { BrowserRouter } from 'react-router-dom';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 import { AppQueryProvider } from './providers/QueryProvider';
 import { AppRouter } from './router/AppRouter';
@@ -10,6 +11,7 @@ export function App() {
       <AuthProvider>
         <AppQueryProvider>
           <AppRouter />
+          <SpeedInsights />
         </AppQueryProvider>
       </AuthProvider>
     </BrowserRouter>
