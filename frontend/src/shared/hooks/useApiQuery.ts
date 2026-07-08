@@ -1,6 +1,6 @@
 import { useQuery, type QueryKey, type UseQueryOptions, type UseQueryResult } from '@tanstack/react-query';
 
-import { useAuth } from '../../features/auth/AuthProvider';
+import { useAuth } from '../../features/auth';
 import type { ApiClient } from '../services/api-client';
 
 export function useApiQuery<TData>(

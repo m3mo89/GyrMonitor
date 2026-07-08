@@ -17,13 +17,13 @@ The frontend follows feature-based organization aligned with Screaming Architect
 
 ```text
 features/alerts/
-  api/
-  components/
-  hooks/
-  pages/
-  types/
-  utils/
+  domain/
+  application/
+  infrastructure/
+  presentation/
 ```
+
+Use this Clean Architecture shape for features with mutations, multiple pages, route-level orchestration, browser/storage adapters or client-side business validation. Keep the business feature folder first; technical layers stay nested inside the capability.
 
 ## Shared Components
 
