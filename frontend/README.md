@@ -1,6 +1,6 @@
-# Frontend Foundation
+# Frontend
 
-This folder contains the React + TypeScript frontend foundation for GyrMonitor.
+React + TypeScript frontend for GyrMonitor, organized by feature with Clean Architecture layering per feature (`domain/`, `application/`, `infrastructure/`, `presentation/`) — see `src/features/README.md`.
 
 Source guidance:
 
@@ -10,7 +10,18 @@ Source guidance:
 - `knowledge-base/06-engineering/frontend/state-management.md`
 - `knowledge-base/08-decisions/ADR-007-jwt-route-guards.md`
 
-The current frontend includes the Phase 2 authentication foundation: login page, session state, shared API token handling, protected route behavior, role denial state, logout, and 401 cleanup. Dashboards, cattle views, events, alerts, metrics, and synchronization workflows remain future work.
+## Implemented Features
+
+- `auth` — login, session state, shared API token handling, protected route behavior, role denial state, logout, 401 cleanup.
+- `user-management` — ADMIN-only user list, creation, disable/reactivate, and password reset.
+- `dashboard` — aggregate metrics query and chart presentation.
+- `cattle` — list/detail/history screens.
+- `alerts` — list/detail pages, observations, status mutation workflow.
+- `events` and `metrics` remain placeholder/deferred (see `src/features/README.md`); cattle detail shows read-only event history in place of a dedicated events UI.
+
+## Localization
+
+UI text is sourced from `i18next` JSON namespaces under `src/shared/i18n/locales/`, defaulting to Spanish (`es`). See `openspec/specs/ui-localization/spec.md`.
 
 ## Local Authentication
 

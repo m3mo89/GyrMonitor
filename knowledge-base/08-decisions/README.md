@@ -30,6 +30,7 @@ ADRs document relevant architectural decisions, their context, alternatives, tra
 | [ADR-013](ADR-013-accessibility.md) | Apply Basic Accessibility Practices | Frontend/UX | Accepted |
 | [ADR-014](ADR-014-docs-knowledge-base.md) | Maintain a Product Knowledge Base as Source of Truth | Documentation | Accepted |
 | [ADR-015](ADR-015-openspec-manual-proposals.md) | Create OpenSpec Proposals Manually | Process | Accepted |
+| [ADR-016](ADR-016-ui-localization.md) | Source UI Text from Resource-Based Localization, Default to Spanish | Frontend/Desktop/Mobile | Accepted |
 
 ## How to Use ADRs
 

@@ -1,25 +1,25 @@
 # GyrMonitor Project Foundation
 
-This repository is in Phase 1: Foundation. The goal is to prepare structure, tooling, conventions, and baseline architecture before implementing business modules.
+The repository foundation (structure, tooling, conventions, and baseline architecture) is implemented, and the MVP business modules described in `knowledge-base/00-introduction/ROADMAP.md` have since been built on top of it — see `openspec/changes/archive/` for the full implementation history.
 
 ## Source of Truth
 
-Foundation work must stay aligned with:
+Ongoing work must stay aligned with:
 
 - `knowledge-base/99-meta/MASTER_INDEX.md`
 - `knowledge-base/00-introduction/PROJECT_STRUCTURE.md`
 - `knowledge-base/06-engineering/README.md`
 - `knowledge-base/07-reference/directory-map.md`
-- `knowledge-base/10-roadmap/phase-1-foundation.md`
+- `knowledge-base/10-roadmap/`
 - `knowledge-base/11-openspec/README.md`
 
-## Foundation Areas
+## Areas
 
-- `backend/`: NestJS-oriented TypeScript backend skeleton.
-- `frontend/`: React + TypeScript frontend skeleton.
-- `mobile/`: .NET MAUI mobile setup path and placeholders.
-- `desktop/`: .NET MAUI desktop setup path and placeholders.
-- `database/`: MariaDB and SQLite structure guidance.
+- `backend/`: NestJS backend — authentication, cattle monitoring, activity events, alerts, inactivity analysis, observations (inspections), offline sync, dashboard, and admin user management.
+- `frontend/`: React + TypeScript frontend with per-feature Clean Architecture layering (auth, user-management, cattle, alerts, dashboard implemented; events and metrics deferred) and Spanish i18n via i18next.
+- `mobile/`: .NET MAUI field application (Android/iOS) with offline-capable observation capture and sync.
+- `desktop/`: .NET MAUI desktop application (Mac Catalyst/Windows) sharing client core logic with mobile via `shared/GyrMonitor.Client.Core`.
+- `database/`: MariaDB (server) and SQLite (mobile/desktop local storage) schema, migrations, and seeds.
 
 ## Verification
 
@@ -34,8 +34,4 @@ npm run verify
 npm run ci:check
 ```
 
-These commands validate the foundation scaffold and placeholders. They intentionally do not verify domain behavior because domain modules are outside Phase 1.
-
-## Boundaries
-
-This foundation does not implement authentication, domain rules, REST API behavior, production seed data, or completed MVP feature workflows.
+These commands validate both the foundation scaffold and the implemented domain behavior across workspaces.

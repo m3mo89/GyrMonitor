@@ -18,6 +18,7 @@ This document defines the API design approach for GyrMonitor. The API exposes ba
 The MVP API covers:
 
 - Authentication.
+- User management (ADMIN-only account administration).
 - Dashboard metrics.
 - Cattle monitoring.
 - Activity and inactivity events.

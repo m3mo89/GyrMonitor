@@ -21,16 +21,17 @@ Source guidance:
 - `Features/Alerts` — cached alert list/detail (`LocalAlert` SQLite table), stale-data indicator when offline.
 - `Features/Observations` — offline-capable observation capture (`PendingObservation` SQLite table), queued before any network call.
 - `Features/Sync` — `SyncQueue` SQLite table and `MobileSyncService`, which posts pending observations to `POST /api/v1/sync/observations` with a stable `Idempotency-Key` derived from the batch contents.
+- `Shared/Authorization` — role-based access helpers shared across mobile features.
 
 ## Build
 
 ```sh
 dotnet build mobile/GyrMonitor.Mobile.Core/GyrMonitor.Mobile.Core.csproj
 dotnet test mobile/GyrMonitor.Mobile.Core.Tests/GyrMonitor.Mobile.Core.Tests.csproj
-dotnet build mobile/GyrMonitor.Mobile/GyrMonitor.Mobile.csproj -f net10.0-maccatalyst
+dotnet build mobile/GyrMonitor.Mobile/GyrMonitor.Mobile.csproj -f net10.0-android
 ```
 
-Android/iOS targets require the corresponding platform SDKs in addition to the `maui` workload.
+`GyrMonitor.Mobile` targets `net10.0-android` (and `net10.0-ios` on non-Linux hosts); Mac Catalyst is intentionally excluded from mobile (desktop-only, see `restrict-client-target-platforms`). Android/iOS targets require the corresponding platform SDKs in addition to the `maui` workload.
 
 ## Configuration
 
