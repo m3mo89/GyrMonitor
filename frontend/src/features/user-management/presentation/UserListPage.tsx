@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { LoadingState, UiState } from '../../../shared/components/UiState';
 import { Roles, type Role } from '../../auth/domain/auth.types';
@@ -19,6 +20,7 @@ function extractErrorMessage(error: unknown, fallback: string): string {
 }
 
 export function UserListPage() {
+  const { t } = useTranslation('userManagement');
   const users = useUsers();
   const createUser = useCreateUser();
   const disableUser = useDisableUser();
@@ -54,7 +56,7 @@ export function UserListPage() {
           setPassword('');
           setRole(Roles.FIELD_OPERATOR);
         },
-        onError: (error) => setFormError(extractErrorMessage(error, 'No se pudo crear el usuario. Verifica los datos e intenta nuevamente.'))
+        onError: (error) => setFormError(extractErrorMessage(error, t('createGenericError')))
       }
     );
   }
@@ -76,17 +78,17 @@ export function UserListPage() {
           setResettingUserId(null);
           setNewPassword('');
         },
-        onError: (error) => setResetError(extractErrorMessage(error, 'No se pudo restablecer la contrasena.'))
+        onError: (error) => setResetError(extractErrorMessage(error, t('resetPasswordGenericError')))
       }
     );
   }
 
   if (users.isLoading) {
-    return <LoadingState title="Cargando usuarios..." />;
+    return <LoadingState title={t('loading')} />;
   }
 
   if (users.isError) {
-    return <UiState description="No se pudo cargar el listado de usuarios." title="No se pudo cargar usuarios" tone="danger" />;
+    return <UiState description={t('errorDescription')} title={t('errorTitle')} tone="danger" />;
   }
 
   const data = users.data ?? [];
@@ -95,30 +97,30 @@ export function UserListPage() {
     <div className="page-stack">
       <header className="page-header">
         <div>
-          <p className="eyebrow">Administracion</p>
-          <h1>Usuarios</h1>
-          <p>{data.length} usuarios registrados. Los usuarios no se eliminan, solo se deshabilitan.</p>
+          <p className="eyebrow">{t('eyebrow')}</p>
+          <h1>{t('title')}</h1>
+          <p>{t('subtitle', { count: data.length })}</p>
         </div>
       </header>
 
       <section className="panel">
         <div className="panel__header">
           <div>
-            <h2>Crear usuario</h2>
-            <p>Provisiona una cuenta real con rol asignado.</p>
+            <h2>{t('createSectionTitle')}</h2>
+            <p>{t('createSectionSubtitle')}</p>
           </div>
         </div>
-        <form aria-label="Crear usuario" className="form-stack" onSubmit={handleCreateSubmit}>
+        <form aria-label={t('createFormAriaLabel')} className="form-stack" onSubmit={handleCreateSubmit}>
           <label className="field">
-            Nombre
+            {t('nameLabel')}
             <input name="name" onChange={(event) => setName(event.target.value)} type="text" value={name} />
           </label>
           <label className="field">
-            Correo
+            {t('emailLabel')}
             <input name="email" onChange={(event) => setEmail(event.target.value)} type="email" value={email} />
           </label>
           <label className="field">
-            Rol
+            {t('roleLabel')}
             <select name="role" onChange={(event) => setRole(event.target.value as Role)} value={role}>
               {roleOptions.map((option) => (
                 <option key={option} value={option}>
@@ -128,33 +130,33 @@ export function UserListPage() {
             </select>
           </label>
           <label className="field">
-            Contrasena inicial
+            {t('initialPasswordLabel')}
             <input name="password" onChange={(event) => setPassword(event.target.value)} type="password" value={password} />
           </label>
-          <p className="field-hint">Minimo {minimumPasswordLength} caracteres.</p>
+          <p className="field-hint">{t('passwordHint', { minimumLength: minimumPasswordLength })}</p>
           {formError ? (
             <p className="status-badge status-badge--danger" role="alert">
               {formError}
             </p>
           ) : null}
           <button className="button button--primary" disabled={createUser.isPending} type="submit">
-            {createUser.isPending ? 'Creando...' : 'Crear usuario'}
+            {createUser.isPending ? t('createSubmitting') : t('createSubmit')}
           </button>
         </form>
       </section>
 
       {data.length === 0 ? (
-        <UiState description="Crea el primer usuario con el formulario de arriba." title="No hay usuarios registrados" />
+        <UiState description={t('emptyDescription')} title={t('emptyTitle')} />
       ) : (
         <div className="data-table-wrap">
           <table className="data-table">
             <thead>
               <tr>
-                <th>Nombre</th>
-                <th>Correo</th>
-                <th>Rol</th>
-                <th>Estado</th>
-                <th>Acciones</th>
+                <th>{t('columnName')}</th>
+                <th>{t('columnEmail')}</th>
+                <th>{t('columnRole')}</th>
+                <th>{t('columnStatus')}</th>
+                <th>{t('columnActions')}</th>
               </tr>
             </thead>
             <tbody>
@@ -177,7 +179,7 @@ export function UserListPage() {
                           onClick={() => disableUser.mutate(user.id)}
                           type="button"
                         >
-                          Deshabilitar
+                          {t('disable')}
                         </button>
                       ) : (
                         <button
@@ -186,20 +188,20 @@ export function UserListPage() {
                           onClick={() => reactivateUser.mutate(user.id)}
                           type="button"
                         >
-                          Reactivar
+                          {t('reactivate')}
                         </button>
                       )}
                       {resettingUserId === user.id ? (
                         <div className="reset-password-wrap">
                           <form className="reset-password-form" onSubmit={(event) => handleResetSubmit(event, user.id)}>
                             <input
-                              aria-label={`Nueva contrasena para ${user.name}`}
+                              aria-label={t('resetPasswordAriaLabel', { name: user.name })}
                               onChange={(event) => setNewPassword(event.target.value)}
                               type="password"
                               value={newPassword}
                             />
                             <button className="button button--primary" disabled={resetPassword.isPending} type="submit">
-                              Guardar
+                              {t('save')}
                             </button>
                             <button
                               className="button button--ghost"
@@ -210,10 +212,10 @@ export function UserListPage() {
                               }}
                               type="button"
                             >
-                              Cancelar
+                              {t('cancel')}
                             </button>
                           </form>
-                          <p className="field-hint">Minimo {minimumPasswordLength} caracteres.</p>
+                          <p className="field-hint">{t('passwordHint', { minimumLength: minimumPasswordLength })}</p>
                           {resetError ? (
                             <p className="status-badge status-badge--danger" role="alert">
                               {resetError}
@@ -229,7 +231,7 @@ export function UserListPage() {
                           }}
                           type="button"
                         >
-                          Restablecer contrasena
+                          {t('resetPassword')}
                         </button>
                       )}
                     </div>

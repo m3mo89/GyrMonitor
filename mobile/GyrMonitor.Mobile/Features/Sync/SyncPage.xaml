@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mstrings="clr-namespace:GyrMonitor.Mobile.Core.Resources.Strings;assembly=GyrMonitor.Mobile.Core"
              x:Class="GyrMonitor.Mobile.Features.Sync.SyncPage"
-             Title="Synchronization">
+             Title="{x:Static mstrings:AppStrings.SynchronizationTitle}">
 
     <VerticalStackLayout Padding="16" Spacing="16">
 
-        <Label Text="{Binding PendingCount, StringFormat='Pending items: {0}'}" FontSize="18" />
+        <Label Text="{Binding DisplayPendingItems}" FontSize="18" />
 
-        <Button Text="Sync now" Command="{Binding SyncNowCommand}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
+        <Button Text="{x:Static mstrings:AppStrings.SyncNow}" Command="{Binding SyncNowCommand}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
 
         <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
 

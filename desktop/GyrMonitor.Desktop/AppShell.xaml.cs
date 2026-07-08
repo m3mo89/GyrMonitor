@@ -2,6 +2,8 @@ using GyrMonitor.Desktop.Core.Features.Sync;
 using GyrMonitor.Client.Core.Networking;
 using GyrMonitor.Client.Core.Session;
 using GyrMonitor.Desktop.Shared.Navigation;
+using ClientStrings = GyrMonitor.Client.Core.Resources.Strings.AppStrings;
+using DesktopStrings = GyrMonitor.Desktop.Core.Resources.Strings.AppStrings;
 
 namespace GyrMonitor.Desktop;
 
@@ -55,7 +57,7 @@ public partial class AppShell : Shell
     {
         if (summary.ErrorMessage is not null)
         {
-            return $"Sync failed: {summary.ErrorMessage}";
+            return string.Format(ClientStrings.SyncFailedFormat, summary.ErrorMessage);
         }
 
         if (summary.Synced == 0 && summary.Duplicated == 0 && summary.Failed == 0)
@@ -64,7 +66,7 @@ public partial class AppShell : Shell
         }
 
         return summary.Failed > 0
-            ? $"Synced {summary.Synced} pending event(s), {summary.Failed} failed."
-            : $"Synced {summary.Synced} pending event(s).";
+            ? string.Format(DesktopStrings.SyncNotificationSummaryWithFailuresFormat, summary.Synced, summary.Failed)
+            : string.Format(DesktopStrings.SyncNotificationSummaryFormat, summary.Synced);
     }
 }

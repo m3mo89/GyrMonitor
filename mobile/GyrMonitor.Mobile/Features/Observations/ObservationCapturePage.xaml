@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mstrings="clr-namespace:GyrMonitor.Mobile.Core.Resources.Strings;assembly=GyrMonitor.Mobile.Core"
              x:Class="GyrMonitor.Mobile.Features.Observations.ObservationCapturePage"
-             Title="Add observation">
+             Title="{x:Static mstrings:AppStrings.AddObservation}">
 
     <VerticalStackLayout Padding="16" Spacing="12">
 
-        <Label Text="Comment" FontAttributes="Bold" />
-        <Editor Text="{Binding Comment}" HeightRequest="140" Placeholder="Describe what you observed in the field" />
+        <Label Text="{x:Static mstrings:AppStrings.CommentLabel}" FontAttributes="Bold" />
+        <Editor Text="{Binding Comment}" HeightRequest="140" Placeholder="{x:Static mstrings:AppStrings.CommentPlaceholder}" />
 
-        <Button Text="Save" Command="{Binding SaveCommand}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
+        <Button Text="{x:Static mstrings:AppStrings.Save}" Command="{Binding SaveCommand}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
 
         <Label Text="{Binding ErrorMessage}"
                TextColor="Red"
                IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}" />
 
-        <Label Text="Saved locally. It will sync automatically when you are back online."
+        <Label Text="{x:Static mstrings:AppStrings.ObservationSavedOffline}"
                TextColor="Green"
                IsVisible="{Binding SavedOffline}" />
 

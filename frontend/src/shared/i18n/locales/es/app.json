@@ -1,0 +1,13 @@
+{
+  "navAriaLabel": "Navegacion principal",
+  "tagline": "MVP operativo",
+  "navDashboard": "Dashboard",
+  "navCattle": "Cattle",
+  "navAlerts": "Alertas",
+  "navUsers": "Usuarios",
+  "activeSession": "Sesion activa",
+  "closeSession": "Cerrar sesion",
+  "notFoundTitle": "Pagina no encontrada",
+  "notFoundDescription": "No encontramos la ruta solicitada dentro del MVP web.",
+  "goToDashboard": "Ir al dashboard"
+}

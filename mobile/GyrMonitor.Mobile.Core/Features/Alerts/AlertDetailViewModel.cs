@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GyrMonitor.Client.Core.Session;
+using GyrMonitor.Mobile.Core.Resources.Strings;
 using GyrMonitor.Mobile.Core.Shared.Authorization;
 
 namespace GyrMonitor.Mobile.Core.Features.Alerts;
@@ -11,10 +12,25 @@ public sealed partial class AlertDetailViewModel : ObservableObject
     private readonly IAuthSession _authSession;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(DisplaySeverity))]
+    [NotifyPropertyChangedFor(nameof(DisplayStatus))]
+    [NotifyPropertyChangedFor(nameof(DisplayRiskScore))]
+    [NotifyPropertyChangedFor(nameof(DisplayReason))]
+    [NotifyPropertyChangedFor(nameof(DisplayCreatedAt))]
     private LocalAlert? alert;
 
     [ObservableProperty]
     private bool notFound;
+
+    public string DisplaySeverity => string.Format(AppStrings.SeverityFormat, Alert?.Severity);
+
+    public string DisplayStatus => string.Format(AppStrings.StatusFormat, Alert?.Status);
+
+    public string DisplayRiskScore => string.Format(AppStrings.RiskScoreFormat, Alert?.RiskScore);
+
+    public string DisplayReason => string.Format(AppStrings.ReasonFormat, Alert?.Reason);
+
+    public string DisplayCreatedAt => string.Format(AppStrings.CreatedAtFormat, Alert?.CreatedAt);
 
     public AlertDetailViewModel(ILocalAlertRepository localAlerts, IAuthSession authSession)
     {

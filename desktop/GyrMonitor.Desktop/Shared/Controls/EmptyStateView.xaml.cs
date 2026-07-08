@@ -1,9 +1,11 @@
+using GyrMonitor.Desktop.Core.Resources.Strings;
+
 namespace GyrMonitor.Desktop.Shared.Controls;
 
 public partial class EmptyStateView : ContentView
 {
     public static readonly BindableProperty TitleProperty =
-        BindableProperty.Create(nameof(Title), typeof(string), typeof(EmptyStateView), "Nothing here yet");
+        BindableProperty.Create(nameof(Title), typeof(string), typeof(EmptyStateView), defaultValueCreator: _ => AppStrings.NothingHereYet);
 
     public static readonly BindableProperty SubtitleProperty =
         BindableProperty.Create(nameof(Subtitle), typeof(string), typeof(EmptyStateView), default(string));

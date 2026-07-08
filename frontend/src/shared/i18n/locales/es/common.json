@@ -1,0 +1,12 @@
+{
+  "appName": "GyrMonitor",
+  "entityCattle": "cattle",
+  "entityDashboard": "dashboard",
+  "entitySync": "sync",
+  "entityScore": "score",
+  "entityBackend": "backend",
+  "loading": {
+    "title": "Cargando informacion...",
+    "description": "Estamos consultando los datos operativos mas recientes."
+  }
+}

@@ -4,6 +4,8 @@ using GyrMonitor.Client.Core.Authentication;
 using GyrMonitor.Client.Core.Networking;
 using GyrMonitor.Client.Core.Session;
 using GyrMonitor.Mobile.Core.Shared.Authorization;
+using ClientStrings = GyrMonitor.Client.Core.Resources.Strings.AppStrings;
+using MobileStrings = GyrMonitor.Mobile.Core.Resources.Strings.AppStrings;
 
 namespace GyrMonitor.Mobile.Core.Features.Authentication;
 
@@ -48,7 +50,7 @@ public sealed partial class LoginViewModel : ObservableObject
             var response = await _authApi.LoginAsync(Email.Trim(), Password);
             if (!MobileRoleAccess.IsSupported(response.User.Role))
             {
-                ErrorMessage = "This mobile workflow is available only for field operators.";
+                ErrorMessage = MobileStrings.FieldOperatorOnly;
                 return;
             }
 
@@ -66,14 +68,14 @@ public sealed partial class LoginViewModel : ObservableObject
         {
             ErrorMessage = ex.Code switch
             {
-                "UNAUTHORIZED" => "Invalid email or password.",
-                "VALIDATION_ERROR" => "Email and password are required.",
-                _ => "Unable to sign in. Please try again."
+                "UNAUTHORIZED" => ClientStrings.InvalidCredentials,
+                "VALIDATION_ERROR" => ClientStrings.EmailAndPasswordRequired,
+                _ => ClientStrings.UnableToSignInRetry
             };
         }
         catch (Exception)
         {
-            ErrorMessage = "Unable to reach the server. Please try again.";
+            ErrorMessage = ClientStrings.UnableToReachServerRetry;
         }
         finally
         {

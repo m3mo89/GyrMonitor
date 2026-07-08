@@ -15,6 +15,7 @@ using GyrMonitor.Mobile.Shared.Networking;
 using GyrMonitor.Mobile.Shared.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Globalization;
 
 namespace GyrMonitor.Mobile;
 
@@ -29,6 +30,10 @@ public static class MauiProgram
 
     public static MauiApp CreateMauiApp()
     {
+        // Only CurrentUICulture (resx satellite selection) is set here, not CurrentCulture,
+        // so numeric/date formatting is unaffected.
+        CultureInfo.CurrentUICulture = new CultureInfo("es");
+
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()

@@ -1,4 +1,5 @@
 import { Navigate, Outlet, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import { AppShell } from '../layouts/AppShell';
 import { AlertDetailPage, AlertsListPage } from '../../features/alerts';
@@ -59,15 +60,16 @@ function AlertDetailRoute() {
 }
 
 function NotFoundPage() {
+  const { t } = useTranslation('app');
   const navigate = useNavigate();
 
   return (
     <UiState
-      title="Pagina no encontrada"
-      description="No encontramos la ruta solicitada dentro del MVP web."
+      title={t('notFoundTitle')}
+      description={t('notFoundDescription')}
       action={
         <button className="button button--primary" onClick={() => navigate('/dashboard')} type="button">
-          Ir al dashboard
+          {t('goToDashboard')}
         </button>
       }
     />

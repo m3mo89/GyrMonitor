@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="SignIn" xml:space="preserve">
+    <value>Iniciar sesion</value>
+  </data>
+  <data name="FieldOperatorSignInSubtitle" xml:space="preserve">
+    <value>Inicio de sesion de operador de campo</value>
+  </data>
+  <data name="EmailPlaceholder" xml:space="preserve">
+    <value>Correo</value>
+  </data>
+  <data name="PasswordPlaceholder" xml:space="preserve">
+    <value>Contrasena</value>
+  </data>
+  <data name="TabAlerts" xml:space="preserve">
+    <value>Alertas</value>
+  </data>
+  <data name="TabSync" xml:space="preserve">
+    <value>Sync</value>
+  </data>
+  <data name="OfflineAlertsMessage" xml:space="preserve">
+    <value>Estas sin conexion. Mostrando alertas en cache.</value>
+  </data>
+  <data name="AlertDetailTitle" xml:space="preserve">
+    <value>Detalle de alerta</value>
+  </data>
+  <data name="AlertNotFoundInCache" xml:space="preserve">
+    <value>No se encontro la alerta en la cache local.</value>
+  </data>
+  <data name="SeverityFormat" xml:space="preserve">
+    <value>Severidad: {0}</value>
+  </data>
+  <data name="StatusFormat" xml:space="preserve">
+    <value>Estado: {0}</value>
+  </data>
+  <data name="RiskScoreFormat" xml:space="preserve">
+    <value>Score de riesgo: {0}</value>
+  </data>
+  <data name="ReasonFormat" xml:space="preserve">
+    <value>Motivo: {0}</value>
+  </data>
+  <data name="CreatedAtFormat" xml:space="preserve">
+    <value>Creada el: {0}</value>
+  </data>
+  <data name="AddObservation" xml:space="preserve">
+    <value>Agregar observacion</value>
+  </data>
+  <data name="CommentLabel" xml:space="preserve">
+    <value>Comentario</value>
+  </data>
+  <data name="CommentPlaceholder" xml:space="preserve">
+    <value>Describe lo que observaste en el campo</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Guardar</value>
+  </data>
+  <data name="ObservationSavedOffline" xml:space="preserve">
+    <value>Guardado localmente. Se sincronizara automaticamente cuando vuelvas a estar en linea.</value>
+  </data>
+  <data name="SynchronizationTitle" xml:space="preserve">
+    <value>Sincronizacion</value>
+  </data>
+  <data name="PendingItemsFormat" xml:space="preserve">
+    <value>Elementos pendientes: {0}</value>
+  </data>
+  <data name="SyncNow" xml:space="preserve">
+    <value>Sync ahora</value>
+  </data>
+  <data name="FieldOperatorOnly" xml:space="preserve">
+    <value>Este flujo movil esta disponible solo para operadores de campo.</value>
+  </data>
+  <data name="SelectAlertBeforeSaving" xml:space="preserve">
+    <value>Selecciona una alerta antes de guardar una observacion.</value>
+  </data>
+  <data name="CommentMustNotBeEmpty" xml:space="preserve">
+    <value>El comentario no puede estar vacio.</value>
+  </data>
+  <data name="UnableToRefreshAlerts" xml:space="preserve">
+    <value>No se pudieron actualizar las alertas. Mostrando los ultimos datos guardados.</value>
+  </data>
+  <data name="UnableToReachServerShowingLastSaved" xml:space="preserve">
+    <value>No se pudo conectar con el servidor. Mostrando los ultimos datos guardados.</value>
+  </data>
+  <data name="NoSupportedSessionActive" xml:space="preserve">
+    <value>No hay una sesion movil compatible activa.</value>
+  </data>
+</root>

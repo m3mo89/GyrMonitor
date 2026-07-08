@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GyrMonitor.Desktop.Core.Features.Cattle;
+using GyrMonitor.Desktop.Core.Resources.Strings;
 
 namespace GyrMonitor.Desktop.Core.Features.EventSimulator;
 
@@ -72,12 +73,12 @@ public sealed partial class EventSimulatorViewModel : ObservableObject
 
             if (CattleOptions.Count == 0)
             {
-                ErrorMessage = "No cattle records are available for simulation.";
+                ErrorMessage = AppStrings.NoCattleForSimulation;
             }
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"Unable to load cattle records: {ex.Message}";
+            ErrorMessage = string.Format(AppStrings.UnableToLoadCattleRecordsFormat, ex.Message);
         }
         finally
         {
@@ -97,13 +98,13 @@ public sealed partial class EventSimulatorViewModel : ObservableObject
 
         if (SelectedCattle is null)
         {
-            ErrorMessage = "Select a cattle record before generating an event.";
+            ErrorMessage = AppStrings.SelectCattleBeforeGenerate;
             return;
         }
 
         if (Confidence is < 0 or > 1)
         {
-            ErrorMessage = "Confidence must be between 0 and 1.";
+            ErrorMessage = AppStrings.ConfidenceRangeError;
             return;
         }
 
