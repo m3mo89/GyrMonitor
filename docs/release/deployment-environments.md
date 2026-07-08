@@ -6,7 +6,7 @@ This matrix keeps the frontend build, backend runtime, CORS policy, database sta
 | --- | --- | --- | --- | --- | --- |
 | Development | `http://localhost:5173` or `http://127.0.0.1:5173` | `http://localhost:3000/api/v1` or `http://127.0.0.1:3000/api/v1` | `npm run dev --workspace frontend`, `npm run build:local --workspace frontend`, or local `VITE_API_BASE_URL` | default local origins | Run migrations and optional non-production seed data |
 | Staging | `https://gyr-monitor-staging.vercel.app` | `https://gyrmonitor-staging.up.railway.app/api/v1` | `npm run build:staging --workspace frontend`; generic build infers staging from `VERCEL_GIT_COMMIT_REF=staging` | `https://gyr-monitor-staging.vercel.app` | Run migrations, then seed deterministic non-production users or provision staging users via the `/users` admin page |
-| Production | `https://gyr-monitor.vercel.app` | `https://gyrmonitor-production.up.railway.app/api/v1` | `npm run build:production --workspace frontend`; generic build infers production from `VERCEL_ENV=production` | `https://gyr-monitor.vercel.app` | Run migrations, then provision real production users via the ADMIN-only `/users` page (or `POST /api/v1/users`); never run `db:seed` in production |
+| Production | `https://gyr-monitor.vercel.app` | `https://gyrmonitor-production.up.railway.app/api/v1` | `npm run build:production --workspace frontend`; generic build infers production from `VERCEL_ENV=production` | `https://gyr-monitor.vercel.app` | Run migrations, then bootstrap the first ADMIN with `npm run db:create-admin`; provision every other user via the ADMIN-only `/users` page or `POST /api/v1/users`; never run `db:seed` in production |
 
 ## Production Configuration
 
@@ -18,7 +18,7 @@ Configure production with these values:
 - Vercel production `VITE_API_BASE_URL=https://gyrmonitor-production.up.railway.app/api/v1`
 - Production `JWT_SECRET` using a real secret value
 - Production MariaDB configuration through `DATABASE_URL` or explicit `DB_*` variables
-- Provisioned production user accounts: once a first ADMIN exists, provision every additional user (any role) through the ADMIN-only `/users` page or `POST /api/v1/users` — do not run `db:seed` against production. The very first ADMIN account still has to be inserted directly (e.g. one manual `INSERT` against the migrated `users` table) since user creation itself requires an authenticated ADMIN.
+- Provisioned production user accounts: bootstrap the very first ADMIN with `ADMIN_EMAIL=<email> ADMIN_PASSWORD=<password> npm run db:create-admin --workspace backend` (run once, against the migrated production database) — do not run `db:seed` against production. Once that first ADMIN exists, provision every additional user (any role, including more admins) through the ADMIN-only `/users` page or `POST /api/v1/users`.
 
 The production frontend build command injects the production API URL and refuses local, staging, or unexpected API URLs:
 
