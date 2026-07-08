@@ -33,4 +33,20 @@ describe('App routes', () => {
     expect(screen.getByRole('heading', { name: 'Iniciar sesion' })).toBeInTheDocument();
     expect(window.localStorage.getItem(storageKey)).toBeNull();
   });
+
+  it('denies access to the user management route for non-admin roles', () => {
+    window.history.replaceState(null, '', '/users');
+    window.localStorage.setItem(
+      storageKey,
+      JSON.stringify({
+        accessToken: 'token',
+        user: { id: 'field-1', name: 'Operador de Campo', email: 'field@gyrmonitor.local', role: Roles.FIELD_OPERATOR }
+      })
+    );
+
+    render(<App />);
+
+    expect(screen.getByRole('heading', { name: 'Acceso denegado' })).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'Usuarios' })).not.toBeInTheDocument();
+  });
 });

@@ -1,10 +1,22 @@
 import type { Role } from './role';
 
+export const UserStatuses = {
+  ACTIVE: 'ACTIVE',
+  DISABLED: 'DISABLED'
+} as const;
+
+export type UserStatus = (typeof UserStatuses)[keyof typeof UserStatuses];
+
+export function isUserStatus(value: string): value is UserStatus {
+  return value === UserStatuses.ACTIVE || value === UserStatuses.DISABLED;
+}
+
 export type User = {
   id: string;
   name: string;
   email: string;
   role: Role;
+  status: UserStatus;
   passwordHash: string;
 };
 

@@ -12,7 +12,8 @@ type NavItem = {
 const navItems: NavItem[] = [
   { path: '/dashboard', label: 'Dashboard', roles: [Roles.ADMIN, Roles.RESEARCHER] },
   { path: '/cattle', label: 'Cattle', roles: [Roles.ADMIN, Roles.RESEARCHER] },
-  { path: '/alerts', label: 'Alertas', roles: [Roles.ADMIN, Roles.FIELD_OPERATOR, Roles.RESEARCHER] }
+  { path: '/alerts', label: 'Alertas', roles: [Roles.ADMIN, Roles.FIELD_OPERATOR, Roles.RESEARCHER] },
+  { path: '/users', label: 'Usuarios', roles: [Roles.ADMIN] }
 ];
 
 export function AppShell({

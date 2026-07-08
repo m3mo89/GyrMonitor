@@ -10,10 +10,12 @@ import { Roles } from '../../features/auth/auth.types';
 import { CattleDetailPage } from '../../features/cattle/CattleDetailPage';
 import { CattleListPage } from '../../features/cattle/CattleListPage';
 import { DashboardPage } from '../../features/dashboard/DashboardPage';
+import { UserListPage } from '../../features/user-management/UserListPage';
 import { UiState } from '../../shared/components/UiState';
 
 const OPERATIONAL_ROLES = [Roles.ADMIN, Roles.RESEARCHER, Roles.FIELD_OPERATOR, Roles.SYSTEM_GENERATOR];
 const ANALYTICS_ROLES = [Roles.ADMIN, Roles.RESEARCHER];
+const ADMIN_ROLES = [Roles.ADMIN];
 
 function AuthenticatedLayout() {
   const { session } = useAuth();
@@ -109,6 +111,14 @@ export function AppRouter() {
         />
         <Route element={<AlertsListRoute />} path="alerts" />
         <Route element={<AlertDetailRoute />} path="alerts/:alertId" />
+        <Route
+          element={
+            <ProtectedRoute allowedRoles={ADMIN_ROLES}>
+              <UserListPage />
+            </ProtectedRoute>
+          }
+          path="users"
+        />
         <Route element={<NotFoundPage />} path="*" />
       </Route>
     </Routes>
