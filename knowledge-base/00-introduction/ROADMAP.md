@@ -56,3 +56,33 @@ Recommended first proposal:
 add-authentication
 ```
 
+## Post-MVP Implementation
+
+All 9 phases above are implemented (see `openspec/changes/archive/`). Since `stabilize-mvp-release`, 12 further changes have been implemented, covering API documentation, client platforms, architecture cleanup, deployment, and admin/localization capabilities:
+
+```mermaid
+flowchart TD
+    I[stabilize-mvp-release]
+    J[add-openapi-docs]
+    K[dedupe-maui-client-core]
+    L[desktop-connectivity-feedback]
+    M[desktop-ui-polish]
+    N[restrict-client-target-platforms]
+    O[frontend-architecture-alignment]
+    P[refactor-backend-architecture-cleanup]
+    Q[configure-staging-environment]
+    R[admin-user-management]
+    S[db-create-admin-script]
+    T[frontend-clean-architecture-alignment]
+    U[translate-ui-to-spanish]
+
+    I --> J --> K --> L --> M --> N --> O --> P --> Q --> R --> S --> T --> U
+```
+
+- **API and client platforms**: `add-openapi-docs` (Swagger/OpenAPI), `dedupe-maui-client-core` (shared desktop/mobile client core), `desktop-connectivity-feedback`, `desktop-ui-polish`, `restrict-client-target-platforms` (desktop → Mac Catalyst/Windows, mobile → Android/iOS).
+- **Architecture cleanup**: `frontend-architecture-alignment`, `refactor-backend-architecture-cleanup`.
+- **Deployment**: `configure-staging-environment` (Railway/Vercel staging).
+- **Admin and localization**: `admin-user-management`, `db-create-admin-script`, `frontend-clean-architecture-alignment`, `translate-ui-to-spanish` (Spanish i18n, see ADR-016).
+
+New proposals continue to follow the same manual OpenSpec lifecycle described above.
+

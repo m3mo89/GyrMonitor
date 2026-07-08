@@ -80,3 +80,17 @@ src/
 - Lower coupling to NestJS and database details.
 - Clearer mapping from requirements to implementation.
 - Safer future evolution toward queues, time-series storage or additional approved event producers.
+
+## Frontend Clean Architecture Layering
+
+The frontend applies the same layer model per feature (`frontend/src/features/<feature>/`), documented in detail in `frontend/src/features/README.md`:
+
+```text
+features/<feature>/
+  domain/          Client-safe feature types and UX validation. No React, router, TanStack Query, browser APIs, or HTTP clients.
+  application/      TanStack Query hooks and mutation/query orchestration.
+  infrastructure/   HTTP API adapters and browser/storage adapters.
+  presentation/     Pages and view composition; consumes application hooks and domain types.
+```
+
+`auth`, `user-management`, `dashboard`, `cattle`, and `alerts` are fully layered; `events` and `metrics` are placeholder/deferred (cattle detail shows read-only event history instead of a dedicated events UI). Route adapters live in `app/router` and import presentation entry points from feature barrels, keeping the dependency direction the same as the backend: presentation depends on application, application depends on domain, infrastructure implements ports consumed by application.

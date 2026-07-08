@@ -1,3 +1,7 @@
-# Dashboard Boundary
+# Dashboard Module
 
-Placeholder for future dashboard implementation. No domain logic is implemented in Phase 1.
+Implements aggregated metrics for administrators and researchers.
+
+- `GET /dashboard` (`ADMIN`, `RESEARCHER`) — returns aggregated dashboard metrics, optionally filtered by `from`, `to` (date range) and `corralId`.
+
+See `knowledge-base/05-api/dashboard.md` for the query parameter contract and response shape.

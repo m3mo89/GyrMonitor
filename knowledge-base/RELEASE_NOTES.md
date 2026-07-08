@@ -1,7 +1,7 @@
 ---
 title: Release Notes
 status: approved
-version: 1.1.0
+version: 1.3.0
 ---
 
 # GyrMonitor Docs v1.0
@@ -67,3 +67,19 @@ Decision:
 
 - Phase 1 is closed after this version.
 - Further functional changes should be driven by manually authored OpenSpec proposals.
+
+## v1.2.0 - MVP Implementation Complete
+
+All 9 MVP roadmap phases were implemented via manually authored OpenSpec proposals (`openspec/changes/archive/`, 2026-06-29 to 2026-07-01):
+
+- `setup-project-foundation`, `add-authentication`, `add-cattle-management`, `add-observations`, `add-activity-events`, `add-database-persistence`, `enable-backend-runtime`, `improve-backend-tests`, `add-alerts`, `add-dashboard`, `add-offline-sync`, `add-system-generator-web-message`, `extract-risk-analysis-module`, `stabilize-mvp-release`.
+
+The backend, frontend, mobile, and desktop workspaces moved from foundation skeletons to a working MVP: authentication, cattle management, activity/inactivity events, risk-based alerts, field observations, dashboard metrics, and offline synchronization for mobile/desktop clients.
+
+## v1.3.0 - Post-MVP: Clients, Staging, Admin, Localization
+
+12 further changes were archived after `stabilize-mvp-release` (2026-07-02 to 2026-07-08), none of which had been reflected in the knowledge base until this reconciliation pass (`sync-docs-with-implementation`):
+
+- `add-openapi-docs`, `dedupe-maui-client-core`, `desktop-connectivity-feedback`, `desktop-ui-polish`, `restrict-client-target-platforms`, `frontend-architecture-alignment`, `refactor-backend-architecture-cleanup`, `configure-staging-environment`, `admin-user-management`, `db-create-admin-script`, `frontend-clean-architecture-alignment`, `translate-ui-to-spanish`.
+
+Highlights: interactive OpenAPI docs; a shared `.NET MAUI` client core for desktop/mobile; desktop restricted to Mac Catalyst/Windows and mobile to Android/iOS; a staging deployment on Railway/Vercel; ADMIN-only user management with a `db:create-admin` bootstrap script; and Spanish UI localization across frontend (i18next), desktop, and mobile (`.resx`) — see ADR-016.

@@ -302,8 +302,10 @@ Recommended backend structure:
 ```text
 backend/src/
 ├── authentication/
+├── user-management/
 ├── cattle-monitoring/
 ├── inactivity-analysis/
+├── activity-events/
 ├── alerts/
 ├── inspections/
 ├── dashboard/
@@ -333,11 +335,12 @@ frontend/src/
 │   └── layouts/
 ├── features/
 │   ├── auth/
+│   ├── user-management/
 │   ├── dashboard/
 │   ├── cattle/
-│   ├── events/
+│   ├── events/       # placeholder, not yet implemented
 │   ├── alerts/
-│   └── metrics/
+│   └── metrics/      # placeholder, not yet implemented
 ├── shared/
 │   ├── components/
 │   ├── hooks/
@@ -395,5 +398,12 @@ gyrmonitor/
 ├── backend/
 ├── frontend/
 ├── mobile/
-└── desktop/
+├── desktop/
+├── database/
+├── shared/
+└── scripts/
 ```
+
+- `database/` — MariaDB (server) and SQLite (mobile/desktop local storage) schema, migrations, and seeds.
+- `shared/` — shared `.NET MAUI` client core (`GyrMonitor.Client.Core`) used by both desktop and mobile.
+- `scripts/` — repository-level maintenance scripts (e.g. `verify-foundation.mjs`).
