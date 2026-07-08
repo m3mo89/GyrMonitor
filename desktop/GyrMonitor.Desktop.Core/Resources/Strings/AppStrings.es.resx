@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="AppTitle" xml:space="preserve">
+    <value>GyrMonitor Desktop</value>
+  </data>
+  <data name="SignIn" xml:space="preserve">
+    <value>Iniciar sesion</value>
+  </data>
+  <data name="TabDashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="TabCattle" xml:space="preserve">
+    <value>Cattle</value>
+  </data>
+  <data name="TabAlerts" xml:space="preserve">
+    <value>Alertas</value>
+  </data>
+  <data name="TabSimulator" xml:space="preserve">
+    <value>Simulador</value>
+  </data>
+  <data name="TabSync" xml:space="preserve">
+    <value>Sync</value>
+  </data>
+  <data name="AdminSignInSubtitle" xml:space="preserve">
+    <value>Inicio de sesion de administrador</value>
+  </data>
+  <data name="EmailPlaceholder" xml:space="preserve">
+    <value>Correo</value>
+  </data>
+  <data name="PasswordPlaceholder" xml:space="preserve">
+    <value>Contrasena</value>
+  </data>
+  <data name="UnableToReachServer" xml:space="preserve">
+    <value>No se pudo conectar con el servidor.</value>
+  </data>
+  <data name="TotalCattle" xml:space="preserve">
+    <value>Total de cattle</value>
+  </data>
+  <data name="ActiveAlerts" xml:space="preserve">
+    <value>Alertas activas</value>
+  </data>
+  <data name="HighRisk" xml:space="preserve">
+    <value>Alto riesgo</value>
+  </data>
+  <data name="AvgRisk" xml:space="preserve">
+    <value>Riesgo promedio</value>
+  </data>
+  <data name="EventsToday" xml:space="preserve">
+    <value>Eventos hoy</value>
+  </data>
+  <data name="PendingSync" xml:space="preserve">
+    <value>Sync pendiente</value>
+  </data>
+  <data name="RiskRanking" xml:space="preserve">
+    <value>Ranking de riesgo</value>
+  </data>
+  <data name="NoRiskDataTitle" xml:space="preserve">
+    <value>Aun no hay datos de riesgo</value>
+  </data>
+  <data name="NoRiskDataSubtitle" xml:space="preserve">
+    <value>El ranking de riesgo aparecera cuando se registren eventos de cattle.</value>
+  </data>
+  <data name="NoCattleRecordsTitle" xml:space="preserve">
+    <value>Sin registros de cattle</value>
+  </data>
+  <data name="NoCattleRecordsSubtitle" xml:space="preserve">
+    <value>El cattle sincronizado desde el backend aparecera aqui.</value>
+  </data>
+  <data name="NoAlertsTitle" xml:space="preserve">
+    <value>Sin alertas</value>
+  </data>
+  <data name="NoAlertsSubtitle" xml:space="preserve">
+    <value>Las alertas nuevas apareceran aqui a medida que se generen.</value>
+  </data>
+  <data name="EventSimulatorTitle" xml:space="preserve">
+    <value>Simulador de eventos</value>
+  </data>
+  <data name="CattleFieldLabel" xml:space="preserve">
+    <value>Cattle</value>
+  </data>
+  <data name="EventTypeLabel" xml:space="preserve">
+    <value>Tipo de evento</value>
+  </data>
+  <data name="InactivityOption" xml:space="preserve">
+    <value>Inactividad</value>
+  </data>
+  <data name="ActivityOption" xml:space="preserve">
+    <value>Actividad</value>
+  </data>
+  <data name="InactiveMinutesLabel" xml:space="preserve">
+    <value>Minutos inactivo</value>
+  </data>
+  <data name="ConfidenceRangeLabel" xml:space="preserve">
+    <value>Confianza (0-1)</value>
+  </data>
+  <data name="RefreshCattle" xml:space="preserve">
+    <value>Actualizar cattle</value>
+  </data>
+  <data name="GenerateEvent" xml:space="preserve">
+    <value>Generar evento</value>
+  </data>
+  <data name="SavedOfflineDescription" xml:space="preserve">
+    <value>Guardado localmente como evento de simulador. Se sincronizara automaticamente cuando vuelva la conectividad.</value>
+  </data>
+  <data name="NoCattleForSimulation" xml:space="preserve">
+    <value>No hay registros de cattle disponibles para simular.</value>
+  </data>
+  <data name="SelectCattleBeforeGenerate" xml:space="preserve">
+    <value>Selecciona un registro de cattle antes de generar un evento.</value>
+  </data>
+  <data name="ConfidenceRangeError" xml:space="preserve">
+    <value>La confianza debe estar entre 0 y 1.</value>
+  </data>
+  <data name="UnableToLoadCattleRecordsFormat" xml:space="preserve">
+    <value>No se pudieron cargar los registros de cattle: {0}</value>
+  </data>
+  <data name="SynchronizationTitle" xml:space="preserve">
+    <value>Sincronizacion</value>
+  </data>
+  <data name="AllSyncedTitle" xml:space="preserve">
+    <value>Todo sincronizado</value>
+  </data>
+  <data name="AllSyncedSubtitle" xml:space="preserve">
+    <value>No hay elementos pendientes de sync.</value>
+  </data>
+  <data name="PendingItemsLabel" xml:space="preserve">
+    <value>Elementos pendientes</value>
+  </data>
+  <data name="PendingBadge" xml:space="preserve">
+    <value>Pendiente</value>
+  </data>
+  <data name="SyncNow" xml:space="preserve">
+    <value>Sync ahora</value>
+  </data>
+  <data name="OfflineBannerMessage" xml:space="preserve">
+    <value>Estas sin conexion. Los cambios se sincronizaran automaticamente cuando vuelva la conectividad.</value>
+  </data>
+  <data name="NothingHereYet" xml:space="preserve">
+    <value>Nada por aqui todavia</value>
+  </data>
+  <data name="SyncNotificationSummaryWithFailuresFormat" xml:space="preserve">
+    <value>Sincronizados {0} evento(s) pendiente(s), {1} fallidos.</value>
+  </data>
+  <data name="SyncNotificationSummaryFormat" xml:space="preserve">
+    <value>Sincronizados {0} evento(s) pendiente(s).</value>
+  </data>
+</root>

@@ -10,7 +10,8 @@
     xmlns:simulator="clr-namespace:GyrMonitor.Desktop.Features.EventSimulator"
     xmlns:sync="clr-namespace:GyrMonitor.Desktop.Features.Sync"
     xmlns:controls="clr-namespace:GyrMonitor.Desktop.Shared.Controls"
-    Title="GyrMonitor Desktop"
+    xmlns:dstrings="clr-namespace:GyrMonitor.Desktop.Core.Resources.Strings;assembly=GyrMonitor.Desktop.Core"
+    Title="{x:Static dstrings:AppStrings.AppTitle}"
     FlyoutBehavior="Disabled">
 
     <Shell.TitleView>
@@ -22,33 +23,33 @@
     </Shell.TitleView>
 
     <ShellContent
-        Title="Sign in"
+        Title="{x:Static dstrings:AppStrings.SignIn}"
         ContentTemplate="{DataTemplate auth:LoginPage}"
         Route="LoginPage" />
 
     <TabBar Route="Main">
         <ShellContent
-            Title="Dashboard"
+            Title="{x:Static dstrings:AppStrings.TabDashboard}"
             Icon="icon_dashboard"
             ContentTemplate="{DataTemplate dashboard:DashboardPage}"
             Route="DashboardPage" />
         <ShellContent
-            Title="Cattle"
+            Title="{x:Static dstrings:AppStrings.TabCattle}"
             Icon="icon_cattle"
             ContentTemplate="{DataTemplate cattle:CattlePage}"
             Route="CattlePage" />
         <ShellContent
-            Title="Alerts"
+            Title="{x:Static dstrings:AppStrings.TabAlerts}"
             Icon="icon_alerts"
             ContentTemplate="{DataTemplate alerts:AlertsPage}"
             Route="AlertsPage" />
         <ShellContent
-            Title="Simulator"
+            Title="{x:Static dstrings:AppStrings.TabSimulator}"
             Icon="icon_simulator"
             ContentTemplate="{DataTemplate simulator:EventSimulatorPage}"
             Route="EventSimulatorPage" />
         <ShellContent
-            Title="Sync"
+            Title="{x:Static dstrings:AppStrings.TabSync}"
             Icon="icon_sync"
             ContentTemplate="{DataTemplate sync:SyncPage}"
             Route="SyncPage" />

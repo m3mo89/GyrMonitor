@@ -3,6 +3,8 @@ using GyrMonitor.Client.Core.Authentication;
 using GyrMonitor.Client.Core.Networking;
 using GyrMonitor.Client.Core.Session;
 using Moq;
+using ClientStrings = GyrMonitor.Client.Core.Resources.Strings.AppStrings;
+using MobileStrings = GyrMonitor.Mobile.Core.Resources.Strings.AppStrings;
 
 namespace GyrMonitor.Mobile.Core.Tests.Features.Authentication;
 
@@ -54,7 +56,7 @@ public class LoginViewModelTests
 
         await viewModel.LoginCommand.ExecuteAsync(null);
 
-        Assert.Equal("Invalid email or password.", viewModel.ErrorMessage);
+        Assert.Equal(ClientStrings.InvalidCredentials, viewModel.ErrorMessage);
         authSession.Verify(session => session.SaveAsync(It.IsAny<AuthSessionData>()), Times.Never);
     }
 
@@ -68,7 +70,7 @@ public class LoginViewModelTests
 
         await viewModel.LoginCommand.ExecuteAsync(null);
 
-        Assert.Equal("Unable to reach the server. Please try again.", viewModel.ErrorMessage);
+        Assert.Equal(ClientStrings.UnableToReachServerRetry, viewModel.ErrorMessage);
     }
 
     [Fact]
@@ -91,7 +93,7 @@ public class LoginViewModelTests
         await viewModel.LoginCommand.ExecuteAsync(null);
 
         Assert.False(raised);
-        Assert.Equal("This mobile workflow is available only for field operators.", viewModel.ErrorMessage);
+        Assert.Equal(MobileStrings.FieldOperatorOnly, viewModel.ErrorMessage);
         authSession.Verify(session => session.SaveAsync(It.IsAny<AuthSessionData>()), Times.Never);
     }
 }

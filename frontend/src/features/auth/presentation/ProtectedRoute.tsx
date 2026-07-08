@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import type { Role } from '../domain';
 import { useAuth } from './AuthProvider';
@@ -13,6 +14,7 @@ export function ProtectedRoute({
   children: ReactNode;
   onAuthenticated?: () => void;
 }) {
+  const { t } = useTranslation('auth');
   const { session } = useAuth();
 
   if (!session) {
@@ -22,8 +24,8 @@ export function ProtectedRoute({
   if (allowedRoles && !allowedRoles.includes(session.user.role)) {
     return (
       <main>
-        <h1>Acceso denegado</h1>
-        <p>No tienes permisos para consultar esta seccion.</p>
+        <h1>{t('accessDenied.title')}</h1>
+        <p>{t('accessDenied.description')}</p>
       </main>
     );
   }

@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GyrMonitor.Mobile.Core.Features.Sync;
 using GyrMonitor.Client.Core.Session;
+using GyrMonitor.Mobile.Core.Resources.Strings;
 using GyrMonitor.Mobile.Core.Shared.Authorization;
 
 namespace GyrMonitor.Mobile.Core.Features.Observations;
@@ -51,13 +52,13 @@ public sealed partial class ObservationCaptureViewModel : ObservableObject
 
         if (string.IsNullOrWhiteSpace(AlertId))
         {
-            ErrorMessage = "Select an alert before saving an observation.";
+            ErrorMessage = AppStrings.SelectAlertBeforeSaving;
             return;
         }
 
         if (string.IsNullOrWhiteSpace(Comment))
         {
-            ErrorMessage = "Comment must not be empty.";
+            ErrorMessage = AppStrings.CommentMustNotBeEmpty;
             return;
         }
 
@@ -68,7 +69,7 @@ public sealed partial class ObservationCaptureViewModel : ObservableObject
             var session = await _authSession.GetAsync();
             if (session is null || !MobileRoleAccess.IsSupported(session.Role))
             {
-                ErrorMessage = "This mobile workflow is available only for field operators.";
+                ErrorMessage = AppStrings.FieldOperatorOnly;
                 return;
             }
 

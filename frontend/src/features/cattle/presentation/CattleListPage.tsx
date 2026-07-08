@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import { LoadingState, UiState } from '../../../shared/components/UiState';
 import { useCattleList } from '../application';
 
@@ -6,39 +8,40 @@ type CattleListPageProps = {
 };
 
 export function CattleListPage({ onOpenCattle }: CattleListPageProps) {
+  const { t } = useTranslation('cattle');
   const { data: result, isLoading, isError } = useCattleList();
 
   if (isLoading) {
-    return <LoadingState title="Cargando cattle..." />;
+    return <LoadingState title={t('list.loading')} />;
   }
 
   if (isError) {
-    return <UiState title="No se pudo cargar cattle" description="No se pudo cargar el listado de cattle." tone="danger" />;
+    return <UiState title={t('list.errorTitle')} description={t('list.errorDescription')} tone="danger" />;
   }
 
   if (!result || result.data.length === 0) {
-    return <UiState title="No hay cattle registrados" description="Cuando exista informacion del hato, aparecera aqui para consulta operativa." />;
+    return <UiState title={t('list.emptyTitle')} description={t('list.emptyDescription')} />;
   }
 
   return (
     <div className="page-stack">
       <header className="page-header">
         <div>
-          <p className="eyebrow">Hato</p>
-          <h1>Cattle</h1>
-          <p>{result.pagination.total} cattle registrados para seguimiento de riesgo y actividad.</p>
+          <p className="eyebrow">{t('list.eyebrow')}</p>
+          <h1>{t('list.title')}</h1>
+          <p>{t('list.subtitle', { count: result.pagination.total })}</p>
         </div>
       </header>
       <div className="data-table-wrap">
         <table className="data-table">
           <thead>
             <tr>
-              <th>Tag</th>
-              <th>Breed</th>
-              <th>Sex</th>
-              <th>Status</th>
-              <th>Risk</th>
-              <th>Detalle</th>
+              <th>{t('list.columnTag')}</th>
+              <th>{t('list.columnBreed')}</th>
+              <th>{t('list.columnSex')}</th>
+              <th>{t('list.columnStatus')}</th>
+              <th>{t('list.columnRisk')}</th>
+              <th>{t('list.columnDetail')}</th>
             </tr>
           </thead>
           <tbody>
@@ -52,10 +55,10 @@ export function CattleListPage({ onOpenCattle }: CattleListPageProps) {
                 <td>
                   <span className="status-badge">{cattle.status}</span>
                 </td>
-                <td>{cattle.lastRiskScore ?? 'N/A'}</td>
+                <td>{cattle.lastRiskScore ?? t('list.notAvailable')}</td>
                 <td>
                   <button className="button" onClick={() => onOpenCattle(cattle.id)} type="button">
-                    Ver
+                    {t('list.viewAction')}
                   </button>
                 </td>
               </tr>

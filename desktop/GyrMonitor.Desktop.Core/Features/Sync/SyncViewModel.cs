@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GyrMonitor.Client.Core.Resources.Strings;
 
 namespace GyrMonitor.Desktop.Core.Features.Sync;
 
@@ -42,8 +43,8 @@ public sealed partial class SyncViewModel : ObservableObject
         {
             var summary = await _syncService.SyncPendingEventsAsync();
             StatusMessage = summary.ErrorMessage is not null
-                ? $"Sync failed: {summary.ErrorMessage}"
-                : $"Synced {summary.Synced}, duplicates {summary.Duplicated}, failed {summary.Failed}.";
+                ? string.Format(AppStrings.SyncFailedFormat, summary.ErrorMessage)
+                : string.Format(AppStrings.SyncSummaryFormat, summary.Synced, summary.Duplicated, summary.Failed);
         }
         finally
         {

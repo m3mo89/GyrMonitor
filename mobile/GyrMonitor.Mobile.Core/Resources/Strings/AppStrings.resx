@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="SignIn" xml:space="preserve">
+    <value>Sign in</value>
+  </data>
+  <data name="FieldOperatorSignInSubtitle" xml:space="preserve">
+    <value>Field operator sign in</value>
+  </data>
+  <data name="EmailPlaceholder" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="PasswordPlaceholder" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="TabAlerts" xml:space="preserve">
+    <value>Alerts</value>
+  </data>
+  <data name="TabSync" xml:space="preserve">
+    <value>Sync</value>
+  </data>
+  <data name="OfflineAlertsMessage" xml:space="preserve">
+    <value>You are offline. Showing cached alerts.</value>
+  </data>
+  <data name="AlertDetailTitle" xml:space="preserve">
+    <value>Alert detail</value>
+  </data>
+  <data name="AlertNotFoundInCache" xml:space="preserve">
+    <value>Alert was not found in the local cache.</value>
+  </data>
+  <data name="SeverityFormat" xml:space="preserve">
+    <value>Severity: {0}</value>
+  </data>
+  <data name="StatusFormat" xml:space="preserve">
+    <value>Status: {0}</value>
+  </data>
+  <data name="RiskScoreFormat" xml:space="preserve">
+    <value>Risk score: {0}</value>
+  </data>
+  <data name="ReasonFormat" xml:space="preserve">
+    <value>Reason: {0}</value>
+  </data>
+  <data name="CreatedAtFormat" xml:space="preserve">
+    <value>Created at: {0}</value>
+  </data>
+  <data name="AddObservation" xml:space="preserve">
+    <value>Add observation</value>
+  </data>
+  <data name="CommentLabel" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="CommentPlaceholder" xml:space="preserve">
+    <value>Describe what you observed in the field</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="ObservationSavedOffline" xml:space="preserve">
+    <value>Saved locally. It will sync automatically when you are back online.</value>
+  </data>
+  <data name="SynchronizationTitle" xml:space="preserve">
+    <value>Synchronization</value>
+  </data>
+  <data name="PendingItemsFormat" xml:space="preserve">
+    <value>Pending items: {0}</value>
+  </data>
+  <data name="SyncNow" xml:space="preserve">
+    <value>Sync now</value>
+  </data>
+  <data name="FieldOperatorOnly" xml:space="preserve">
+    <value>This mobile workflow is available only for field operators.</value>
+  </data>
+  <data name="SelectAlertBeforeSaving" xml:space="preserve">
+    <value>Select an alert before saving an observation.</value>
+  </data>
+  <data name="CommentMustNotBeEmpty" xml:space="preserve">
+    <value>Comment must not be empty.</value>
+  </data>
+  <data name="UnableToRefreshAlerts" xml:space="preserve">
+    <value>Unable to refresh alerts. Showing the last saved data.</value>
+  </data>
+  <data name="UnableToReachServerShowingLastSaved" xml:space="preserve">
+    <value>Unable to reach the server. Showing the last saved data.</value>
+  </data>
+  <data name="NoSupportedSessionActive" xml:space="preserve">
+    <value>No supported mobile session is active.</value>
+  </data>
+</root>

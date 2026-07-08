@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="AppName" xml:space="preserve">
+    <value>GyrMonitor</value>
+  </data>
+  <data name="EntityCattle" xml:space="preserve">
+    <value>cattle</value>
+  </data>
+  <data name="InvalidCredentials" xml:space="preserve">
+    <value>Correo o contrasena invalidos.</value>
+  </data>
+  <data name="EmailAndPasswordRequired" xml:space="preserve">
+    <value>El correo y la contrasena son obligatorios.</value>
+  </data>
+  <data name="UnableToSignInRetry" xml:space="preserve">
+    <value>No se pudo iniciar sesion. Intenta nuevamente.</value>
+  </data>
+  <data name="UnableToReachServerRetry" xml:space="preserve">
+    <value>No se pudo conectar con el servidor. Intenta nuevamente.</value>
+  </data>
+  <data name="SyncFailedFormat" xml:space="preserve">
+    <value>Fallo el sync: {0}</value>
+  </data>
+  <data name="SyncSummaryFormat" xml:space="preserve">
+    <value>Sincronizados {0}, duplicados {1}, fallidos {2}.</value>
+  </data>
+</root>

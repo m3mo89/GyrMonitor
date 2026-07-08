@@ -6,21 +6,23 @@
     xmlns:auth="clr-namespace:GyrMonitor.Mobile.Features.Authentication"
     xmlns:alerts="clr-namespace:GyrMonitor.Mobile.Features.Alerts"
     xmlns:sync="clr-namespace:GyrMonitor.Mobile.Features.Sync"
-    Title="GyrMonitor"
+    xmlns:strings="clr-namespace:GyrMonitor.Client.Core.Resources.Strings;assembly=GyrMonitor.Client.Core"
+    xmlns:mstrings="clr-namespace:GyrMonitor.Mobile.Core.Resources.Strings;assembly=GyrMonitor.Mobile.Core"
+    Title="{x:Static strings:AppStrings.AppName}"
     FlyoutBehavior="Disabled">
 
     <ShellContent
-        Title="Sign in"
+        Title="{x:Static mstrings:AppStrings.SignIn}"
         ContentTemplate="{DataTemplate auth:LoginPage}"
         Route="LoginPage" />
 
     <TabBar Route="Main">
         <ShellContent
-            Title="Alerts"
+            Title="{x:Static mstrings:AppStrings.TabAlerts}"
             ContentTemplate="{DataTemplate alerts:AlertsPage}"
             Route="AlertsPage" />
         <ShellContent
-            Title="Sync"
+            Title="{x:Static mstrings:AppStrings.TabSync}"
             ContentTemplate="{DataTemplate sync:SyncPage}"
             Route="SyncPage" />
     </TabBar>

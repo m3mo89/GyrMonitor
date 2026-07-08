@@ -2,17 +2,18 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:alerts="clr-namespace:GyrMonitor.Mobile.Core.Features.Alerts;assembly=GyrMonitor.Mobile.Core"
+             xmlns:mstrings="clr-namespace:GyrMonitor.Mobile.Core.Resources.Strings;assembly=GyrMonitor.Mobile.Core"
              x:Class="GyrMonitor.Mobile.Features.Alerts.AlertsPage"
-             Title="Alerts">
+             Title="{x:Static mstrings:AppStrings.TabAlerts}">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Sync" Clicked="OnSyncTapped" />
+        <ToolbarItem Text="{x:Static mstrings:AppStrings.TabSync}" Clicked="OnSyncTapped" />
     </ContentPage.ToolbarItems>
 
     <Grid RowDefinitions="Auto,Auto,*" Padding="12" RowSpacing="8">
 
         <Label Grid.Row="0"
-               Text="You are offline. Showing cached alerts."
+               Text="{x:Static mstrings:AppStrings.OfflineAlertsMessage}"
                TextColor="OrangeRed"
                IsVisible="{Binding IsOffline}" />
 
