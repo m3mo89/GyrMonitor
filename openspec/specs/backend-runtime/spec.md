@@ -78,7 +78,7 @@ The backend runtime SHALL initialize the configured MariaDB persistence infrastr
 - **THEN** the runtime fails startup or reports a failed database-aware smoke check instead of serving protected workflows from empty in-memory state
 
 ### Requirement: Database operational scripts
-The backend package SHALL expose discoverable commands for running migrations, seed data, and database-aware verification.
+The backend package SHALL expose discoverable commands for running migrations, seed data, database-aware verification, and bootstrapping the first ADMIN user.
 
 #### Scenario: Developer discovers migration script
 - **WHEN** a developer inspects backend package scripts
@@ -91,6 +91,10 @@ The backend package SHALL expose discoverable commands for running migrations, s
 #### Scenario: Database smoke verification is available
 - **WHEN** a developer inspects backend package scripts
 - **THEN** a command is available to verify migrated MariaDB-backed repository behavior
+
+#### Scenario: Developer discovers create-admin script
+- **WHEN** a developer inspects backend package scripts
+- **THEN** a command for creating the first ADMIN user from environment-supplied credentials is available
 
 ### Requirement: Environment-configured CORS origins
 The backend runtime SHALL configure browser CORS origins from environment configuration while preserving local development defaults.
