@@ -28,4 +28,19 @@
   <data name="SyncSummaryFormat" xml:space="preserve">
     <value>Sincronizados {0}, duplicados {1}, fallidos {2}.</value>
   </data>
+  <data name="EnvironmentLabel" xml:space="preserve">
+    <value>Entorno</value>
+  </data>
+  <data name="EnvironmentLocal" xml:space="preserve">
+    <value>Local/Desarrollo</value>
+  </data>
+  <data name="EnvironmentStaging" xml:space="preserve">
+    <value>Staging</value>
+  </data>
+  <data name="EnvironmentProduction" xml:space="preserve">
+    <value>Produccion</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Cerrar sesion</value>
+  </data>
 </root>

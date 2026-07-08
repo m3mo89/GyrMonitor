@@ -12,7 +12,8 @@ The mobile client is used by field operators to review alerts, register observat
 
 ## Responsibilities
 
-- Login and session handling.
+- Login and session handling, with a runtime environment picker (Local/Development, Staging, Production) on Debug builds; Release builds always target Production.
+- Logout from any authenticated screen, clearing the session and returning to login.
 - Display pending and active alerts.
 - Show alert detail.
 - Register observations.

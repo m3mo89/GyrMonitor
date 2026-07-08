@@ -26,9 +26,15 @@ namespace GyrMonitor.Desktop;
 
 public static class MauiProgram
 {
-    private const string ApiBaseUrl = "http://127.0.0.1:3000";
+    private const string LocalBaseUrl = "http://127.0.0.1:3000";
     private const string DesktopClientId = "DESKTOP-001";
     private const string DesktopDeviceId = "DEVICE-DESKTOP-001";
+
+#if DEBUG
+    private const ApiEnvironment DefaultEnvironment = ApiEnvironment.Local;
+#else
+    private const ApiEnvironment DefaultEnvironment = ApiEnvironment.Production;
+#endif
 
     public static MauiApp CreateMauiApp()
     {
@@ -53,14 +59,26 @@ public static class MauiProgram
         RegisterViewModels(builder.Services);
         RegisterPages(builder.Services);
 
-        return builder.Build();
+        var app = builder.Build();
+
+        // Forces ApiEnvironmentService's constructor to run (and set ApiOptions.BaseUrl) before
+        // the first page appears, since MAUI's DI container otherwise only builds singletons lazily.
+        _ = app.Services.GetRequiredService<IApiEnvironmentService>();
+
+        return app;
     }
 
     private static void RegisterServices(IServiceCollection services)
     {
-        services.AddSingleton(new ApiOptions { BaseUrl = ApiBaseUrl });
+        services.AddSingleton(new ApiOptions { BaseUrl = LocalBaseUrl });
         services.AddSingleton<HttpClient>();
         services.AddSingleton<ISecureKeyValueStore, SecureStorageKeyValueStore>();
+        services.AddSingleton<IApiEnvironmentStore, ApiEnvironmentStore>();
+        services.AddSingleton<IApiEnvironmentService>(sp => new ApiEnvironmentService(
+            sp.GetRequiredService<ApiOptions>(),
+            sp.GetRequiredService<IApiEnvironmentStore>(),
+            LocalBaseUrl,
+            DefaultEnvironment));
         services.AddSingleton<IAuthSession, SecureAuthSession>();
         services.AddSingleton<ApiRequestSender>();
         services.AddSingleton<IConnectivityService, MauiConnectivityService>();

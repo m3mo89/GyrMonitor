@@ -12,7 +12,8 @@ The desktop client supports administrative workflows and may include a developme
 
 ## Responsibilities
 
-- Login.
+- Login, with a runtime environment picker (Local/Development, Staging, Production) on Debug builds; Release builds always target Production.
+- Logout from any authenticated screen, clearing the session and returning to login.
 - Display dashboard-style summaries when required.
 - Manage or view cattle data depending on MVP scope.
 - Display alerts.

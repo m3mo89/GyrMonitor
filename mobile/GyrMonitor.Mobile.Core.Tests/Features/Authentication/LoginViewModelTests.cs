@@ -8,6 +8,21 @@ using MobileStrings = GyrMonitor.Mobile.Core.Resources.Strings.AppStrings;
 
 namespace GyrMonitor.Mobile.Core.Tests.Features.Authentication;
 
+internal sealed class StubApiEnvironmentService : IApiEnvironmentService
+{
+    public ApiEnvironment CurrentEnvironment { get; private set; } = ApiEnvironment.Local;
+
+    public IReadOnlyList<ApiEnvironment> AvailableEnvironments { get; } = [ApiEnvironment.Local, ApiEnvironment.Staging, ApiEnvironment.Production];
+
+    public Task InitializeAsync() => Task.CompletedTask;
+
+    public Task SetEnvironmentAsync(ApiEnvironment environment)
+    {
+        CurrentEnvironment = environment;
+        return Task.CompletedTask;
+    }
+}
+
 public class LoginViewModelTests
 {
     [Fact]
@@ -24,7 +39,7 @@ public class LoginViewModelTests
             });
 
         var authSession = new Mock<IAuthSession>();
-        var viewModel = new LoginViewModel(authApi.Object, authSession.Object)
+        var viewModel = new LoginViewModel(authApi.Object, authSession.Object, new StubApiEnvironmentService())
         {
             Email = "field@gyrmonitor.test",
             Password = "secret"
@@ -52,7 +67,7 @@ public class LoginViewModelTests
             .ThrowsAsync(new ApiException("UNAUTHORIZED", "Invalid credentials"));
 
         var authSession = new Mock<IAuthSession>();
-        var viewModel = new LoginViewModel(authApi.Object, authSession.Object) { Email = "bad@gyrmonitor.test", Password = "wrong" };
+        var viewModel = new LoginViewModel(authApi.Object, authSession.Object, new StubApiEnvironmentService()) { Email = "bad@gyrmonitor.test", Password = "wrong" };
 
         await viewModel.LoginCommand.ExecuteAsync(null);
 
@@ -66,7 +81,7 @@ public class LoginViewModelTests
         var authApi = new Mock<IAuthApi>();
         authApi.Setup(api => api.LoginAsync(It.IsAny<string>(), It.IsAny<string>())).ThrowsAsync(new HttpRequestException("offline"));
 
-        var viewModel = new LoginViewModel(authApi.Object, new Mock<IAuthSession>().Object) { Email = "a@b.com", Password = "secret" };
+        var viewModel = new LoginViewModel(authApi.Object, new Mock<IAuthSession>().Object, new StubApiEnvironmentService()) { Email = "a@b.com", Password = "secret" };
 
         await viewModel.LoginCommand.ExecuteAsync(null);
 
@@ -86,7 +101,7 @@ public class LoginViewModelTests
             });
 
         var authSession = new Mock<IAuthSession>();
-        var viewModel = new LoginViewModel(authApi.Object, authSession.Object) { Email = "researcher@gyrmonitor.test", Password = "secret" };
+        var viewModel = new LoginViewModel(authApi.Object, authSession.Object, new StubApiEnvironmentService()) { Email = "researcher@gyrmonitor.test", Password = "secret" };
         var raised = false;
         viewModel.LoginSucceeded += (_, _) => raised = true;
 
