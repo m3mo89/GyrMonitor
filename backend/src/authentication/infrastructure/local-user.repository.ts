@@ -1,6 +1,7 @@
 import { Roles } from '../domain/role';
-import type { User } from '../domain/user';
-import type { PasswordHasher, UserRepository } from '../application/authentication.types';
+import { UserStatuses } from '../domain/user';
+import type { User, UserStatus } from '../domain/user';
+import type { CreateUserInput, PasswordHasher, UserRepository } from '../application/authentication.types';
 
 export const localAuthUsers = [
   {
@@ -39,6 +40,44 @@ export class LocalUserRepository implements UserRepository {
     return users.find((user) => user.email === email.toLowerCase()) ?? null;
   }
 
+  async findById(id: string): Promise<User | null> {
+    const users = await this.loadUsers();
+    return users.find((user) => user.id === id) ?? null;
+  }
+
+  async create(input: CreateUserInput): Promise<User> {
+    const users = await this.loadUsers();
+    const created: User = { ...input, status: UserStatuses.ACTIVE };
+    users.push(created);
+    return created;
+  }
+
+  async findAll(): Promise<User[]> {
+    return this.loadUsers();
+  }
+
+  async updateStatus(id: string, status: UserStatus): Promise<User | null> {
+    const users = await this.loadUsers();
+    const user = users.find((candidate) => candidate.id === id);
+    if (!user) {
+      return null;
+    }
+
+    user.status = status;
+    return user;
+  }
+
+  async updatePasswordHash(id: string, passwordHash: string): Promise<User | null> {
+    const users = await this.loadUsers();
+    const user = users.find((candidate) => candidate.id === id);
+    if (!user) {
+      return null;
+    }
+
+    user.passwordHash = passwordHash;
+    return user;
+  }
+
   private async loadUsers(): Promise<User[]> {
     if (!this.users) {
       this.users = await Promise.all(
@@ -47,6 +86,7 @@ export class LocalUserRepository implements UserRepository {
           name: user.name,
           email: user.email,
           role: user.role,
+          status: UserStatuses.ACTIVE,
           passwordHash: await this.passwordHasher.hash(user.password)
         }))
       );

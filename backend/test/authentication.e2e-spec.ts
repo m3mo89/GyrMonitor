@@ -79,4 +79,19 @@ describe('AuthenticationController e2e', () => {
         });
       });
   });
+
+  it('maps a disabled user to the same 401 error envelope as invalid credentials', async () => {
+    await setup(vi.fn(async () => { throw new InvalidCredentialsError(); }));
+
+    await request(app!.getHttpAdapter().getInstance())
+      .post('/auth/login')
+      .send({ email: 'disabled@gyr.test', password: 'valid-password' })
+      .expect(401)
+      .expect(({ body }) => {
+        expect(body).toEqual({
+          success: false,
+          error: { code: 'UNAUTHORIZED', message: 'Invalid credentials.' }
+        });
+      });
+  });
 });

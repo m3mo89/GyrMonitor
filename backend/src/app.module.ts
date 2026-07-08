@@ -9,10 +9,12 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { InactivityAnalysisModule } from './inactivity-analysis/inactivity-analysis.module';
 import { InspectionsModule } from './inspections/inspections.module';
 import { OfflineSyncModule } from './offline-sync/offline-sync.module';
+import { UserManagementModule } from './user-management/user-management.module';
 
 @Module({
   imports: [
     AuthenticationModule,
+    UserManagementModule,
     CattleMonitoringModule,
     ActivityEventsModule,
     InactivityAnalysisModule,
