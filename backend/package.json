@@ -9,6 +9,7 @@
     "start": "node dist/main.js",
     "db:migrate": "npm run build && node scripts/migrate-database.mjs",
     "db:seed": "npm run build && node scripts/seed-database.mjs",
+    "db:create-admin": "npm run build && node scripts/create-admin.mjs",
     "db:check": "npm run build && node scripts/check-database.mjs",
     "smoke:http": "npm run build && node scripts/smoke-http.mjs",
     "lint": "node scripts/check-foundation.mjs lint",
