@@ -15,6 +15,7 @@ El proyecto necesita un primer reporte tecnico formal, exportable exclusivamente
 ## Capabilities
 
 ### New Capabilities
+
 - `technical-reporting`: Defines the structure, evidence model, content rules, and PDF export expectations for formal technical reports covering production performance, security, and justified corrections.
 
 ### Modified Capabilities
