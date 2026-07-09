@@ -43,9 +43,4 @@ public partial class AlertsPage : ContentPage
         ((CollectionView)sender!).SelectedItem = null;
         await Shell.Current.GoToAsync($"{Routes.AlertDetail}?{Routes.AlertIdQueryKey}={alert.Id}");
     }
-
-    private async void OnSyncTapped(object? sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(Routes.Sync);
-    }
 }
