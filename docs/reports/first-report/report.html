@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Primer reporte tecnico de produccion - GyrMonitor</title>
+  <style>
+    @page { size: A4; margin: 18mm 15mm; }
+    body { color: #1f2933; font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 1.45; margin: 0; }
+    h1 { color: #102a43; font-size: 23px; margin: 0 0 10px; }
+    h2 { border-bottom: 1px solid #bcccdc; color: #243b53; font-size: 16px; margin: 22px 0 8px; padding-bottom: 4px; }
+    h3 { color: #334e68; font-size: 13px; margin: 15px 0 6px; }
+    p { margin: 6px 0; }
+    table { border-collapse: collapse; margin: 8px 0 14px; width: 100%; }
+    th, td { border: 1px solid #cbd5e1; padding: 6px; text-align: left; vertical-align: top; }
+    th { background: #edf2f7; color: #102a43; font-weight: 700; }
+    code { color: #243b53; font-family: Menlo, Consolas, monospace; font-size: 10px; overflow-wrap: anywhere; }
+    ul { margin: 6px 0 10px 18px; padding: 0; }
+    .cover { border-bottom: 2px solid #102a43; margin-bottom: 16px; padding-bottom: 12px; }
+    .meta { color: #52616b; font-size: 11px; }
+    .note { background: #f8fafc; border-left: 3px solid #486581; padding: 8px 10px; }
+    .risk-high { color: #9b1c1c; font-weight: 700; }
+    .risk-medium { color: #92400e; font-weight: 700; }
+    .risk-low { color: #1e3a8a; font-weight: 700; }
+    .page-break { break-before: page; }
+  </style>
+</head>
+<body>
+  <section class="cover">
+    <h1>Primer reporte tecnico de rendimiento y seguridad en produccion: GyrMonitor</h1>
+    <p class="meta"><strong>Fecha de elaboracion:</strong> 9 de julio de 2026</p>
+    <p class="meta"><strong>Tipo de reporte:</strong> auditoria tecnica inicial de produccion</p>
+    <p class="meta"><strong>Entregable final:</strong> PDF exportado en <code>docs/reports/first-report/exports/</code></p>
+  </section>
+
+  <h2>1. Resumen ejecutivo</h2>
+  <p>Se realizo una auditoria tecnica inicial sobre las superficies productivas de GyrMonitor usando exclusivamente Lighthouse y ZAP by Checkmarx/OWASP ZAP. El frontend productivo evaluado fue <code>https://gyr-monitor.vercel.app/</code> y el backend productivo evaluado fue <code>https://gyrmonitor-production.up.railway.app/api/v1</code>.</p>
+  <p>Lighthouse reporto un estado favorable del frontend: Performance 99, Accessibility 100, Best Practices 100 y SEO 90. Las oportunidades principales son agregar una meta descripcion y revisar JavaScript no utilizado.</p>
+  <p>ZAP by Checkmarx/OWASP ZAP 2.17.0 se ejecuto mediante el lanzador normal <code>zap.sh</code>. En el reintento del frontend, ZAP completo la fase activa y reporto 0 hallazgos altos, 3 medios, 1 bajo y 5 informativos. El backend productivo completo reporto 0 hallazgos altos, 0 medios, 3 bajos y 1 informativo.</p>
+
+  <h2>2. Alcance y metodologia</h2>
+  <table>
+    <tr><th>Superficie</th><th>URL</th><th>Herramienta</th></tr>
+    <tr><td>Frontend productivo</td><td><code>https://gyr-monitor.vercel.app/</code></td><td>Lighthouse, ZAP</td></tr>
+    <tr><td>Backend productivo</td><td><code>https://gyrmonitor-production.up.railway.app/api/v1</code></td><td>ZAP</td></tr>
+  </table>
+  <table>
+    <tr><th>Herramienta</th><th>Version / modo</th><th>Evidencia</th></tr>
+    <tr><td>Lighthouse</td><td>13.4.0</td><td><code>evidence/lighthouse/lighthouse-production-frontend.report.json</code>, <code>.html</code></td></tr>
+    <tr><td>ZAP by Checkmarx / OWASP ZAP</td><td>2.17.0, <code>zap.sh -cmd -quickurl</code></td><td><code>evidence/zap/zap-production-frontend-retry-quick-scan.html</code>, <code>zap-production-backend-quick-scan.html</code></td></tr>
+    <tr><td>curl</td><td>Captura de encabezados HTTP</td><td><code>production-frontend-headers.txt</code>, <code>production-backend-headers.txt</code></td></tr>
+  </table>
+
+  <h2>3. Resultados de Lighthouse</h2>
+  <p><strong>URL evaluada:</strong> <code>https://gyr-monitor.vercel.app/</code></p>
+  <p><strong>Fecha tecnica:</strong> <code>2026-07-09T00:24:24.032Z</code>. <strong>Evidencia:</strong> <code>lighthouse-production-frontend.report.json</code>.</p>
+  <table>
+    <tr><th>Categoria</th><th>Puntaje</th><th>Metrica</th><th>Resultado</th></tr>
+    <tr><td>Performance</td><td>99</td><td>First Contentful Paint</td><td>1.6 s</td></tr>
+    <tr><td>Accessibility</td><td>100</td><td>Largest Contentful Paint</td><td>1.6 s</td></tr>
+    <tr><td>Best Practices</td><td>100</td><td>Total Blocking Time</td><td>0 ms</td></tr>
+    <tr><td>SEO</td><td>90</td><td>Cumulative Layout Shift / Speed Index</td><td>0 / 1.7 s</td></tr>
+  </table>
+  <ul>
+    <li>El documento no tiene meta descripcion.</li>
+    <li>Lighthouse identifico oportunidad de reducir JavaScript no utilizado.</li>
+    <li>Lighthouse registro la observacion "Network dependency tree" como diagnostico.</li>
+  </ul>
+
+  <h2>4. Auditoria de seguridad con ZAP by Checkmarx</h2>
+  <h3>4.1 Frontend productivo</h3>
+  <p><strong>Objetivo:</strong> <code>https://gyr-monitor.vercel.app/</code>. <strong>Evidencia:</strong> <code>zap-production-frontend-retry-quick-scan.html</code>.</p>
+  <p class="note">ZAP normal inicio correctamente con Java 17.0.17 y JVM <code>-Xmx4608m</code>. En el reintento, el escaneo uso spider tradicional y fase activa, completo al 100% y escribio el reporte HTML correspondiente.</p>
+  <p>La captura de encabezados del frontend productivo registro <code>HTTP/2 200</code>, <code>server: Vercel</code>, <code>strict-transport-security: max-age=63072000; includeSubDomains; preload</code>, <code>cache-control: public, max-age=0, must-revalidate</code> y <code>access-control-allow-origin: *</code>.</p>
+  <table>
+    <tr><th>Nivel de riesgo</th><th>Numero de alertas</th></tr>
+    <tr><td class="risk-high">Alto</td><td>0</td></tr>
+    <tr><td class="risk-medium">Medio</td><td>3</td></tr>
+    <tr><td class="risk-low">Bajo</td><td>1</td></tr>
+    <tr><td>Informativo</td><td>5</td></tr>
+    <tr><td>Falsos positivos marcados</td><td>0</td></tr>
+  </table>
+  <table>
+    <tr><th>ID ZAP</th><th>Hallazgo</th><th>Riesgo</th><th>Instancias</th><th>Evidencia</th></tr>
+    <tr><td>10038</td><td>Content Security Policy Header Not Set</td><td>Medio</td><td>1</td><td>Ausencia de CSP</td></tr>
+    <tr><td>10098</td><td>Cross-Domain Misconfiguration</td><td>Medio</td><td>4</td><td><code>Access-Control-Allow-Origin: *</code></td></tr>
+    <tr><td>10020</td><td>Missing Anti-clickjacking Header</td><td>Medio</td><td>1</td><td>Ausencia de <code>X-Frame-Options</code> o <code>frame-ancestors</code></td></tr>
+    <tr><td>10021</td><td>X-Content-Type-Options Header Missing</td><td>Bajo</td><td>4</td><td>Ausencia de <code>X-Content-Type-Options: nosniff</code></td></tr>
+    <tr><td>10027, 10109, 10015, 10050, 10104</td><td>Hallazgos informativos</td><td>Informativo</td><td>7 + sistemico</td><td><code>zap-production-frontend-retry-quick-scan.html</code></td></tr>
+  </table>
+
+  <h3>4.2 Backend productivo</h3>
+  <p><strong>Objetivo:</strong> <code>https://gyrmonitor-production.up.railway.app/api/v1</code>. <strong>Evidencia:</strong> <code>zap-production-backend-quick-scan.html</code>.</p>
+  <table>
+    <tr><th>Nivel de riesgo</th><th>Numero de alertas</th></tr>
+    <tr><td class="risk-high">Alto</td><td>0</td></tr>
+    <tr><td class="risk-medium">Medio</td><td>0</td></tr>
+    <tr><td class="risk-low">Bajo</td><td>3</td></tr>
+    <tr><td>Informativo</td><td>1</td></tr>
+    <tr><td>Falsos positivos marcados</td><td>0</td></tr>
+  </table>
+  <table>
+    <tr><th>ID ZAP</th><th>Hallazgo</th><th>Riesgo</th><th>Instancias</th><th>Evidencia</th></tr>
+    <tr><td>10037</td><td>Server Leaks Information via <code>X-Powered-By</code></td><td>Bajo</td><td>3</td><td><code>x-powered-by: Express</code></td></tr>
+    <tr><td>10035</td><td>Strict-Transport-Security Header Not Set</td><td>Bajo</td><td>3</td><td>Ausencia de HSTS en backend</td></tr>
+    <tr><td>10021</td><td>X-Content-Type-Options Header Missing</td><td>Bajo</td><td>1</td><td>Ausencia de <code>X-Content-Type-Options: nosniff</code></td></tr>
+    <tr><td>10015</td><td>Re-examine Cache-control Directives</td><td>Informativo</td><td>1</td><td>Revision de cache</td></tr>
+  </table>
+
+  <h2 class="page-break">5. Correcciones por aplicar</h2>
+  <table>
+    <tr><th>Prioridad</th><th>Evidencia</th><th>Correccion propuesta</th><th>Justificacion tecnica</th><th>Impacto esperado</th><th>Area</th><th>Estado</th></tr>
+    <tr><td>Alta</td><td>ZAP 10035</td><td>Configurar <code>Strict-Transport-Security</code> en el backend.</td><td>HSTS reduce downgrade y uso accidental de HTTP.</td><td>Cierre de 3 instancias bajas.</td><td>Backend / Railway</td><td>Pendiente</td></tr>
+    <tr><td>Alta</td><td>ZAP 10037</td><td>Deshabilitar <code>X-Powered-By</code>.</td><td>Reduce fingerprinting tecnologico.</td><td>Cierre de 3 instancias bajas.</td><td>Backend</td><td>Pendiente</td></tr>
+    <tr><td>Alta</td><td>ZAP frontend 10038 y 10020</td><td>Configurar CSP con <code>frame-ancestors</code>.</td><td>Reduce XSS y clickjacking.</td><td>Cierre de 2 hallazgos medios.</td><td>Frontend / Vercel</td><td>Pendiente</td></tr>
+    <tr><td>Alta</td><td>ZAP frontend 10098</td><td>Restringir o justificar CORS del frontend.</td><td>ZAP evidencio <code>Access-Control-Allow-Origin: *</code>.</td><td>Reduccion del hallazgo medio de CORS.</td><td>Frontend / Vercel</td><td>Pendiente</td></tr>
+    <tr><td>Media</td><td>ZAP 10021</td><td>Agregar <code>X-Content-Type-Options: nosniff</code>.</td><td>Evita interpretacion MIME incorrecta.</td><td>Cierre del hallazgo bajo.</td><td>Backend / Railway</td><td>Pendiente</td></tr>
+    <tr><td>Media</td><td>ZAP frontend 10021</td><td>Agregar <code>X-Content-Type-Options: nosniff</code> en frontend.</td><td>El frontend reporto 4 instancias.</td><td>Cierre del hallazgo bajo frontend.</td><td>Frontend / Vercel</td><td>Pendiente</td></tr>
+    <tr><td>Media</td><td>Lighthouse SEO</td><td>Agregar meta descripcion al frontend.</td><td>Lighthouse reporto ausencia de meta descripcion.</td><td>Mejora esperada de SEO.</td><td>Frontend</td><td>Pendiente</td></tr>
+    <tr><td>Media</td><td>Lighthouse diagnostics</td><td>Revisar JavaScript no utilizado y evaluar carga diferida.</td><td>Reduce bytes iniciales.</td><td>Mayor margen de rendimiento.</td><td>Frontend</td><td>Pendiente</td></tr>
+    <tr><td>Baja</td><td>ZAP 10015</td><td>Definir politica de cache para respuestas JSON.</td><td>Reduce ambiguedad operativa.</td><td>Mejor control de cache.</td><td>Backend / Railway</td><td>Pendiente</td></tr>
+    <tr><td>Baja</td><td>ZAP frontend 10015 y 10050</td><td>Revisar directivas de cache del frontend.</td><td>La politica debe distinguir HTML y assets con hash.</td><td>Mejor control de actualizaciones.</td><td>Frontend / Vercel</td><td>Pendiente</td></tr>
+  </table>
+
+  <h2>6. Conclusiones</h2>
+  <p>El frontend productivo presenta resultados fuertes en Lighthouse, con rendimiento casi maximo y accesibilidad completa. Las mejoras mas relevantes son de calidad SEO y optimizacion preventiva de JavaScript.</p>
+  <p>El backend productivo no presento hallazgos altos ni medios en ZAP. Los hallazgos bajos se concentran en encabezados HTTP de endurecimiento: ocultar <code>X-Powered-By</code>, agregar HSTS y agregar <code>X-Content-Type-Options</code>.</p>
+  <p>El reintento del escaneo ZAP del frontend productivo se completo correctamente y expuso hallazgos medios de encabezados y CORS. Estos hallazgos deben priorizarse junto con el endurecimiento del backend.</p>
+
+  <h2>7. Anexo de evidencias</h2>
+  <ul>
+    <li><code>docs/reports/first-report/evidence/lighthouse/lighthouse-production-frontend.report.json</code></li>
+    <li><code>docs/reports/first-report/evidence/lighthouse/lighthouse-production-frontend.report.html</code></li>
+    <li><code>docs/reports/first-report/evidence/zap/zap-production-frontend-retry-quick-scan.html</code></li>
+    <li><code>docs/reports/first-report/evidence/zap/zap-production-backend-quick-scan.html</code></li>
+    <li><code>docs/reports/first-report/evidence/zap/production-frontend-headers.txt</code></li>
+    <li><code>docs/reports/first-report/evidence/zap/production-backend-headers.txt</code></li>
+  </ul>
+</body>
+</html>
