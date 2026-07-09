@@ -1,0 +1,5 @@
+Command:
+/Applications/ZAP.app/Contents/Java/zap.sh -cmd -quickurl https://gyr-monitor.vercel.app/ -quickout /Users/gdl-i7217/Projects/Master/GyrMonitor/docs/reports/first-report/evidence/zap/zap-production-frontend-quick-scan.html -quickprogress
+
+Observed result:
+ZAP normal launcher started successfully with Java 17.0.17 and JVM args -Xmx4608m. The production frontend target returned HTTP 403 during the attack phase: "Failed to attack the URL: received a 403 response code, expected 2xx." ZAP still generated the HTML report at the requested output path.
