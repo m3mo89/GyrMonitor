@@ -6,10 +6,6 @@
              x:Class="GyrMonitor.Mobile.Features.Alerts.AlertsPage"
              Title="{x:Static mstrings:AppStrings.TabAlerts}">
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{x:Static mstrings:AppStrings.TabSync}" Clicked="OnSyncTapped" />
-    </ContentPage.ToolbarItems>
-
     <Grid RowDefinitions="Auto,Auto,*" Padding="12" RowSpacing="8">
 
         <Label Grid.Row="0"
